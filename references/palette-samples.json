@@ -1,0 +1,101 @@
+[
+  {
+    "role": "paper",
+    "file": "0028.4-print-settings.png",
+    "box": {
+      "left": 80,
+      "top": 390,
+      "width": 250,
+      "height": 30
+    },
+    "median": "#E0DBCF"
+  },
+  {
+    "role": "paper-card",
+    "file": "0090.0-shop-stamp.png",
+    "box": {
+      "left": 540,
+      "top": 320,
+      "width": 150,
+      "height": 25
+    },
+    "median": "#EDE5D7"
+  },
+  {
+    "role": "ink",
+    "file": "0028.4-print-settings.png",
+    "box": {
+      "left": 140,
+      "top": 277,
+      "width": 25,
+      "height": 18
+    },
+    "median": "#302F2E"
+  },
+  {
+    "role": "navy",
+    "file": "0019.4-home.png",
+    "box": {
+      "left": 20,
+      "top": 360,
+      "width": 130,
+      "height": 30
+    },
+    "median": "#0A111C"
+  },
+  {
+    "role": "navy-panel",
+    "file": "0129.0-decal-editor.png",
+    "box": {
+      "left": 260,
+      "top": 130,
+      "width": 280,
+      "height": 25
+    },
+    "median": "#23335D"
+  },
+  {
+    "role": "rust",
+    "file": "0028.4-print-settings.png",
+    "box": {
+      "left": 650,
+      "top": 430,
+      "width": 38,
+      "height": 17
+    },
+    "median": "#91432C"
+  },
+  {
+    "role": "pink",
+    "file": "0028.4-print-settings.png",
+    "box": {
+      "left": 332,
+      "top": 275,
+      "width": 28,
+      "height": 20
+    },
+    "median": "#E4B3B6"
+  },
+  {
+    "role": "yellow",
+    "file": "0028.4-print-settings.png",
+    "box": {
+      "left": 395,
+      "top": 275,
+      "width": 28,
+      "height": 20
+    },
+    "median": "#E2CB59"
+  },
+  {
+    "role": "blue-proof",
+    "file": "0028.4-print-settings.png",
+    "box": {
+      "left": 205,
+      "top": 275,
+      "width": 28,
+      "height": 20
+    },
+    "median": "#364B7B"
+  }
+]

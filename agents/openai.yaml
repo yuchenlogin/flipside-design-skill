@@ -1,0 +1,4 @@
+interface:
+  display_name: "翻面 · 印刷工坊美学"
+  short_description: "以纸墨、漫画光影、实物隐喻和有语义的动效，统一演示与界面的视觉设计"
+  default_prompt: "使用 $flipside-design 作为审美标准，按我的主题和交付格式完成设计。"

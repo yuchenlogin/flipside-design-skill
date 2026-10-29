@@ -1,0 +1,27 @@
+{
+  "name": "flipside-design",
+  "version": "1.0.0",
+  "provenance": "Recommended adaptation tokens derived from visual inspection, not recovered original source values.",
+  "color": {
+    "paper": "#ECE5D6", "paperMuted": "#DCD5C5", "ink": "#20211F",
+    "night": "#101923", "navy": "#182C45", "blueprint": "#30466C",
+    "rust": "#A64F32", "pink": "#D5A3AD", "yellow": "#D9C45B", "brass": "#B59A5B",
+    "onPaper": "#20211F", "onDark": "#ECE5D6", "onRust": "#F4EEE2"
+  },
+  "typography": {
+    "sourceFontsIdentified": false,
+    "heading": {"suggestions": ["Source Han Sans SC", "Noto Sans SC"], "weight": [800,900]},
+    "body": {"suggestions": ["Source Han Sans SC", "Noto Sans SC", "PingFang SC"], "weight": [400,500]},
+    "editorial": {"suggestions": ["Source Han Serif SC", "Noto Serif SC"], "weight": [500,700]},
+    "numeric": {"suggestions": ["Barlow Condensed", "Roboto Condensed"], "weight": [600,800]},
+    "web": {"bodyPx": [16,18], "labelPx": [12,14], "headingPx": [32,56]},
+    "slides": {"bodyPt": [22,28], "captionPt": [14,18], "headingPt": [34,46], "chapterNumberPt": [70,120]}
+  },
+  "material": {"paperGrainOpacity": [0.02,0.05], "objectTiltDegrees": [1,3], "cornerCutPx": [4,10]},
+  "motion": {
+    "microMs": [100,160], "selectionMs": [180,280], "panelMs": [320,480],
+    "flipMs": [450,700], "sceneMs": [700,1100], "staggerMs": [50,90], "stampMs": [180,300],
+    "enterEase": "cubic-bezier(.18,.8,.28,1)",
+    "reducedMotion": "Replace large transforms and parallax with immediate changes or short opacity transitions. Preserve content and controls."
+  }
+}

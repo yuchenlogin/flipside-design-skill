@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>方法档案 · 比较与选择</title>
+<style>
+:root{--paper:#ece5d6;--muted:#dcd5c5;--ink:#20211f;--navy:#182c45;--night:#101923;--rust:#a64f32;--line:#bbb6a9;--focus:#d9c45b}
+*{box-sizing:border-box}body{margin:0;background:var(--night);color:var(--paper);font:16px/1.65 "PingFang SC","Noto Sans SC",sans-serif}button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:default}a{color:inherit}h1,h2,h3,p{margin:0}main{max-width:1224px;margin:auto;padding:38px 40px 28px}.masthead{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:18px;border-bottom:1px solid #647082}.brand{font-weight:800;font-size:24px;letter-spacing:.05em}.brand:before{content:"";display:inline-block;background:var(--rust);width:7px;height:21px;margin-right:12px}.demo{font-size:14px;color:#d5dbe1}.intro{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin:30px 0 34px}h1{font-size:clamp(29px,3.2vw,42px);line-height:1.35;font-weight:800;letter-spacing:-.04em}.intro p{margin-top:10px;color:#c7d1dd}.applied-record{min-width:190px;border-left:2px solid #617083;padding-left:18px}.applied-record span{display:block;font-size:13px;color:#b9c6d5}.applied-record strong{font-size:21px;font-weight:600}.workspace{display:grid;grid-template-columns:350px minmax(0,1fr);gap:34px;align-items:start}.select-heading{font-size:18px;font-weight:700;margin-bottom:14px}.select-heading span{font-size:13px;font-weight:400;color:#b9c6d5;margin-left:12px}fieldset{border:0;padding:0;margin:0;min-width:0}legend{padding:0}.option{position:relative;display:block;background:#23364e;border:2px solid #758293;margin-bottom:18px;color:var(--paper);cursor:pointer;transition:background-color 180ms ease,border-color 180ms ease,box-shadow 180ms ease;min-height:164px;padding:21px 22px}.option:hover{border-color:var(--paper)}.option:has(input:checked){background:var(--paper);color:var(--ink);border-color:var(--paper);box-shadow:6px 6px 0 #40516a}.option:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:5px}.option input{accent-color:var(--rust);width:21px;height:21px;margin:0 12px 0 0;vertical-align:-3px}.option-name{font-size:24px;font-weight:700}.choice-line{display:flex;align-items:center;justify-content:space-between;gap:8px}.current{font-size:12px;font-weight:700;white-space:nowrap;visibility:hidden}.option:has(input:checked) .current{visibility:visible}.option-metrics{display:flex;gap:25px;margin:14px 0 0 33px}.option-metrics span{display:block;font-size:12px;opacity:.8}.option-metrics strong{font-size:24px;font-weight:600}.applied-mark{position:absolute;right:15px;bottom:14px;border:1.5px solid currentColor;padding:0 7px;font-size:12px;line-height:1.8;transform:rotate(-2deg);color:inherit}.applied-mark[hidden]{display:none}.keyboard-note{font-size:13px;color:#c7d1dd;margin-top:26px;line-height:1.8}.key{display:inline-block;border:1px solid #657388;padding:0 5px;line-height:1.45;margin-right:3px}.archive{position:relative;background:var(--paper);color:var(--ink);padding:29px 34px 27px;box-shadow:9px 9px 0 #304159;clip-path:polygon(0 0,calc(100% - 15px) 0,100% 15px,100% 100%,0 100%)}.archive-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:13px;margin-bottom:20px;font-size:13px}.archive-index{letter-spacing:.08em}.selection-tag{font-weight:700;color:var(--rust)}.archive h2{font-family:"Songti SC","Noto Serif SC",serif;font-size:38px;font-weight:700;line-height:1.3}.summary{margin-top:10px;color:#54564f;line-height:1.8;min-height:58px}.metrics{display:grid;grid-template-columns:1fr 1fr;margin-top:23px;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);padding:20px 0 18px;gap:24px}.metric+ .metric{border-left:1px solid var(--line);padding-left:24px}.metric dt{font-size:14px}.metric dd{margin:0;font-family:"DIN Condensed","Arial Narrow",sans-serif;font-size:58px;line-height:1.35;font-weight:700;letter-spacing:-.04em}.metric small{font:18px "PingFang SC",sans-serif;letter-spacing:0;margin-left:5px}.delta{font-size:14px;color:var(--rust);margin-top:7px;font-weight:600;min-height:24px}.constraint{margin:21px 0 0}.constraint strong{font-size:15px}.constraint p{font-size:14px;line-height:1.8;margin-top:5px}.apply-area{display:flex;gap:20px;align-items:center;margin-top:24px;padding-top:21px;border-top:1px solid var(--line)}.apply-area p{font-size:13px;line-height:1.7;flex:1;color:#53564f}.apply{background:var(--rust);color:#fff8ec;font-weight:700;font-size:17px;border:2px solid var(--rust);padding:11px 25px;min-height:50px;white-space:nowrap;transition:background-color 120ms ease,transform 120ms ease}.apply:hover:not(:disabled){background:#843c25;border-color:#843c25}.apply:active:not(:disabled){transform:translateY(2px)}.apply:focus-visible{outline:3px solid var(--navy);outline-offset:4px}.apply:disabled{background:#d5d0c3;color:#62635c;border-color:#9c9c92}.feedback{min-height:27px;margin-top:18px;font-size:14px;color:var(--paper)}.feedback strong{color:#eee4bc}.footer{display:flex;justify-content:space-between;gap:24px;border-top:1px solid #465569;margin-top:30px;padding-top:18px;color:#b7c4d3;font-size:12px}.footer p{max-width:650px}.stamp-in{animation:confirm 220ms ease-out}@keyframes confirm{0%{opacity:.3;transform:rotate(-2deg) scale(1.08)}100%{opacity:1;transform:rotate(-2deg) scale(1)}}
+@media(max-width:900px){main{padding:26px 24px}.workspace{grid-template-columns:280px minmax(0,1fr);gap:24px}.archive{padding:24px}.option{padding:18px 16px}.option-metrics{gap:18px}.applied-record{min-width:155px}.apply-area{flex-direction:column;align-items:stretch;gap:12px}.metrics{gap:14px}.metric+ .metric{padding-left:14px}.metric dd{font-size:49px}.archive h2{font-size:34px}}
+@media(max-width:700px){main{padding:22px 18px}.masthead{align-items:flex-start;gap:12px}.brand{font-size:21px;white-space:nowrap}.demo{font-size:12px;max-width:100px;text-align:right}.intro{display:block;margin:25px 0 24px}.intro p{font-size:14px}.applied-record{margin-top:19px;padding-left:12px;display:flex;align-items:center;gap:14px}.applied-record strong{font-size:17px}.workspace{display:block}.option{min-height:143px;margin-bottom:15px;padding:16px 18px}.option-metrics{gap:28px;margin-top:9px}.option-name{font-size:22px}.option-metrics strong{font-size:23px}.keyboard-note{margin:19px 0 24px}.archive{padding:23px 22px;box-shadow:6px 6px 0 #304159}.summary{font-size:14px;min-height:0}.archive h2{font-size:32px}.metrics{margin-top:19px;padding:17px 0 15px}.metric dd{font-size:47px}.metric dt{font-size:13px}.metric small{font-size:16px}.delta{font-size:12px}.apply-area{margin-top:20px;padding-top:18px}.apply{width:100%}.feedback{font-size:13px;margin-top:18px}.footer{display:block;margin-top:24px;font-size:12px}.footer p+p{margin-top:8px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.apply:active:not(:disabled){transform:none}}
+</style>
+</head>
+<body>
+<main>
+  <header class="masthead"><div class="brand">方法档案</div><div class="demo">虚构示例<br>数据仅供演示</div></header>
+  <div class="intro"><div><h1>在速度与准确率之间选择</h1><p>先比较与查看详情，再应用适合你的方法。</p></div><div class="applied-record"><span>已应用的方法</span><strong id="applied-name">尚未应用</strong></div></div>
+  <div class="workspace">
+    <div>
+      <fieldset aria-describedby="keyboard-help"><legend class="select-heading">选择方法<span>2 项可选</span></legend>
+        <label class="option" id="option-baseline"><div class="choice-line"><span><input type="radio" name="method" value="baseline" checked><span class="option-name">基线</span></span><span class="current" aria-hidden="true">◀ 当前选择</span></div><div class="option-metrics"><div><span>延迟</span><strong>100 ms</strong></div><div><span>准确率</span><strong>90%</strong></div></div><span class="applied-mark" hidden>✓ 已应用</span></label>
+        <label class="option" id="option-new"><div class="choice-line"><span><input type="radio" name="method" value="new"><span class="option-name">新方法</span></span><span class="current" aria-hidden="true">◀ 当前选择</span></div><div class="option-metrics"><div><span>延迟</span><strong>60 ms</strong></div><div><span>准确率</span><strong>89%</strong></div></div><span class="applied-mark" hidden>✓ 已应用</span></label>
+      </fieldset>
+      <p class="keyboard-note" id="keyboard-help"><span class="key">Tab</span> 移动焦点 · <span class="key">↑</span><span class="key">↓</span> 切换方法<br><span class="key">Enter</span> 或 <span class="key">空格</span> 激活应用按钮</p>
+    </div>
+    <section aria-label="当前选择的详情">
+      <article class="archive">
+        <div class="archive-top"><span class="archive-index" id="archive-index">方法 01 / 02</span><span class="selection-tag">当前选择 · 详情</span></div>
+        <h2 id="detail-name">基线</h2><p class="summary" id="detail-summary">作为这组演示数据的比较参照。准确率较高，响应延迟也较高。</p>
+        <dl class="metrics"><div class="metric"><dt>延迟 · 越低越好</dt><dd><span id="latency">100</span><small>ms</small></dd><p class="delta" id="latency-delta">比较参照</p></div><div class="metric"><dt>准确率 · 越高越好</dt><dd><span id="accuracy">90</span><small>%</small></dd><p class="delta" id="accuracy-delta">比较参照</p></div></dl>
+        <div class="constraint"><strong>选择条件</strong><p id="condition">若准确率门槛为 90%，在这组演示数据中只有基线满足该门槛。</p></div>
+        <div class="apply-area"><p id="apply-help">当前选择尚未应用。<br>应用后，才会更新“已应用的方法”。</p><button class="apply" id="apply" type="button" aria-describedby="apply-help">应用基线</button></div>
+      </article>
+      <p class="feedback" id="feedback" role="status" aria-live="polite" aria-atomic="true">当前查看基线，尚未应用任何方法。</p>
+    </section>
+  </div>
+  <footer class="footer"><p>这些数值不能说明统计显著性或实际部署表现。未提供算法、样本量或测试条件。</p><p>本地演示 · 应用只更新本页状态，刷新后重置。</p></footer>
+</main>
+<script>
+(() => {
+  const data={
+    baseline:{name:'基线',index:'01',latency:100,accuracy:90,summary:'作为这组演示数据的比较参照。准确率较高，响应延迟也较高。',latencyDelta:'比较参照',accuracyDelta:'比较参照',condition:'若准确率门槛为 90%，在这组演示数据中只有基线满足该门槛。'},
+    new:{name:'新方法',index:'02',latency:60,accuracy:89,summary:'在这组演示数据中，以 1 个百分点的准确率损失换取 40% 的延迟降低。',latencyDelta:'相对基线 −40 ms / −40%',accuracyDelta:'相对基线 −1 个百分点',condition:'若可接受 1 个百分点的准确率损失，可进一步评估新方法；若门槛为 90%，则不满足要求。'}
+  };
+  let selected='baseline', applied=null;
+  const byId=id=>document.getElementById(id);
+  const radios=Array.from(document.querySelectorAll('input[name="method"]'));
+  function render(){
+    const d=data[selected], unchanged=selected===applied;
+    for(const [id,value] of Object.entries({'archive-index':`方法 ${d.index} / 02`,'detail-name':d.name,'detail-summary':d.summary,'latency':d.latency,'accuracy':d.accuracy,'latency-delta':d.latencyDelta,'accuracy-delta':d.accuracyDelta,'condition':d.condition,'applied-name':applied?data[applied].name:'尚未应用'})) byId(id).textContent=value;
+    radios.forEach(radio=>{const mark=byId(`option-${radio.value}`).querySelector('.applied-mark');mark.hidden=radio.value!==applied;});
+    byId('apply').disabled=unchanged;
+    byId('apply').textContent=unchanged?'已应用此方法':`应用${d.name}`;
+    byId('apply-help').textContent=unchanged?'当前选择与已应用的方法一致，无需重复应用。':applied?`当前选择尚未应用；已应用的方法仍是${data[applied].name}。`:'当前选择尚未应用。应用后，才会更新“已应用的方法”。';
+  }
+  radios.forEach(radio=>radio.addEventListener('change',()=>{
+    if(!radio.checked)return;
+    selected=radio.value;render();
+    byId('feedback').textContent=selected===applied?`当前查看${data[selected].name}，它也是已应用的方法。`:`已选择${data[selected].name}，尚未应用。${applied?`已应用的方法仍是${data[applied].name}。`:'尚未应用任何方法。'}`;
+  }));
+  byId('apply').addEventListener('click',()=>{
+    if(applied===selected)return;
+    applied=selected;render();
+    const mark=byId(`option-${applied}`).querySelector('.applied-mark');
+    mark.classList.remove('stamp-in');void mark.offsetWidth;mark.classList.add('stamp-in');
+    byId('feedback').textContent=`已应用${data[applied].name}。这只更新本页状态，你仍可查看并选择其他方法。`;
+  });
+  render();
+})();
+</script>
+</body>
+</html>
