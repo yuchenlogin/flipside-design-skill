@@ -1,0 +1,1222 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>城市雨水花园 · 两页原理汇报</title>
+    <style>
+      :root {
+        --paper: #efe8d9;
+        --ink: #202b2e;
+        --navy: #17313e;
+        --teal: #8eb8b3;
+        --rust: #ae563b;
+        --soil: #d7be91;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #10232d;
+        color: var(--ink);
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+      .page-wrap {
+        width: min(100%, 1600px);
+        height: min(56.25vw, 900px);
+        overflow: hidden;
+      }
+      .slide {
+        width: 1600px;
+        height: 900px;
+        position: relative;
+        overflow: hidden;
+        transform-origin: top left;
+        background: var(--paper);
+      }
+      .slide canvas {
+        position: absolute;
+        inset: 0;
+        width: 1600px;
+        height: 900px;
+      }
+      .content {
+        position: absolute;
+        inset: 0;
+      }
+      .eyebrow {
+        position: absolute;
+        top: 48px;
+        left: 72px;
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: 3px;
+      }
+      .edition {
+        position: absolute;
+        right: 72px;
+        top: 48px;
+        font-size: 18px;
+        letter-spacing: 2px;
+      }
+      .headline {
+        position: absolute;
+        left: 72px;
+        top: 91px;
+        margin: 0;
+        font-family: "Songti SC", "STSong", "Noto Serif SC", serif;
+        font-size: 67px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        line-height: 1.2;
+      }
+      .dek {
+        position: absolute;
+        margin: 0;
+        left: 76px;
+        top: 191px;
+        font-size: 25px;
+        letter-spacing: 1px;
+      }
+      .rule {
+        position: absolute;
+        left: 74px;
+        right: 74px;
+        top: 237px;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.35;
+      }
+      .callout {
+        position: absolute;
+        line-height: 1.4;
+      }
+      .callout b {
+        font-size: 29px;
+        letter-spacing: 1px;
+        font-weight: 650;
+        display: block;
+      }
+      .callout span {
+        font-size: 22px;
+        display: block;
+        margin-top: 7px;
+      }
+      .input-label {
+        left: 83px;
+        top: 292px;
+      }
+      .storage-label {
+        left: 610px;
+        top: 272px;
+      }
+      .overflow-label {
+        left: 1193px;
+        top: 292px;
+      }
+      .water-label {
+        left: 825px;
+        top: 500px;
+        font-size: 20px;
+        color: #193e4a;
+        letter-spacing: 3px;
+      }
+      .soil-label {
+        left: 302px;
+        top: 611px;
+        font-size: 23px;
+        color: #202b2e;
+        letter-spacing: 2px;
+      }
+      .infiltration-label {
+        left: 630px;
+        top: 774px;
+      }
+      .infiltration-label b {
+        font-size: 28px;
+      }
+      .small-note {
+        position: absolute;
+        left: 76px;
+        bottom: 26px;
+        font-size: 18px;
+        color: #546264;
+        letter-spacing: 0.5px;
+      }
+      .folio {
+        position: absolute;
+        right: 74px;
+        bottom: 26px;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 1px;
+      }
+      .second {
+        background: var(--navy);
+        color: var(--paper);
+      }
+      .second .headline {
+        font-size: 65px;
+      }
+      .second .dek {
+        font-size: 24px;
+        color: #cbd6d3;
+      }
+      .second .rule {
+        opacity: 0.4;
+      }
+      .legend {
+        position: absolute;
+        top: 266px;
+        left: 442px;
+        display: flex;
+        gap: 38px;
+        align-items: center;
+        font-size: 21px;
+      }
+      .legend-item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .swatch {
+        width: 28px;
+        height: 20px;
+        display: block;
+        border: 1px solid rgba(239, 232, 217, 0.55);
+      }
+      .runoff {
+        background: var(--rust);
+      }
+      .stored {
+        background: var(--teal);
+      }
+      .soaked {
+        background: var(--soil);
+      }
+      .axis {
+        position: absolute;
+        left: 440px;
+        top: 312px;
+        width: 1050px;
+        height: 35px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        font-variant-numeric: tabular-nums;
+        color: #d5dfdd;
+      }
+      .axis span {
+        position: absolute;
+        transform: translateX(-50%);
+      }
+      .axis span:nth-child(1) {
+        left: 0;
+        transform: none;
+      }
+      .axis span:nth-child(2) {
+        left: 25%;
+      }
+      .axis span:nth-child(3) {
+        left: 50%;
+      }
+      .axis span:nth-child(4) {
+        left: 75%;
+      }
+      .axis span:nth-child(5) {
+        right: 0;
+        transform: none;
+      }
+      .row-title {
+        position: absolute;
+        margin: 0;
+        left: 76px;
+        width: 300px;
+        font-family: "Songti SC", "STSong", serif;
+        font-size: 37px;
+        font-weight: 700;
+      }
+      .hard-title {
+        top: 414px;
+      }
+      .garden-title {
+        top: 652px;
+      }
+      .row-quantity {
+        position: absolute;
+        left: 76px;
+        font-size: 23px;
+        color: #cbd6d3;
+      }
+      .hard-quantity {
+        top: 468px;
+      }
+      .garden-quantity {
+        top: 705px;
+      }
+      .band {
+        position: absolute;
+        left: 440px;
+        width: 1050px;
+        height: 140px;
+        display: flex;
+        color: var(--ink);
+        font-variant-numeric: tabular-nums;
+      }
+      .hard-band {
+        top: 365px;
+      }
+      .garden-band {
+        top: 603px;
+      }
+      .segment {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 1px;
+        position: relative;
+      }
+      .segment .value {
+        font-family: "Arial Narrow", "Helvetica Neue", sans-serif;
+        font-size: 63px;
+        line-height: 1.1;
+        font-weight: 600;
+        letter-spacing: -2px;
+      }
+      .segment .unit {
+        font-size: 27px;
+        margin-left: 10px;
+        letter-spacing: 0;
+      }
+      .segment .label {
+        font-size: 23px;
+        letter-spacing: 2px;
+      }
+      .segment.flow {
+        color: #fff4e5;
+      }
+      .snapshot-note {
+        position: absolute;
+        left: 440px;
+        top: 551px;
+        font-size: 21px;
+        color: #cbd6d3;
+      }
+      .disclaimer {
+        position: absolute;
+        left: 76px;
+        right: 74px;
+        top: 795px;
+        font-size: 24px;
+        color: var(--paper);
+        border-top: 1px solid #72817f;
+        padding-top: 20px;
+        letter-spacing: 0.5px;
+      }
+      .disclaimer strong {
+        color: #f0ce8c;
+        font-weight: 650;
+      }
+      .second .folio {
+        bottom: 30px;
+      }
+      .second .small-note {
+        color: #cbd6d3;
+      }
+      .print-only {
+        display: none;
+      }
+      @media print {
+        @page {
+          size: 16in 9in;
+          margin: 0;
+        }
+        body {
+          background: white;
+        }
+        .page-wrap {
+          width: 1600px;
+          height: 900px;
+          break-after: page;
+        }
+        .slide {
+          transform: none !important;
+        }
+        .page-wrap[hidden] {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main aria-label="城市雨水花园原理汇报">
+      <div class="page-wrap" id="page-1">
+        <section class="slide first" aria-labelledby="title-1">
+          <canvas
+            id="section-art"
+            width="3200"
+            height="1800"
+            aria-hidden="true"
+          ></canvas>
+          <div class="content">
+            <div class="eyebrow">城市雨水花园 · 工作原理</div>
+            <div class="edition">剖面示意</div>
+            <h1 class="headline" id="title-1">一场雨，如何经过花园</h1>
+            <p class="dek">下凹空间暂时容纳雨水，水再沿不同路径离开。</p>
+            <div class="rule"></div>
+            <div class="callout input-label">
+              <b>接收地表来水</b><span>从周围地面流入低处</span>
+            </div>
+            <div class="callout storage-label">
+              <b>在低处短暂储存</b><span>积水停留在土壤上方</span>
+            </div>
+            <div class="callout overflow-label">
+              <b>高水位时溢流</b><span>水位到达溢流口后排出</span>
+            </div>
+            <div class="callout water-label">临时积水</div>
+            <div class="callout soil-label">土壤</div>
+            <div class="callout infiltration-label">
+              <b>穿过土壤，向下渗透</b>
+            </div>
+            <p class="small-note">示意剖面 · 各层厚度与水位未按实际尺度绘制</p>
+            <div class="folio">1 / 2</div>
+          </div>
+        </section>
+      </div>
+      <div class="page-wrap" id="page-2">
+        <section class="slide second" aria-labelledby="title-2">
+          <canvas
+            id="comparison-art"
+            width="3200"
+            height="1800"
+            aria-hidden="true"
+          ></canvas>
+          <div class="content">
+            <div class="eyebrow">城市雨水花园 · 水量分配</div>
+            <div class="edition">虚构方案</div>
+            <h1 class="headline" id="title-2">同样 100 L，水去了哪里</h1>
+            <p class="dek">两条等长色带均代表 100 L 来水，长度与水量成正比。</p>
+            <div class="rule"></div>
+            <div class="legend" aria-label="图例">
+              <span class="legend-item"
+                ><i class="swatch runoff"></i>表面流出</span
+              ><span class="legend-item"
+                ><i class="swatch stored"></i>临时储存</span
+              ><span class="legend-item"
+                ><i class="swatch soaked"></i>下渗</span
+              >
+            </div>
+            <div class="axis" aria-hidden="true">
+              <span>0</span><span>25</span><span>50</span><span>75</span
+              ><span>100 L</span>
+            </div>
+            <h2 class="row-title hard-title">普通硬质地面</h2>
+            <div class="row-quantity hard-quantity">100 L 来水</div>
+            <div
+              class="band hard-band"
+              role="img"
+              aria-label="普通硬质地面，100 L 来水中80 L 表面流出，20 L 下渗。"
+            >
+              <div class="segment flow" data-value="80" style="width: 80%">
+                <div class="value">80<span class="unit">L</span></div>
+                <div class="label">表面流出</div>
+              </div>
+              <div class="segment" data-value="20" style="width: 20%">
+                <div class="value">20<span class="unit">L</span></div>
+                <div class="label">下渗</div>
+              </div>
+            </div>
+            <div class="snapshot-note">
+              临时储存按示意观察时点计，表示当时仍留在花园中的水。
+            </div>
+            <h2 class="row-title garden-title">雨水花园</h2>
+            <div class="row-quantity garden-quantity">100 L 来水</div>
+            <div
+              class="band garden-band"
+              role="img"
+              aria-label="雨水花园，100 L 来水中40 L 表面流出，35 L 临时储存，25 L 下渗。"
+            >
+              <div class="segment flow" data-value="40" style="width: 40%">
+                <div class="value">40<span class="unit">L</span></div>
+                <div class="label">表面流出</div>
+              </div>
+              <div class="segment" data-value="35" style="width: 35%">
+                <div class="value">35<span class="unit">L</span></div>
+                <div class="label">临时储存</div>
+              </div>
+              <div class="segment" data-value="25" style="width: 25%">
+                <div class="value">25<span class="unit">L</span></div>
+                <div class="label">下渗</div>
+              </div>
+            </div>
+            <div class="disclaimer">
+              <strong>数据仅用于示意</strong>，不能推广为真实性能结论。
+            </div>
+            <div class="folio">2 / 2</div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script>
+      /* Original explanatory artwork. All paths and the supplied data are local. */
+      const palette = {
+        ink: "#202b2e",
+        navy: "#17313e",
+        paper: "#efe8d9",
+        water: "#91bcb8",
+        rust: "#ae563b",
+        soil: "#d7be91",
+      };
+      function surface(id) {
+        const context = document.getElementById(id).getContext("2d");
+        context.scale(2, 2);
+        context.lineJoin = "round";
+        context.lineCap = "round";
+        return context;
+      }
+      function polygon(context, points, fill, stroke, width = 1) {
+        context.beginPath();
+        points.forEach(([x, y], i) =>
+          i ? context.lineTo(x, y) : context.moveTo(x, y),
+        );
+        context.closePath();
+        if (fill) {
+          context.fillStyle = fill;
+          context.fill();
+        }
+        if (stroke) {
+          context.strokeStyle = stroke;
+          context.lineWidth = width;
+          context.stroke();
+        }
+      }
+      function line(context, points, color, width = 2, dash = []) {
+        context.beginPath();
+        points.forEach(([x, y], i) =>
+          i ? context.lineTo(x, y) : context.moveTo(x, y),
+        );
+        context.strokeStyle = color;
+        context.lineWidth = width;
+        context.setLineDash(dash);
+        context.stroke();
+        context.setLineDash([]);
+      }
+      function arrow(context, points, color, width = 5, head = 13) {
+        line(context, points, color, width);
+        const end = points.at(-1),
+          previous = points.at(-2);
+        const angle = Math.atan2(end[1] - previous[1], end[0] - previous[0]);
+        polygon(
+          context,
+          [
+            end,
+            [
+              end[0] - head * Math.cos(angle - 0.55),
+              end[1] - head * Math.sin(angle - 0.55),
+            ],
+            [
+              end[0] - head * Math.cos(angle + 0.55),
+              end[1] - head * Math.sin(angle + 0.55),
+            ],
+          ],
+          color,
+        );
+      }
+      function plant(context, x, y, scale = 1, shade = "#314b43") {
+        context.save();
+        context.translate(x, y);
+        context.scale(scale, scale);
+        polygon(
+          context,
+          [
+            [0, 0],
+            [18, 8],
+            [80, 15],
+            [68, 8],
+          ],
+          "rgba(24,49,62,.15)",
+        );
+        line(
+          context,
+          [
+            [0, 0],
+            [-4, -36],
+            [0, -94],
+          ],
+          shade,
+          3,
+        );
+        [
+          [-5, -20, -40, -40],
+          [-4, -41, 28, -62],
+          [-3, -58, -30, -84],
+          [0, -78, 18, -106],
+        ].forEach(([sx, sy, ex, ey]) => {
+          context.beginPath();
+          context.moveTo(sx, sy);
+          context.quadraticCurveTo(ex - 9, sy - 18, ex, ey);
+          context.quadraticCurveTo(ex + 20, ey + 9, sx, sy);
+          context.fillStyle = shade;
+          context.fill();
+          line(
+            context,
+            [
+              [sx, sy],
+              [ex, ey],
+            ],
+            "#78907c",
+            0.7,
+          );
+        });
+        context.restore();
+      }
+      function grass(context, x, y, scale = 1) {
+        context.save();
+        context.translate(x, y);
+        context.scale(scale, scale);
+        for (let i = 0; i < 7; i++) {
+          context.beginPath();
+          context.moveTo(i * 0.7, 0);
+          context.quadraticCurveTo(
+            (i - 3) * 7,
+            -35,
+            (i - 3) * 16,
+            -60 + (i % 2) * 12,
+          );
+          context.strokeStyle = i % 2 ? "#65795b" : "#314b43";
+          context.lineWidth = 3;
+          context.stroke();
+        }
+        context.restore();
+      }
+      function roots(context, x, y) {
+        line(
+          context,
+          [
+            [x, y],
+            [x - 8, y + 20],
+            [x + 5, y + 47],
+            [x - 8, y + 67],
+          ],
+          "#5c5743",
+          1.4,
+        );
+        line(
+          context,
+          [
+            [x - 8, y + 20],
+            [x - 33, y + 38],
+            [x - 38, y + 50],
+          ],
+          "#5c5743",
+          1,
+        );
+        line(
+          context,
+          [
+            [x + 5, y + 47],
+            [x + 33, y + 60],
+          ],
+          "#5c5743",
+          1,
+        );
+      }
+      function drawSection() {
+        const c = surface("section-art");
+        // A low, receding cast shadow fixes the cut soil block to the page.
+        polygon(
+          c,
+          [
+            [145, 724],
+            [1406, 724],
+            [1499, 785],
+            [236, 785],
+          ],
+          "#c9c9be",
+        );
+        polygon(
+          c,
+          [
+            [1430, 438],
+            [1490, 400],
+            [1490, 690],
+            [1430, 735],
+          ],
+          "#293f48",
+          palette.ink,
+          2,
+        );
+        // Front cut soil profile and a darker lower stratum.
+        polygon(
+          c,
+          [
+            [145, 470],
+            [375, 470],
+            [515, 574],
+            [1106, 574],
+            [1230, 470],
+            [1430, 470],
+            [1430, 735],
+            [145, 735],
+          ],
+          "#be9f72",
+          palette.ink,
+          3,
+        );
+        polygon(
+          c,
+          [
+            [145, 650],
+            [1430, 650],
+            [1430, 735],
+            [145, 735],
+          ],
+          "#455d5b",
+        );
+        // Granular soil marks follow the section, with calmer areas around arrows.
+        c.save();
+        c.beginPath();
+        c.rect(148, 578, 1280, 153);
+        c.clip();
+        for (let row = 0; row < 8; row++)
+          for (let col = 0; col < 63; col++) {
+            const x = 159 + col * 20 + (row % 2) * 8;
+            const y = 585 + row * 19 + (col % 3) * 3;
+            c.fillStyle = row > 3 ? "#718277" : "#8a795a";
+            c.globalAlpha = 0.6;
+            c.beginPath();
+            c.ellipse(x, y, 1.8 + (col % 2), 1.1, 0, 0, Math.PI * 2);
+            c.fill();
+          }
+        c.restore();
+        // Receding back rim and level water surface.
+        polygon(
+          c,
+          [
+            [145, 470],
+            [205, 409],
+            [435, 409],
+            [575, 513],
+            [1166, 513],
+            [1290, 409],
+            [1490, 409],
+            [1430, 470],
+            [1230, 470],
+            [1106, 574],
+            [515, 574],
+            [375, 470],
+          ],
+          "#d9c69c",
+          palette.ink,
+          2,
+        );
+        polygon(
+          c,
+          [
+            [446, 522],
+            [506, 461],
+            [1211, 461],
+            [1151, 522],
+            [1106, 574],
+            [515, 574],
+          ],
+          "#6d9c9f",
+          palette.ink,
+          1.5,
+        );
+        polygon(
+          c,
+          [
+            [446, 522],
+            [506, 461],
+            [1211, 461],
+            [1151, 522],
+          ],
+          "#aed0c7",
+          palette.ink,
+          1.4,
+        );
+        line(
+          c,
+          [
+            [447, 522],
+            [1150, 522],
+          ],
+          "#d9eee2",
+          3,
+        );
+        line(
+          c,
+          [
+            [535, 484],
+            [610, 484],
+          ],
+          "#e2eee0",
+          2,
+        );
+        line(
+          c,
+          [
+            [641, 503],
+            [724, 503],
+          ],
+          "#dce9dd",
+          2,
+        );
+        line(
+          c,
+          [
+            [915, 481],
+            [986, 481],
+          ],
+          "#dce9dd",
+          2,
+        );
+        // Pavement is hard-edged, with a lip directing runoff into the depression.
+        polygon(
+          c,
+          [
+            [145, 470],
+            [205, 409],
+            [435, 409],
+            [375, 470],
+          ],
+          "#ddd8c9",
+          palette.ink,
+          2,
+        );
+        polygon(
+          c,
+          [
+            [145, 470],
+            [375, 470],
+            [375, 485],
+            [145, 485],
+          ],
+          "#818d88",
+          palette.ink,
+          1.5,
+        );
+        [220, 292].forEach((x) =>
+          line(
+            c,
+            [
+              [x, 470],
+              [x + 60, 409],
+            ],
+            "#8a958d",
+            1,
+          ),
+        );
+        line(
+          c,
+          [
+            [145, 450],
+            [395, 450],
+          ],
+          "#a3aaa0",
+          1,
+        );
+        // Soil surface along the front rim stays visible above the cut section.
+        line(
+          c,
+          [
+            [375, 470],
+            [515, 574],
+            [1106, 574],
+            [1230, 470],
+            [1430, 470],
+          ],
+          "#4f503c",
+          5,
+        );
+        // Vegetation has scale variety and root contact with the soil.
+        plant(c, 591, 494, 0.9);
+        grass(c, 727, 508, 0.75);
+        plant(c, 1018, 497, 1.1);
+        grass(c, 1300, 443, 0.9);
+        grass(c, 528, 574, 0.7);
+        plant(c, 1084, 574, 0.78);
+        roots(c, 531, 579);
+        roots(c, 1084, 579);
+        roots(c, 613, 580);
+        roots(c, 1013, 579);
+        // Inlet water route and a threshold overflow outlet connect to the water.
+        arrow(
+          c,
+          [
+            [112, 425],
+            [281, 425],
+            [342, 425],
+            [435, 503],
+          ],
+          palette.rust,
+          7,
+          17,
+        );
+        polygon(
+          c,
+          [
+            [1174, 478],
+            [1225, 478],
+            [1225, 513],
+            [1174, 513],
+          ],
+          "#1e3c46",
+          palette.ink,
+          2,
+        );
+        polygon(
+          c,
+          [
+            [1174, 478],
+            [1196, 460],
+            [1247, 460],
+            [1225, 478],
+          ],
+          "#d8decf",
+          palette.ink,
+          2,
+        );
+        polygon(
+          c,
+          [
+            [1225, 478],
+            [1247, 460],
+            [1247, 495],
+            [1225, 513],
+          ],
+          "#7c9798",
+          palette.ink,
+          1.5,
+        );
+        arrow(
+          c,
+          [
+            [1143, 505],
+            [1198, 505],
+            [1221, 493],
+            [1450, 493],
+          ],
+          palette.rust,
+          6,
+          16,
+        );
+        // Water level reaches the opening at this illustrated high-water state.
+        line(
+          c,
+          [
+            [1095, 479],
+            [1174, 479],
+          ],
+          "#365969",
+          1.5,
+          [6, 5],
+        );
+        // Explanatory leaders terminate on the mechanism they describe.
+        line(
+          c,
+          [
+            [207, 370],
+            [207, 397],
+          ],
+          "#485c5a",
+          1.5,
+        );
+        polygon(
+          c,
+          [
+            [203, 397],
+            [211, 397],
+            [207, 403],
+          ],
+          "#485c5a",
+        );
+        line(
+          c,
+          [
+            [764, 354],
+            [764, 449],
+          ],
+          "#485c5a",
+          1.5,
+        );
+        c.beginPath();
+        c.arc(764, 455, 4, 0, Math.PI * 2);
+        c.fillStyle = palette.ink;
+        c.fill();
+        line(
+          c,
+          [
+            [1302, 370],
+            [1302, 392],
+            [1210, 392],
+            [1210, 455],
+          ],
+          "#485c5a",
+          1.5,
+        );
+        // Downward pathways cross the soil continuously, then leave the section.
+        [735, 832, 929].forEach((x, i) => {
+          arrow(
+            c,
+            [
+              [x, 553],
+              [x - 6, 597],
+              [x + 3, 640],
+              [x - 4, 687],
+              [x - 4, 756],
+            ],
+            "#e8efe3",
+            6,
+            17,
+          );
+          line(
+            c,
+            [
+              [x - 4, 735],
+              [x - 4, 756],
+            ],
+            "#3c666e",
+            5,
+          );
+          polygon(
+            c,
+            [
+              [x - 4, 763],
+              [x - 13, 747],
+              [x + 5, 747],
+            ],
+            "#3c666e",
+          );
+        });
+      }
+      function slab(context, x, y, width, height, color, topColor, sideColor) {
+        polygon(
+          context,
+          [
+            [x + 14, y + height + 20],
+            [x + width + 28, y + height + 20],
+            [x + width + 14, y + height],
+            [x + 14, y + height],
+          ],
+          "#0c2430",
+        );
+        polygon(
+          context,
+          [
+            [x, y],
+            [x + 12, y - 12],
+            [x + width + 12, y - 12],
+            [x + width, y],
+          ],
+          topColor,
+        );
+        polygon(
+          context,
+          [
+            [x + width, y],
+            [x + width + 12, y - 12],
+            [x + width + 12, y + height - 12],
+            [x + width, y + height],
+          ],
+          sideColor,
+        );
+        polygon(
+          context,
+          [
+            [x, y],
+            [x + width, y],
+            [x + width, y + height],
+            [x, y + height],
+          ],
+          color,
+        );
+      }
+      function drawComparison() {
+        const c = surface("comparison-art");
+        // Common ticks and fixed endpoints preserve an exact quantitative scale.
+        [0, 25, 50, 75, 100].forEach((value) => {
+          const x = 440 + 10.5 * value;
+          line(
+            c,
+            [
+              [x, 344],
+              [x, 354],
+            ],
+            "#c3d3cf",
+            1.2,
+          );
+          line(
+            c,
+            [
+              [x, 514],
+              [x, 531],
+            ],
+            "#617b83",
+            1,
+          );
+          line(
+            c,
+            [
+              [x, 579],
+              [x, 591],
+            ],
+            "#c3d3cf",
+            1.2,
+          );
+        });
+        const rows = [
+          {
+            y: 365,
+            values: [80, 20],
+            colors: ["#ae563b", "#d7be91"],
+            tops: ["#c77a55", "#edd9b5"],
+            sides: ["#773b2c", "#958160"],
+          },
+          {
+            y: 603,
+            values: [40, 35, 25],
+            colors: ["#ae563b", "#8eb8b3", "#d7be91"],
+            tops: ["#c77a55", "#bdd5c8", "#edd9b5"],
+            sides: ["#773b2c", "#527f83", "#958160"],
+          },
+        ];
+        rows.forEach((row) => {
+          let x = 440;
+          row.values.forEach((value, index) => {
+            const width = value * 10.5;
+            slab(
+              c,
+              x,
+              row.y,
+              width,
+              140,
+              row.colors[index],
+              row.tops[index],
+              row.sides[index],
+            );
+            x += width;
+          });
+        });
+        // Two small sectional silhouettes identify the landscape before the data.
+        polygon(
+          c,
+          [
+            [85, 375],
+            [300, 375],
+            [327, 351],
+            [112, 351],
+          ],
+          "#b9c3b8",
+          palette.ink,
+          1.5,
+        );
+        polygon(
+          c,
+          [
+            [85, 375],
+            [300, 375],
+            [300, 394],
+            [85, 394],
+          ],
+          "#6a817f",
+          palette.ink,
+          1.5,
+        );
+        [150, 215].forEach((x) =>
+          line(
+            c,
+            [
+              [x, 375],
+              [x + 27, 351],
+            ],
+            "#6a817f",
+            1,
+          ),
+        );
+        arrow(
+          c,
+          [
+            [90, 336],
+            [296, 336],
+          ],
+          "#dc9c7c",
+          3.5,
+          10,
+        );
+        polygon(
+          c,
+          [
+            [85, 600],
+            [139, 600],
+            [170, 624],
+            [235, 624],
+            [267, 600],
+            [300, 600],
+            [300, 641],
+            [85, 641],
+          ],
+          "#bda175",
+          palette.ink,
+          1.5,
+        );
+        polygon(
+          c,
+          [
+            [155, 611],
+            [252, 611],
+            [235, 624],
+            [170, 624],
+          ],
+          "#9bc3bc",
+          palette.ink,
+          1,
+        );
+        grass(c, 159, 615, 0.52);
+        plant(c, 250, 617, 0.5, "#b9c9a3");
+        arrow(
+          c,
+          [
+            [92, 575],
+            [128, 575],
+            [153, 599],
+          ],
+          "#dc9c7c",
+          3.5,
+          10,
+        );
+        // Thin bottom ticks make the row endpoints unambiguous at thumbnail size.
+        line(
+          c,
+          [
+            [440, 754],
+            [1490, 754],
+          ],
+          "#6f878b",
+          1,
+        );
+      }
+      drawSection();
+      drawComparison();
+      const page = new URLSearchParams(location.search).get("page");
+      if (page === "1" || page === "2")
+        document
+          .querySelectorAll(".page-wrap")
+          .forEach(
+            (element, index) => (element.hidden = index !== Number(page) - 1),
+          );
+      function resizeSlides() {
+        const scale = Math.min(window.innerWidth, 1600) / 1600;
+        document
+          .querySelectorAll(".slide")
+          .forEach((element) => (element.style.transform = `scale(${scale})`));
+      }
+      resizeSlides();
+      window.addEventListener("resize", resizeSlides);
+    </script>
+  </body>
+</html>

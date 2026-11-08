@@ -1,0 +1,1368 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>雨水的去向 · 章节拼接台</title>
+    <style>
+      :root {
+        --paper: #ede6d7;
+        --pale: #f7f1e6;
+        --ink: #222923;
+        --muted: #666c62;
+        --navy: #223b4b;
+        --blue: #36566b;
+        --rust: #a7442b;
+        --line: #b5b5a5;
+        --yellow: #d9c46f;
+        --serif: "Songti SC", "STSong", "Noto Serif SC", serif;
+        --sans: "PingFang SC", "Noto Sans SC", sans-serif;
+        --mono: "Courier Prime", "SFMono-Regular", Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font: 15px/1.5 var(--sans);
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+        color: inherit;
+      }
+      button:disabled {
+        cursor: default;
+        opacity: 0.32;
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid #9e3f2a;
+        outline-offset: 4px;
+      }
+      button {
+        touch-action: manipulation;
+      }
+      button:hover:not(:disabled) {
+        filter: brightness(0.96);
+      }
+      button:active:not(:disabled) {
+        translate: 0 1px;
+      }
+      .shell {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 30px 42px 38px;
+      }
+      .masthead {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 18px;
+        border-bottom: 2px solid var(--ink);
+      }
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+      .brand-shape {
+        position: relative;
+        width: 28px;
+        height: 30px;
+        border: 2px solid var(--ink);
+        border-radius: 15px 15px 3px 3px;
+        transform: rotate(-18deg);
+        background: linear-gradient(90deg, var(--ink) 49%, transparent 49%);
+      }
+      .masthead .meta {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      .heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 26px 0 23px;
+      }
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        color: var(--rust);
+        font-weight: 700;
+        margin: 0 0 6px;
+      }
+      h1 {
+        font: 600 clamp(34px, 4.4vw, 58px)/1.15 var(--serif);
+        letter-spacing: -0.035em;
+        margin: 0;
+      }
+      h1 small {
+        font: 400 13px var(--sans);
+        letter-spacing: 0.05em;
+        margin-left: 18px;
+        color: var(--muted);
+      }
+      .heading-actions {
+        display: flex;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+      .plain-btn {
+        border: 1px solid #7e8578;
+        padding: 9px 15px;
+        background: transparent;
+        min-height: 42px;
+        font-size: 13px;
+      }
+      .plain-btn.primary {
+        background: var(--ink);
+        color: var(--pale);
+        border-color: var(--ink);
+      }
+      .stage {
+        position: relative;
+        background: var(--navy);
+        border: 1px solid #152d3c;
+        box-shadow:
+          0 9px 0 #152d3c,
+          0 10px 0 #0e1e2c;
+        isolation: isolate;
+        min-height: 286px;
+        padding: 24px 30px 27px;
+        overflow: hidden;
+      }
+      .stage::before {
+        content: "";
+        position: absolute;
+        width: 62%;
+        height: 130%;
+        top: -44%;
+        left: 30%;
+        background: #2e4c5d;
+        clip-path: polygon(0 0, 72% 0, 100% 100%, 25% 100%);
+        z-index: -1;
+      }
+      .stage::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          102deg,
+          transparent 0 42px,
+          #152f3d33 43px 44px
+        );
+        pointer-events: none;
+        z-index: -1;
+      }
+      .stage-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--paper);
+        margin-bottom: 20px;
+      }
+      .stage-heading h2 {
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        margin: 0;
+      }
+      .stage-heading span {
+        font-size: 12px;
+        color: #bcc5bf;
+      }
+      .machine {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 150px;
+        align-items: center;
+        gap: 29px;
+      }
+      .platen {
+        position: relative;
+        padding: 18px 22px 17px;
+        background: #617171;
+        border: 2px solid #192b32;
+        box-shadow:
+          inset 0 2px #afafa0,
+          8px 12px 0 #132b3a;
+        min-width: 0;
+        border-radius: 4px;
+      }
+      .platen:before,
+      .platen:after {
+        content: "";
+        position: absolute;
+        width: 22px;
+        top: 2px;
+        bottom: 2px;
+        background: linear-gradient(
+          90deg,
+          #1a2c32,
+          #97a196 35%,
+          #d2cabb 49%,
+          #566867 68%,
+          #182e37
+        );
+        border: 1px solid #142833;
+        box-shadow: 2px 1px 0 #162d34;
+        border-radius: 9px;
+        z-index: 2;
+      }
+      .platen:before {
+        left: -10px;
+      }
+      .platen:after {
+        right: -10px;
+      }
+      .paper-roll {
+        min-height: 106px;
+        background: var(--pale);
+        position: relative;
+        border: 1px solid #122a35;
+        box-shadow: 0 2px 1px #122a35;
+        display: flex;
+        overflow: hidden;
+      }
+      .paper-roll:before,
+      .paper-roll:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: radial-gradient(
+            ellipse at center,
+            #5c6c6d 0 2.5px,
+            transparent 3px
+          )
+          0 0/14px 5px;
+        z-index: 1;
+        pointer-events: none;
+      }
+      .paper-roll:before {
+        top: 8px;
+      }
+      .paper-roll:after {
+        bottom: 8px;
+      }
+      .segment {
+        min-width: 0;
+        position: relative;
+        border: 0;
+        border-right: 1px dashed #8f9181;
+        background: var(--clip-color);
+        padding: 25px 5px 20px;
+        text-align: center;
+        flex: 0 0 calc(var(--duration) / var(--total) * 100%);
+        transition:
+          flex 0.25s ease,
+          background 0.15s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2px;
+      }
+      .segment:last-child {
+        border-right: 0;
+      }
+      .segment:hover {
+        box-shadow: inset 0 0 0 2px #a7442b;
+      }
+      .segment .name {
+        font-family: var(--serif);
+        font-size: 23px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .segment .length {
+        font: 12px var(--mono);
+        white-space: nowrap;
+      }
+      .segment:focus-visible {
+        outline-offset: -4px;
+        z-index: 3;
+      }
+      .empty-roll {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 106px;
+        width: 100%;
+        color: var(--muted);
+        font-size: 14px;
+        padding: 18px;
+        text-align: center;
+      }
+      .ruler {
+        height: 17px;
+        margin: 0 3px;
+        background: repeating-linear-gradient(
+          90deg,
+          #d8d6be 0 1px,
+          transparent 1px 10%
+        );
+        border-bottom: 1px solid #b9c2b3;
+        opacity: 0.65;
+      }
+      .time-axis {
+        display: flex;
+        justify-content: space-between;
+        color: #f0eddf;
+        font: 11px var(--mono);
+        padding-top: 6px;
+      }
+      .duration-display {
+        color: var(--paper);
+        border-left: 1px solid #819191;
+        padding-left: 25px;
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .duration-display label {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+      }
+      .duration-display output {
+        font:
+          600 52px/1.2 "Barlow Condensed",
+          "DIN Condensed",
+          var(--sans);
+        letter-spacing: -0.04em;
+        font-variant-numeric: tabular-nums;
+      }
+      .duration-display .count {
+        font-size: 12px;
+        color: #c5cec5;
+        margin-top: 8px;
+      }
+      .stage-caption {
+        margin: 18px 0 0;
+        font-size: 12px;
+        color: #c4cdc5;
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+      }
+      .stage-caption .note {
+        font-family: var(--serif);
+        font-size: 15px;
+        color: var(--paper);
+      }
+      .workarea {
+        display: grid;
+        grid-template-columns: 360px minmax(0, 1fr);
+        gap: 36px;
+        margin-top: 35px;
+      }
+      .section-title {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--ink);
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+      }
+      .section-title h2 {
+        margin: 0;
+        font: 600 22px var(--serif);
+      }
+      .section-title span {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .source-list {
+        display: grid;
+        gap: 10px;
+      }
+      .source {
+        background: #dfdccd;
+        border: 1px solid #b4b7a6;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 13px;
+        box-shadow: 0 2px 0 #c8c6b5;
+        position: relative;
+        transition:
+          background 0.16s,
+          border-color 0.16s;
+      }
+      .source.is-kept {
+        background: var(--pale);
+        border-left: 4px solid var(--rust);
+        padding-left: 10px;
+      }
+      .check-label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        min-width: 32px;
+        min-height: 42px;
+      }
+      .check-label input {
+        appearance: none;
+        width: 23px;
+        height: 23px;
+        border: 1.5px solid #576353;
+        margin: 0;
+        background: transparent;
+        cursor: pointer;
+        display: grid;
+        place-content: center;
+      }
+      .check-label input:checked {
+        background: var(--rust);
+        border-color: var(--rust);
+      }
+      .check-label input:checked:before {
+        content: "";
+        width: 10px;
+        height: 5px;
+        border-left: 2px solid var(--pale);
+        border-bottom: 2px solid var(--pale);
+        transform: translateY(-2px) rotate(-45deg);
+      }
+      .source h3 {
+        font-size: 16px;
+        line-height: 1.3;
+        margin: 0 0 5px;
+        font-weight: 600;
+      }
+      .source small {
+        font: 12px var(--mono);
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .text-button {
+        border: 0;
+        background: transparent;
+        border-bottom: 1px solid #899080;
+        font-size: 12px;
+        min-width: 44px;
+        min-height: 40px;
+        padding: 7px 4px;
+        align-self: center;
+      }
+      .source-summary {
+        margin: 15px 0 0;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .program-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+      .chapter {
+        display: grid;
+        grid-template-columns: 30px 107px minmax(0, 1fr) auto;
+        gap: 15px;
+        align-items: center;
+        min-height: 84px;
+        padding: 12px 16px;
+        background: #f7f1e6;
+        border: 1px solid #afafa0;
+        box-shadow: 3px 3px 0 #d1d2c1;
+        position: relative;
+      }
+      .chapter:before {
+        content: "";
+        position: absolute;
+        left: -1px;
+        top: 17px;
+        width: 4px;
+        bottom: 17px;
+        background: var(--clip-color);
+        border-left: 1px solid #777c6e;
+      }
+      .chapter-number {
+        font: italic 23px var(--serif);
+        color: #6c7567;
+      }
+      .chapter-time {
+        font: 13px/1.7 var(--mono);
+        font-variant-numeric: tabular-nums;
+        display: flex;
+        flex-direction: column;
+      }
+      .chapter-time span:last-child {
+        color: #73786d;
+      }
+      .chapter-main {
+        min-width: 0;
+      }
+      .chapter-title {
+        border: 0;
+        background: none;
+        padding: 0;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 27px;
+        font: 600 18px var(--serif);
+      }
+      .chapter-title:after {
+        content: "↗";
+        font: 14px var(--sans);
+        color: #73786d;
+      }
+      .chapter-summary {
+        margin: 3px 0 0;
+        color: #6b7268;
+        font-size: 12px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .move-controls {
+        display: flex;
+        gap: 5px;
+      }
+      .move {
+        border: 1px solid #bdc0af;
+        background: #ebe9dc;
+        min-height: 38px;
+        min-width: 36px;
+        font-size: 20px;
+        line-height: 1;
+      }
+      .move:hover:not(:disabled) {
+        background: #dedecb;
+        border-color: #63735f;
+      }
+      .empty-program {
+        padding: 25px 22px;
+        border: 1px dashed #9b9f8e;
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+        color: var(--muted);
+      }
+      .empty-program strong {
+        font: 600 23px var(--serif);
+        color: var(--ink);
+      }
+      .program-foot {
+        margin: 16px 0 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .status {
+        min-height: 20px;
+      }
+      .footer {
+        border-top: 1px solid #aaaf9d;
+        margin-top: 28px;
+        padding-top: 12px;
+        font-size: 11px;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .footer .scope {
+        letter-spacing: 0.04em;
+      }
+      dialog {
+        color: var(--ink);
+        background: var(--pale);
+        border: 1px solid var(--ink);
+        padding: 0;
+        width: min(610px, calc(100% - 32px));
+        max-height: calc(100dvh - 40px);
+        box-shadow: 12px 15px 0 #132d3c70;
+        overflow: auto;
+      }
+      dialog::backdrop {
+        background: #102c3b99;
+        backdrop-filter: blur(3px);
+      }
+      .transcript-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 17px 25px;
+        border-bottom: 1px solid #c6c5b5;
+        background: #e1ddcd;
+      }
+      .transcript-head span {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+      }
+      .close-btn {
+        border: 1px solid #7b8271;
+        width: 40px;
+        height: 40px;
+        background: transparent;
+        font-size: 22px;
+      }
+      .transcript-body {
+        padding: 28px 34px 35px;
+      }
+      .transcript-meta {
+        font: 12px var(--mono);
+        color: #687260;
+      }
+      .transcript-body h2 {
+        font: 600 34px var(--serif);
+        margin: 8px 0 24px;
+      }
+      .transcript-body blockquote {
+        font: 25px/1.9 var(--serif);
+        margin: 0;
+        position: relative;
+        padding-left: 18px;
+        border-left: 3px solid var(--rust);
+      }
+      .transcript-tail {
+        margin-top: 30px;
+        color: var(--muted);
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        clip: rect(0, 0, 0, 0);
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      @media (min-width: 1450px) {
+        .shell {
+          padding-top: 40px;
+        }
+      }
+      @media (max-width: 1100px) {
+        .shell {
+          padding: 24px 26px 30px;
+        }
+        .workarea {
+          grid-template-columns: 300px minmax(0, 1fr);
+          gap: 24px;
+        }
+        .chapter {
+          gap: 10px;
+          grid-template-columns: 20px 90px minmax(0, 1fr) auto;
+          padding: 12px;
+        }
+        .chapter-time {
+          font-size: 12px;
+        }
+        .move {
+          min-width: 32px;
+        }
+        .chapter-summary {
+          max-width: 160px;
+        }
+        h1 small {
+          display: block;
+          margin: 10px 0 0;
+        }
+        .machine {
+          gap: 23px;
+          grid-template-columns: minmax(0, 1fr) 133px;
+        }
+        .stage {
+          padding: 22px 25px;
+        }
+        .duration-display {
+          padding-left: 20px;
+        }
+        .duration-display output {
+          font-size: 45px;
+        }
+      }
+      @media (max-width: 760px) {
+        .shell {
+          padding: 19px 18px 28px;
+        }
+        .masthead {
+          padding-bottom: 13px;
+        }
+        .masthead .meta {
+          font-size: 10px;
+          letter-spacing: 0.02em;
+        }
+        .wordmark {
+          font-size: 14px;
+        }
+        .brand-shape {
+          width: 22px;
+          height: 24px;
+        }
+        .heading {
+          align-items: start;
+          flex-wrap: wrap;
+          padding: 24px 0 18px;
+          gap: 18px;
+        }
+        .heading h1 {
+          font-size: 39px;
+        }
+        .heading h1 small {
+          font-size: 12px;
+          margin-top: 10px;
+        }
+        .heading-actions {
+          width: 100%;
+          justify-content: flex-end;
+          gap: 8px;
+        }
+        .plain-btn {
+          padding: 8px 14px;
+          min-height: 40px;
+        }
+        .stage {
+          padding: 18px 18px 20px;
+          min-height: 264px;
+        }
+        .stage-heading {
+          margin-bottom: 18px;
+        }
+        .stage-heading h2 {
+          font-size: 12px;
+        }
+        .stage-heading span {
+          font-size: 10px;
+        }
+        .machine {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 17px;
+        }
+        .platen {
+          padding: 14px 12px 12px;
+          box-shadow: 5px 8px 0 #132b3a;
+        }
+        .platen:before,
+        .platen:after {
+          width: 14px;
+          border-radius: 6px;
+        }
+        .platen:before {
+          left: -7px;
+        }
+        .platen:after {
+          right: -7px;
+        }
+        .paper-roll {
+          min-height: 90px;
+        }
+        .segment {
+          padding: 23px 2px 18px;
+        }
+        .segment .name {
+          font-size: 16px;
+          writing-mode: vertical-rl;
+          letter-spacing: 2px;
+        }
+        .segment .length {
+          font-size: 9px;
+        }
+        .segment {
+          gap: 5px;
+        }
+        .paper-roll {
+          min-height: 116px;
+        }
+        .duration-display {
+          border-left: 0;
+          border-top: 1px solid #718686;
+          padding: 12px 0 0;
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          align-items: baseline;
+          justify-content: space-between;
+        }
+        .duration-display label {
+          font-size: 11px;
+        }
+        .duration-display output {
+          font-size: 34px;
+          line-height: 1;
+        }
+        .duration-display .count {
+          margin: 0 0 0 auto;
+          font-size: 11px;
+        }
+        .stage-caption {
+          margin-top: 13px;
+          font-size: 10px;
+        }
+        .stage-caption .note {
+          display: none;
+        }
+        .workarea {
+          grid-template-columns: 1fr;
+          gap: 26px;
+          margin-top: 30px;
+        }
+        .section-title {
+          padding-bottom: 10px;
+          margin-bottom: 14px;
+        }
+        .section-title h2 {
+          font-size: 23px;
+        }
+        .section-title span {
+          font-size: 11px;
+        }
+        .source-list {
+          grid-template-columns: 1fr 1fr;
+          gap: 9px;
+        }
+        .source {
+          grid-template-columns: auto minmax(0, 1fr);
+          gap: 6px;
+          padding: 10px;
+          align-items: start;
+        }
+        .source.is-kept {
+          padding-left: 7px;
+          border-left-width: 3px;
+        }
+        .check-label {
+          min-width: 25px;
+          min-height: 29px;
+        }
+        .check-label input {
+          width: 21px;
+          height: 21px;
+        }
+        .source h3 {
+          font-size: 15px;
+          line-height: 1.8;
+          margin-bottom: 0;
+        }
+        .source small {
+          font-size: 10px;
+          display: block;
+          margin-top: 4px;
+        }
+        .source .text-button {
+          grid-column: 2;
+          justify-self: start;
+          min-height: 33px;
+          font-size: 11px;
+          padding: 4px 0;
+        }
+        .source-summary {
+          font-size: 11px;
+          margin-top: 11px;
+        }
+        .chapter {
+          grid-template-columns: 20px 78px minmax(0, 1fr) auto;
+          gap: 8px;
+          padding: 12px 10px;
+          min-height: 80px;
+        }
+        .chapter-time {
+          font-size: 11px;
+        }
+        .chapter-number {
+          font-size: 21px;
+        }
+        .chapter-title {
+          font-size: 18px;
+          gap: 4px;
+        }
+        .chapter-summary {
+          display: none;
+        }
+        .move-controls {
+          gap: 4px;
+        }
+        .move {
+          min-width: 35px;
+          min-height: 42px;
+          font-size: 19px;
+        }
+        .program-foot {
+          font-size: 11px;
+        }
+        .footer {
+          font-size: 10px;
+          gap: 12px;
+        }
+        .transcript-body {
+          padding: 22px 24px 28px;
+        }
+        .transcript-body blockquote {
+          font-size: 22px;
+        }
+        .transcript-head {
+          padding: 12px 21px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition: none !important;
+          animation: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div class="wordmark">
+          <i class="brand-shape" aria-hidden="true"></i>章节拼接台
+        </div>
+        <span class="meta">播客 · 文本编排</span>
+      </header>
+      <section class="heading" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">正在编排</p>
+          <h1 id="page-title">雨水的去向</h1>
+        </div>
+        <div class="heading-actions">
+          <button id="undo" class="plain-btn" disabled>↶ 撤销</button
+          ><button id="reset" class="plain-btn primary">恢复原始编排</button>
+        </div>
+      </section>
+      <section class="stage" aria-labelledby="preview-title">
+        <div class="stage-heading">
+          <h2 id="preview-title">新节目 · 结构预览</h2>
+          <span>分段长度对应时长</span>
+        </div>
+        <div class="machine">
+          <div class="platen">
+            <div id="ribbon" class="paper-roll"></div>
+            <div class="ruler" aria-hidden="true"></div>
+            <div class="time-axis" aria-hidden="true">
+              <span>00:00</span><span id="axis-end">03:00</span>
+            </div>
+          </div>
+          <div class="duration-display">
+            <label for="total">节目总时长</label
+            ><output id="total">03:00</output
+            ><span class="count" id="count">保留 4 / 4 段</span>
+          </div>
+        </div>
+        <p class="stage-caption"><span>点按纸带上的章节，打开文本</span></p>
+      </section>
+      <div class="workarea">
+        <section aria-labelledby="source-title">
+          <div class="section-title">
+            <h2 id="source-title">素材</h2>
+            <span>勾选保留片段</span>
+          </div>
+          <div id="source-list" class="source-list"></div>
+          <p class="source-summary">
+            原始素材共 03:00 · 重新保留的片段加入末尾
+          </p>
+        </section>
+        <section aria-labelledby="program-title">
+          <div class="section-title">
+            <h2 id="program-title">节目顺序</h2>
+            <span>↑ ↓ 调整顺序 · 点标题读文本</span>
+          </div>
+          <ol id="program" class="program-list"></ol>
+          <div class="program-foot">
+            <span class="status" id="status" role="status" aria-live="polite"
+              >已保留全部片段</span
+            ><span id="save-state">自动保存在此浏览器</span>
+          </div>
+        </section>
+      </div>
+      <footer class="footer">
+        <span class="scope">四段虚构素材 · 原始时间与编排时间分别标示</span
+        ><span>章节拼接台</span>
+      </footer>
+    </main>
+    <dialog id="transcript" aria-labelledby="transcript-title">
+      <div class="transcript-head">
+        <span>片段文本</span
+        ><button id="close-dialog" class="close-btn" aria-label="关闭文本">
+          ×
+        </button>
+      </div>
+      <div class="transcript-body">
+        <p class="transcript-meta" id="transcript-meta"></p>
+        <h2 id="transcript-title"></h2>
+        <blockquote id="transcript-text"></blockquote>
+        <div class="transcript-tail">
+          <span id="transcript-position"></span><span>Esc 关闭</span>
+        </div>
+      </div>
+    </dialog>
+    <script>
+      "use strict";
+      const clips = [
+        {
+          id: "opening",
+          title: "开场",
+          start: 0,
+          end: 20,
+          text: "今天从一段城市雨声开始。",
+          color: "#e6d8b9",
+        },
+        {
+          id: "question",
+          title: "问题",
+          start: 20,
+          end: 70,
+          text: "雨落到地面以后去了哪里？",
+          color: "#c4cebd",
+        },
+        {
+          id: "explanation",
+          title: "解释",
+          start: 70,
+          end: 160,
+          text: "我们沿着地表径流、临时储存和下渗三条路径追踪雨水。",
+          color: "#ebdfca",
+        },
+        {
+          id: "ending",
+          title: "结尾",
+          start: 160,
+          end: 180,
+          text: "下一次下雨，试着观察身边的排水路径。",
+          color: "#d7b99b",
+        },
+      ];
+      const lookup = new Map(clips.map((clip) => [clip.id, clip]));
+      const original = clips.map((clip) => clip.id);
+      const storageKey = "rain-chapter-editor-v1";
+      const format = (seconds) =>
+        String(Math.floor(seconds / 60)).padStart(2, "0") +
+        ":" +
+        String(seconds % 60).padStart(2, "0");
+      const duration = (clip) => clip.end - clip.start;
+      let order = [...original];
+      let history = [];
+      let canSave = true;
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        if (
+          Array.isArray(saved) &&
+          new Set(saved).size === saved.length &&
+          saved.every((id) => lookup.has(id))
+        )
+          order = saved;
+      } catch {
+        canSave = false;
+      }
+      const sourceList = document.getElementById("source-list");
+      const program = document.getElementById("program");
+      const ribbon = document.getElementById("ribbon");
+      const dialog = document.getElementById("transcript");
+      let dialogOpener;
+      function openText(id, opener) {
+        const clip = lookup.get(id);
+        dialogOpener = opener;
+        document.getElementById("transcript-meta").textContent =
+          "原始 " +
+          format(clip.start) +
+          "–" +
+          format(clip.end) +
+          " · " +
+          format(duration(clip));
+        document.getElementById("transcript-title").textContent = clip.title;
+        document.getElementById("transcript-text").textContent = clip.text;
+        const index = order.indexOf(id);
+        document.getElementById("transcript-position").textContent =
+          index < 0 ? "当前未保留" : "当前节目第 " + (index + 1) + " 段";
+        dialog.showModal();
+        document.getElementById("close-dialog").focus();
+      }
+      function closeText() {
+        dialog.close();
+      }
+      document
+        .getElementById("close-dialog")
+        .addEventListener("click", closeText);
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) {
+          const box = dialog.getBoundingClientRect();
+          if (
+            event.clientX < box.left ||
+            event.clientX > box.right ||
+            event.clientY < box.top ||
+            event.clientY > box.bottom
+          )
+            closeText();
+        }
+      });
+      dialog.addEventListener("close", () => dialogOpener?.focus());
+      function save() {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(order));
+          canSave = true;
+        } catch {
+          canSave = false;
+        }
+        document.getElementById("save-state").textContent = canSave
+          ? "自动保存在此浏览器"
+          : "本次编排保留至页面关闭";
+      }
+      function change(next, message, focusId) {
+        history.push([...order]);
+        order = next;
+        render(message);
+        save();
+        if (focusId) document.getElementById(focusId)?.focus();
+      }
+      function toggle(id) {
+        const kept = order.includes(id);
+        change(
+          kept ? order.filter((item) => item !== id) : [...order, id],
+          lookup.get(id).title + (kept ? "已移出节目" : "已加入节目末尾"),
+          "keep-" + id,
+        );
+      }
+      function move(id, offset) {
+        const index = order.indexOf(id);
+        const nextIndex = index + offset;
+        if (nextIndex < 0 || nextIndex >= order.length) return;
+        const next = [...order];
+        [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
+        const direction = offset < 0 ? "up" : "down";
+        const canContinue =
+          nextIndex + offset >= 0 && nextIndex + offset < order.length;
+        change(
+          next,
+          lookup.get(id).title + "已移到第 " + (nextIndex + 1) + " 段",
+          canContinue ? direction + "-" + id : "title-" + id,
+        );
+      }
+      function animatePositions(container, previous) {
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        container.querySelectorAll("[data-id]").forEach((element) => {
+          const before = previous.get(element.dataset.id);
+          const after = element.getBoundingClientRect();
+          if (before)
+            element.animate(
+              [
+                {
+                  transform:
+                    "translate(" +
+                    (before.left - after.left) +
+                    "px," +
+                    (before.top - after.top) +
+                    "px)",
+                },
+                { transform: "translate(0,0)" },
+              ],
+              { duration: 240, easing: "cubic-bezier(.18,.8,.28,1)" },
+            );
+          else
+            element.animate(
+              [
+                { opacity: 0, transform: "translateY(-6px)" },
+                { opacity: 1, transform: "translateY(0)" },
+              ],
+              { duration: 180, easing: "ease-out" },
+            );
+        });
+      }
+      function render(message) {
+        const previousRibbon = new Map(
+          [...ribbon.children].map((item) => [
+            item.dataset.id,
+            item.getBoundingClientRect(),
+          ]),
+        );
+        const previous = new Map(
+          [...program.children].map((item) => [
+            item.dataset.id,
+            item.getBoundingClientRect(),
+          ]),
+        );
+        sourceList.innerHTML = clips
+          .map(
+            (clip) =>
+              '<article class="source ' +
+              (order.includes(clip.id) ? "is-kept" : "") +
+              '"><label class="check-label"><input type="checkbox" id="keep-' +
+              clip.id +
+              '" aria-label="保留' +
+              clip.title +
+              '" ' +
+              (order.includes(clip.id) ? "checked" : "") +
+              "></label><div><h3>" +
+              clip.title +
+              "</h3><small>" +
+              format(clip.start) +
+              "–" +
+              format(clip.end) +
+              '</small></div><button class="text-button" data-open="' +
+              clip.id +
+              '" aria-label="打开' +
+              clip.title +
+              '文本">文本 ↗</button></article>',
+          )
+          .join("");
+        clips.forEach((clip) =>
+          document
+            .getElementById("keep-" + clip.id)
+            .addEventListener("change", () => toggle(clip.id)),
+        );
+        const total = order.reduce(
+          (sum, id) => sum + duration(lookup.get(id)),
+          0,
+        );
+        document.getElementById("total").textContent = format(total);
+        document.getElementById("axis-end").textContent = format(total);
+        document.getElementById("count").textContent =
+          "保留 " + order.length + " / 4 段";
+        ribbon.style.setProperty("--total", total || 1);
+        ribbon.innerHTML = order.length
+          ? order
+              .map((id) => {
+                const clip = lookup.get(id);
+                return (
+                  '<button class="segment" style="--clip-color:' +
+                  clip.color +
+                  ";--duration:" +
+                  duration(clip) +
+                  '" data-id="' +
+                  id +
+                  '" data-open="' +
+                  id +
+                  '" aria-label="预览' +
+                  clip.title +
+                  "文本，时长" +
+                  duration(clip) +
+                  '秒"><span class="name">' +
+                  clip.title +
+                  '</span><span class="length">' +
+                  format(duration(clip)) +
+                  "</span></button>"
+                );
+              })
+              .join("")
+          : '<div class="empty-roll">勾选素材，开始拼接节目</div>';
+        let cursor = 0;
+        program.innerHTML = order.length
+          ? order
+              .map((id, index) => {
+                const clip = lookup.get(id);
+                const start = cursor;
+                cursor += duration(clip);
+                return (
+                  '<li class="chapter" data-id="' +
+                  id +
+                  '" style="--clip-color:' +
+                  clip.color +
+                  '"><span class="chapter-number" aria-label="第' +
+                  (index + 1) +
+                  '段">' +
+                  (index + 1) +
+                  '</span><div class="chapter-time" aria-label="节目时间' +
+                  format(start) +
+                  "到" +
+                  format(cursor) +
+                  '"><span>' +
+                  format(start) +
+                  "</span><span>" +
+                  format(cursor) +
+                  '</span></div><div class="chapter-main"><button id="title-' +
+                  id +
+                  '" class="chapter-title" data-open="' +
+                  id +
+                  '" aria-label="阅读' +
+                  clip.title +
+                  '文本">' +
+                  clip.title +
+                  '</button><p class="chapter-summary">' +
+                  clip.text +
+                  '</p></div><div class="move-controls"><button class="move" id="up-' +
+                  id +
+                  '" data-move="-1" data-clip="' +
+                  id +
+                  '" aria-label="上移' +
+                  clip.title +
+                  '" ' +
+                  (index === 0 ? "disabled" : "") +
+                  '>↑</button><button class="move" id="down-' +
+                  id +
+                  '" data-move="1" data-clip="' +
+                  id +
+                  '" aria-label="下移' +
+                  clip.title +
+                  '" ' +
+                  (index === order.length - 1 ? "disabled" : "") +
+                  ">↓</button></div></li>"
+                );
+              })
+              .join("")
+          : '<li class="empty-program"><strong>留一段，故事就开始。</strong><span>在素材中勾选想保留的片段。</span></li>';
+        document
+          .querySelectorAll("[data-open]")
+          .forEach((button) =>
+            button.addEventListener("click", () =>
+              openText(button.dataset.open, button),
+            ),
+          );
+        program
+          .querySelectorAll("[data-move]")
+          .forEach((button) =>
+            button.addEventListener("click", () =>
+              move(button.dataset.clip, Number(button.dataset.move)),
+            ),
+          );
+        document.getElementById("undo").disabled = !history.length;
+        document.getElementById("reset").disabled =
+          order.join("|") === original.join("|");
+        document.getElementById("status").textContent =
+          message ||
+          (order.join("|") === original.join("|")
+            ? "已保留全部片段"
+            : "已恢复上次编排");
+        document.getElementById("save-state").textContent = canSave
+          ? "自动保存在此浏览器"
+          : "本次编排保留至页面关闭";
+        animatePositions(program, previous);
+        animatePositions(ribbon, previousRibbon);
+      }
+      document.getElementById("undo").addEventListener("click", () => {
+        if (!history.length) return;
+        order = history.pop();
+        render("已撤销上一步操作");
+        save();
+      });
+      document
+        .getElementById("reset")
+        .addEventListener("click", () =>
+          change([...original], "已恢复原始编排"),
+        );
+      render();
+    </script>
+  </body>
+</html>
