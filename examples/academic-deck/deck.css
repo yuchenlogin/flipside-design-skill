@@ -1,0 +1,123 @@
+/* 墨坊 Inkworks — 五墨：纸 #EFE8DA 墨 #16161A 深场 #1E2A5E 主调 #C4612F 淡调 #E9B8BF 信号 #EFCB45 */
+section{padding:128px 128px 180px;font-family:'Noto Sans SC',Arial,sans-serif;color:#16161A;background:#EFE8DA}
+.paper{background:#EFE8DA;color:#16161A}
+.field{background:repeating-linear-gradient(90deg,#1E2A5E 0px,#1E2A5E 156px,#18224E 156px,#18224E 160px);color:#EFE8DA}
+.night{background:repeating-linear-gradient(90deg,#15151B 0px,#15151B 156px,#0E0E13 156px,#0E0E13 160px);color:#EFE8DA}
+
+/* ── 边框：四角不动 ── */
+.tabs{position:absolute;left:128px;top:52px;width:1200px;display:flex;gap:10px;align-items:center}
+.tab{font-size:24px;font-weight:500;padding:4px 14px;letter-spacing:3px}
+.tab-on{font-size:24px;font-weight:900;padding:4px 14px;letter-spacing:3px;background:#16161A;color:#EFE8DA}
+.field .tab-on{background:#EFE8DA;color:#16161A}
+.night .tab-on{background:#EFE8DA;color:#16161A}
+.key{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:24px;border:2px solid #16161A;padding:0 10px;letter-spacing:2px}
+.field .key{border:2px solid #EFE8DA}
+.night .key{border:2px solid #EFE8DA}
+.page{position:absolute;left:1492px;top:46px;width:300px;text-align:right;font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:40px;letter-spacing:4px}
+.legend{position:absolute;left:128px;top:968px;width:820px;display:flex;gap:12px;align-items:center}
+.legend-t{font-size:24px;letter-spacing:1px;margin-right:16px}
+.slab{position:absolute;left:972px;top:932px;width:820px;height:92px;box-sizing:border-box;display:flex;align-items:center;gap:24px;background:#C4612F;padding:0 28px 0 36px;box-shadow:8px 8px 0 #16161A}
+.slab-short{position:absolute;left:1392px;top:932px;width:400px;height:92px;box-sizing:border-box;display:flex;align-items:center;gap:24px;background:#C4612F;padding:0 28px 0 36px;box-shadow:8px 8px 0 #16161A}
+.slab-lab{font-size:24px;font-weight:500;color:#EFE8DA;letter-spacing:4px;white-space:nowrap}
+.slab-verb{flex:1;font-size:44px;font-weight:900;color:#EFE8DA;letter-spacing:4px;white-space:nowrap}
+.slab-key{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:24px;color:#EFE8DA;border:2px solid #EFE8DA;padding:0 10px;letter-spacing:2px}
+
+/* ── 字：系统声 / 叙事声 / 编号声 ── */
+h1{font-size:190px;font-weight:900;line-height:1.1;letter-spacing:4px}
+h2{font-size:84px;font-weight:900;line-height:1.1;letter-spacing:2px}
+.sub{display:flex;align-items:center;gap:24px;margin-top:20px}
+.rule{width:220px;height:6px;background:#C4612F}
+.en{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:500;font-size:26px;letter-spacing:8px}
+.micro{font-size:24px;letter-spacing:2px;font-weight:500}
+.body{font-size:28px;line-height:1.6;font-weight:400}
+.strong{font-size:32px;line-height:1.45;font-weight:900}
+.serif{font-family:'Noto Serif SC',Georgia,serif;font-weight:900;font-size:42px;letter-spacing:6px;line-height:1.25}
+.num{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;line-height:1}
+.stage{margin-top:36px;height:600px;display:flex;gap:56px}
+
+/* ── 物件 ── */
+.slip{background:#F8F4EA;color:#16161A;padding:32px 36px;box-shadow:8px 10px 0 #1E2A5E}
+.field .slip{box-shadow:8px 10px 0 #0E1536}
+.night .slip{box-shadow:8px 10px 0 #000004}
+.sort{position:absolute;height:64px;background:#16161A;color:#EFE8DA;font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:36px;line-height:64px;text-align:center;letter-spacing:2px;box-shadow:4px 5px 0 #1E2A5E}
+.sort-wait{position:absolute;height:64px;box-sizing:border-box;border:3px dashed #16161A;color:#16161A;font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:36px;line-height:58px;text-align:center;letter-spacing:2px}
+.sort-hot{position:absolute;height:64px;background:#C4612F;color:#EFE8DA;font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:36px;line-height:64px;text-align:center;letter-spacing:2px;box-shadow:4px 5px 0 #16161A}
+.stamp{display:inline-block;border:5px solid #B4531F;color:#B4531F;font-family:'Noto Serif SC',Georgia,serif;font-weight:900;font-size:34px;padding:4px 16px;letter-spacing:8px;transform:rotate(-7deg)}
+.tilt-l{transform:rotate(-1.5deg)}
+.tilt-r{transform:rotate(1.5deg)}
+.tilt-r2{transform:rotate(2.5deg)}
+
+/* ── 动：落下、盖章 ── */
+@keyframes drop{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes press{from{opacity:0;transform:scale(1.7)}to{opacity:1;transform:scale(1)}}
+@keyframes slide{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+.drop{animation:drop .42s cubic-bezier(.2,.9,.25,1) both;animation-delay:calc(var(--i) * 120ms)}
+.press{animation:press .34s ease-out both;animation-delay:.72s}
+.slide-in{animation:slide .4s cubic-bezier(.2,.9,.25,1) both;animation-delay:.3s}
+
+/* ── 封面 ── */
+.cover-col{width:860px;display:flex;flex-direction:column}
+.cover-inv{align-self:flex-start;background:#EFE8DA;color:#16161A;padding:0 28px;font-size:190px;font-weight:900;line-height:1.1;letter-spacing:4px;margin-top:12px}
+.cover-en{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:500;font-size:36px;letter-spacing:9px;margin-top:36px;white-space:nowrap}
+.cover-meta{font-size:26px;line-height:1.6;letter-spacing:2px;margin-top:20px}
+.sheet-wrap{position:absolute;left:1010px;top:190px;width:780px;height:640px}
+.sheet{position:relative;width:780px;height:640px;background:#F8F4EA;color:#16161A;box-shadow:12px 14px 0 #0E1536;transform:rotate(2deg)}
+.abs{position:absolute}
+
+/* ── 问题页 ── */
+.host{position:relative;width:980px;height:600px}
+.tray{position:absolute;left:0;top:180px;width:980px;height:128px;box-sizing:border-box;background:#D9CFBA;border:4px solid #16161A;box-shadow:8px 10px 0 #1E2A5E}
+.col{display:flex;flex-direction:column;gap:28px;width:628px}
+.big{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:92px;line-height:1}
+.hot-mark{color:#B4531F;font-size:32px;font-weight:900}
+
+/* ── 代价页 ── */
+.grid{display:flex;flex-direction:column;gap:20px;width:1664px}
+.ghead{display:flex;align-items:center;height:36px;padding:0 32px}
+.row{display:flex;align-items:center;height:124px;padding:0 32px;background:#F8F4EA;box-shadow:6px 8px 0 #1E2A5E}
+.row-on{display:flex;align-items:center;height:124px;padding:0 32px;background:#16161A;color:#EFE8DA;box-shadow:6px 8px 0 #1E2A5E}
+.c1{width:330px;display:flex;flex-direction:column;gap:4px}
+.c2{width:330px;white-space:nowrap}
+.c4{flex:1;display:flex;align-items:center;gap:20px}
+.name{font-size:40px;font-weight:900;letter-spacing:3px}
+.big-o{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:56px;line-height:1;letter-spacing:1px}
+.bar-ink{height:12px;background:#16161A}
+.bar-hot{height:12px;background:#C4612F}
+.push{flex:1}
+
+/* ── 结果页 ── */
+.res{width:520px;display:flex;flex-direction:column;gap:14px}
+.numrow{display:flex;align-items:flex-end;gap:18px}
+.huge{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:220px;line-height:1;color:#EFCB45;letter-spacing:-2px}
+.unit{font-size:28px;font-weight:900;letter-spacing:4px;padding-bottom:26px}
+.bar-us{height:28px;background:#EFCB45}
+.bar-prev{height:28px;box-sizing:border-box;border:2px solid #EFE8DA}
+.cost{width:440px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;background:#F8F4EA;color:#16161A;padding:32px 36px;box-shadow:8px 10px 0 #000004;transform:rotate(1.5deg)}
+.cost-num{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:150px;line-height:1}
+.cost-num2{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:72px;line-height:1}
+.hair{height:2px;background:#16161A;margin-top:10px;margin-bottom:10px}
+
+/* ── 结构页 ── */
+.stack{display:flex;flex-direction:column;gap:8px}
+.plate{display:flex;align-items:center;gap:16px;height:52px;padding:0 18px;background:#EFE8DA;color:#16161A;box-shadow:5px 6px 0 #0E1536}
+.plate-t{display:flex;align-items:center;gap:16px;height:52px;padding:0 18px;background:#E9B8BF;color:#16161A;box-shadow:5px 6px 0 #0E1536}
+.pn{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:30px;letter-spacing:2px}
+.pt{font-size:24px;font-weight:500;letter-spacing:1px}
+.spec{width:468px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px;background:#F8F4EA;color:#16161A;padding:32px 36px;box-shadow:8px 10px 0 #0E1536;transform:rotate(1.5deg)}
+.spec-row{display:flex;gap:28px}
+.spec-cell{width:184px;display:flex;flex-direction:column;gap:2px}
+.spec-n{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:92px;line-height:1}
+
+/* ── 讨论页 ── */
+.wide{position:relative;width:1664px;height:600px}
+.line{position:absolute;left:0;top:34px;width:1664px;height:4px;background:#16161A}
+.note{width:480px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;background:#F8F4EA;padding:56px 36px 36px;box-shadow:8px 10px 0 #1E2A5E}
+.clip{position:absolute;top:10px;width:26px;height:76px;box-sizing:border-box;background:#EFCB45;border:3px solid #16161A}
+.letter{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:72px;line-height:1}
+
+/* ── 结尾 ── */
+.take{display:flex;gap:28px;align-items:flex-start}
+.take-n{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:64px;line-height:1;color:#EFCB45;width:84px}
+.take-t{font-size:36px;line-height:1.5;font-weight:500;width:556px}
+.ghost{position:absolute;height:64px;box-sizing:border-box;border:3px dashed #EFE8DA;color:#EFE8DA;font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:36px;line-height:58px;text-align:center;letter-spacing:3px}
+.sort-s{font-size:30px;letter-spacing:1px}

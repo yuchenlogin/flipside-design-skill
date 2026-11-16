@@ -1,0 +1,60 @@
+<section id="idea" class="paper" data-transition="push">
+<div class="tabs">
+<svg aria-label="套准标记" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="11" fill="none" stroke="#16161A" stroke-width="2.5"/><path d="M20 0V40M0 20H40" stroke="#16161A" stroke-width="2.5" fill="none"/></svg>
+<p class="key">Q</p><p class="tab">问题</p><p class="tab-on">思路</p><p class="tab">结构</p><p class="tab">代价</p><p class="tab">结果</p><p class="tab">讨论</p><p class="key">E</p>
+</div>
+<p class="page">03 / 08</p>
+<h2>新办法：每个字直接看所有字</h2>
+<div class="sub"><div class="rule"></div><p class="en">SELF-ATTENTION · 自注意力</p></div>
+<div class="stage">
+<div class="host">
+<p class="micro abs" style="left:22px;top:0;width:800px">上排 · 被看的字 KEYS / VALUES</p>
+<svg class="abs" style="left:0;top:108px" aria-label="每个字到每个字的连线，其中 it 到 animal 的线最粗" width="980" height="312" viewBox="0 0 980 312">
+<path d="M82 312L82 0M82 312L218 0M82 312L354 0M82 312L490 0M82 312L626 0M82 312L762 0M82 312L898 0M218 312L82 0M218 312L218 0M218 312L354 0M218 312L490 0M218 312L626 0M218 312L762 0M218 312L898 0M354 312L82 0M354 312L218 0M354 312L354 0M354 312L490 0M354 312L626 0M354 312L762 0M354 312L898 0M490 312L82 0M490 312L218 0M490 312L354 0M490 312L490 0M490 312L626 0M490 312L762 0M490 312L898 0M626 312L82 0M626 312L218 0M626 312L354 0M626 312L490 0M626 312L626 0M626 312L762 0M626 312L898 0M762 312L82 0M762 312L218 0M762 312L354 0M762 312L490 0M762 312L626 0M762 312L762 0M762 312L898 0M898 312L82 0M898 312L218 0M898 312L354 0M898 312L490 0M898 312L626 0M898 312L762 0M898 312L898 0" fill="none" stroke="#16161A" stroke-width="1.2" stroke-opacity="0.22"/>
+<g fill="none" stroke="#C4612F" stroke-linecap="round">
+<path d="M762 312C700 180 200 150 82 0" stroke-width="13"/>
+<path d="M762 312C720 200 540 110 490 0" stroke-width="6"/>
+<path d="M762 312C790 200 870 110 898 0" stroke-width="3"/>
+</g>
+</svg>
+<p class="sort sort-s" style="left:22px;top:44px;width:120px">animal</p>
+<p class="sort sort-s" style="left:158px;top:44px;width:120px">didn’t</p>
+<p class="sort sort-s" style="left:294px;top:44px;width:120px">cross</p>
+<p class="sort sort-s" style="left:430px;top:44px;width:120px">street</p>
+<p class="sort sort-s" style="left:566px;top:44px;width:120px">because</p>
+<p class="sort sort-s" style="left:702px;top:44px;width:120px">it</p>
+<p class="sort sort-s" style="left:838px;top:44px;width:120px">tired</p>
+<p class="sort sort-s" style="left:22px;top:420px;width:120px">animal</p>
+<p class="sort sort-s" style="left:158px;top:420px;width:120px">didn’t</p>
+<p class="sort sort-s" style="left:294px;top:420px;width:120px">cross</p>
+<p class="sort sort-s" style="left:430px;top:420px;width:120px">street</p>
+<p class="sort sort-s" style="left:566px;top:420px;width:120px">because</p>
+<p class="sort-hot sort-s" style="left:702px;top:420px;width:120px">it</p>
+<p class="sort sort-s" style="left:838px;top:420px;width:120px">tired</p>
+<svg class="abs" style="left:0;top:22px" aria-label="红笔圈出 animal" width="170" height="110" viewBox="0 0 170 110">
+<path d="M12 58C8 26 44 8 88 10C132 12 162 28 160 56C158 84 124 100 82 98C42 96 14 84 12 60C11 48 18 36 30 28" fill="none" stroke="#C4612F" stroke-width="4" stroke-linecap="round"/>
+</svg>
+<p class="micro abs" style="left:22px;top:500px;width:800px">下排 · 正在看的字 QUERIES</p>
+<p class="micro abs" style="left:22px;top:552px;width:940px">线越粗，权重越大。图为示意，不是真实权重。</p>
+</div>
+<div class="col">
+<div class="slide-in"><div class="slip tilt-l">
+<p class="micro">配方 FORMULA · No.01</p>
+<p class="serif" style="margin-top:10px">缩放点积注意力</p>
+<p class="serif" style="font-size:38px;letter-spacing:1px;margin-top:22px">Attention(Q, K, V) =</p>
+<p class="serif" style="font-size:38px;letter-spacing:1px">softmax( QKᵀ ∕ √dₖ ) · V</p>
+<div class="hair" style="margin-top:22px"></div>
+<div class="sub"><p class="key">Q</p><p class="body">我在找什么</p></div>
+<div class="sub"><p class="key">K</p><p class="body">你有什么</p></div>
+<div class="sub"><p class="key">V</p><p class="body">你给我什么</p></div>
+</div></div>
+</div>
+</div>
+<div class="legend">
+<p class="key">←</p><p class="key">→</p><p class="legend-t">翻页</p>
+<p class="key">SRC</p><p class="legend-t">原论文 §3.2.1</p>
+</div>
+<div class="slab">
+<p class="slab-lab">要点</p><p class="slab-verb">任意两字一步可达</p><p class="slab-key">ENTER</p>
+</div>
+</section>

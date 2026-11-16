@@ -1,0 +1,42 @@
+<section id="notes" class="paper" data-transition="push">
+<div class="tabs">
+<svg aria-label="套准标记" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="11" fill="none" stroke="#16161A" stroke-width="2.5"/><path d="M20 0V40M0 20H40" stroke="#16161A" stroke-width="2.5" fill="none"/></svg>
+<p class="key">Q</p><p class="tab">问题</p><p class="tab">思路</p><p class="tab">结构</p><p class="tab">代价</p><p class="tab">结果</p><p class="tab-on">讨论</p><p class="key">E</p>
+</div>
+<p class="page">07 / 08</p>
+<h2>讨论：晾在绳上的三张便签</h2>
+<div class="sub"><div class="rule"></div><p class="en">LIMITS AND LEGACY · 局限与后续</p></div>
+<div class="stage">
+<div class="wide">
+<div class="line"></div>
+<div class="abs drop" style="left:40px;top:56px;width:480px;--i:1"><div class="note tilt-l">
+<p class="letter">A</p>
+<p class="serif">长序列很贵</p>
+<p class="body">每层计算量是 O(n² · d)。句子一长，两两相看的代价按平方涨。论文自己也提到可以只看邻近的一段。</p>
+<p class="en">QUADRATIC IN LENGTH</p>
+</div></div>
+<div class="abs drop" style="left:592px;top:56px;width:480px;--i:2"><div class="note tilt-r">
+<p class="letter">B</p>
+<p class="serif">顺序要另外给</p>
+<p class="body">注意力本身不分先后。字的位置靠正弦位置编码加进输入里，模型才知道谁在前谁在后。</p>
+<p class="en">POSITIONAL ENCODING</p>
+</div></div>
+<div class="abs drop" style="left:1144px;top:56px;width:480px;--i:3"><div class="note tilt-r2">
+<p class="letter">C</p>
+<p class="serif">后来的事</p>
+<p class="body">2018 年的 BERT 和 GPT 都直接建在这套结构上。论文结尾说想把它用到文本以外，也成了真。</p>
+<div class="press"><p class="stamp">已应验</p></div>
+</div></div>
+<div class="clip" style="left:267px"></div>
+<div class="clip" style="left:819px"></div>
+<div class="clip" style="left:1371px"></div>
+</div>
+</div>
+<div class="legend">
+<p class="key">←</p><p class="key">→</p><p class="legend-t">翻页</p>
+<p class="key">SRC</p><p class="legend-t">原论文 §3.5 · §4 · §7</p>
+</div>
+<div class="slab">
+<p class="slab-lab">看法</p><p class="slab-verb">结构简单，所以走得远</p><p class="slab-key">ENTER</p>
+</div>
+</section>

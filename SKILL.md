@@ -1,75 +1,192 @@
 ---
-name: flipside-design
-description: Design with the FLIPSIDE aesthetic through functional concepts, expressive shape, graphic light and shadow, tactile materials, and causal motion. Use when the user invokes flipside-design, 翻面美学, 印刷工坊美学, or asks to reuse the visual language of the referenced FLIPSIDE video across presentations, interfaces, websites, or motion.
-metadata:
-  version: "2.0.0"
-  source-reviewed: "2026-11-08"
+name: inkworks-aesthetic
+description: 「墨坊」审美标准：把界面/页面当作工作台上的印刷物与实物来设计。当用户说“使用 inkworks-aesthetic 作为审美标准”，或要求用这套审美做 PPT、网页、UI、动效、海报等任何视觉产出时使用。
 ---
 
-# 翻面 · 印刷工坊美学
+# 墨坊 Inkworks —— 审美标准
 
-Create a designed experience in which the subject explains the concept, the concept organizes the composition, and form, light, material, typography, and movement reinforce that organization. Preserve the user's facts, language, medium, and practical constraints.
+这是一套**审美标准**，不是模板。它只管“长什么样、怎么动、怎么排”，产出格式（PPT / 网页 / UI / 动效 / 海报）由对应的格式 skill 或工具负责——先读本文件定方向，再去用那个格式的工具。
 
-The reference combines pictorial richness with operational clarity. Aim for that quality of invention and art direction. Its crosshair press makes an abstract configuration tangible through specimens, a receiving platen, reachable handles, and a result slip. Its optical viewer makes comparison spatial. Different functions produce different central forms while sharing a visual world.
+## 0. 内核（先读懂这一段，其余都是推论）
 
-## Learn the relationships first
+**屏幕不是一块发光的面板，而是一张工作台；上面摆的每样东西都是被“做”出来的——印的、裁的、冲压的、挂上去的。**
 
-Read [design-reasoning.md](references/design-reasoning.md) and [form-light-space.md](references/form-light-space.md). Inspect the actual reference images using an image tool, beginning with the [crosshair press](references/frames/0048.5-crosshair-press.jpg), [home scene](references/frames/0019.4-home.jpg), and one source relevant to the task. Read images for silhouette, joints, overlap, light direction, occupied space, and the relationship between an action and its visible result.
+由此得到三条根本判断：
 
-Use [visual-system.md](references/visual-system.md) for type, materials, and palette after establishing the concept and composition. For a return visit, use references already in context without needless rereading.
+1. **功能即物件。** 一个功能出现之前先问：它在实体世界里是哪件东西、靠哪个动作完成？音量不是滑块，是物体周围一圈圈扩散的声波环；色彩设置不是下拉框，是一张印刷打样；选中不是高亮，是有人拿红笔圈了一下。
+2. **控件即样本。** 控件本身展示它的取值结果：线宽选项就是十根由细到粗的线，亮度就是一条灰阶色带，对比就是新旧并排的两个镜筒。用户看到的是结果，不是数字。
+3. **边框守规矩，舞台才能放肆。** 四角的信息位永远不变，中间那块舞台每一页都可以是完全不同的场景。秩序来自边框，惊喜来自舞台，两者不能互换。
 
-## Develop the design from the task
+它不是拟物（不要照片质感、不要真实木纹贴图、不要高光渐变），而是**“画出来的实物”**：平涂、勾线、套色印刷的逻辑。
 
-Resolve the following in working notes or sketches at a level proportional to the deliverable. Keep process notes outside the finished product.
+## 1. 开工流程（每次都按这个顺序）
 
-For an existing product or a small edit, apply these decisions to the requested scope and its established interaction model. A focused change can improve one content relationship or a specific object while fitting the surrounding design.
+1. **从内容里找母题世界**，不要默认用印刷坊。问：这份内容的行当里，人们手上拿的是什么？
+   - 通信/信号类论文 → 报务台、示波器记录纸、电码条、频率刻度盘
+   - 语言/序列模型 → 排字房：词是铅字块，序列是排字盘，层是一摞版
+   - 数据产品 → 账房、票据、打孔卡、计数器
+   - 生物/化学 → 标本柜、载玻片标签、试剂架
+   - 找不到合适的行当时，回落到通用母题：**印刷车间**（打样、套准标记、铅字、印章、色标）。
+2. **列一张“翻译表”**：把本次要出现的 5–8 个功能/信息块各翻译成一件物件 + 一个动作 + 一个动词。翻译不出来的就保持朴素，绝不硬凑。
+3. **定五种墨**（见 §2），定两套字（见 §3），定边框四角（见 §5）。
+4. **定浓度**（见 §8），再动手。
+5. 做完用 §10 自检。
 
-- Identify what the audience changes, compares, understands, or produces. Describe the meaningful before and after.
-- Find a spatial or physical relationship that clarifies that operation. When the direction is open, briefly compare plausible approaches for this subject and select the one that supports the actual interaction and composition. A domain-native diagram or precise editorial arrangement can carry the concept.
-- Give the principal content an individual silhouette, spatial position, and visual emphasis. For expressive requests, invest in a well-developed focal object or scene with convincing structure and finish. For dense work, put that care into the actual diagram, comparison, or control surface.
-- Choose how straight, curved, thick, thin, open, closed, hard, and soft forms work together. Connect those choices to support, movement, contact, flexibility, and attention.
-- Establish a coherent light direction and depth order. Let light model the subject and lead the eye. Keep text and quantitative marks readable at the actual viewing size.
-- Design the characteristic interaction around the changed content. Track its identity through input, manipulation, consequence, and settled result. Static work should show the same relationship through alignment, juxtaposition, section, or an explanatory diagram.
+## 1.5 八个签名动作（任何浓度、任何媒介都要全部出现）
 
-The useful outcome is a concrete design that another person can describe and use. “Vintage paper,” “a mechanical feeling,” and “a flip transition” are insufficient design decisions on their own. Follow the worked reasoning and abstraction levels in [design-reasoning.md](references/design-reasoning.md).
+这八样是这套审美能被一眼认出来的原因。少一样，成品就会滑回“稳妥的米色稿”。
 
-## Art direction that survives a change of subject
+1. **四角边框**：左上签名符号 + 标签页条（两端 `[Q]` `[E]` 键位框，当前页反白）；右上窄体页码 `03 / 08`；左下键位图例 + 来源；右下行动块。
+2. **标题三件套**：重黑体大标题 + 一条短的主调色线 + 同行一条全大写疏排的英文副标。标题按物件起名（“晾在绳上的三张便签”“三种层，放在一张打样上”）。
+3. **行动块**：主调色实心板，小标签 + 重黑体一句话 + 细线键位框 `[ENTER]`，带墨色硬投影。PPT 里它装本页结论。
+4. **硬投影与微倾斜**：投影零模糊、偏移 8–12px、用深场色；纸片倾斜 1.5°–2.5°，相邻纸片方向相反。
+5. **一处手的线**：红笔圈、手画弧线，或一笔划掉。
+6. **一枚章**：歪 7° 左右的两三字宋体框章，用来下判断（“最短”“已应验”“拿掉了”）。
+7. **双语编号小字**：每个物件左上一行“中文名 ENGLISH · No.0X”。
+8. **一个样本式表达**：至少一处让量自己说话——线的粗细就是权重，线的长度就是路径长度，条的长度就是数值。
 
-**Form has hierarchy.** Large structural masses establish the image. Smaller controls and openings introduce rhythm. Curves often explain rotation, touch, or flow, while straight planes establish support and readable surfaces. The functional relationship determines the mixture.
+## 2. 色彩：按“油墨”思考，不按“色板”思考
 
-**Lines describe something.** Distinguish silhouette and occlusion, construction seams, information rules, and surface marks. Their weights and contrast vary with importance, depth, and material. Preserve useful open areas and quiet surfaces.
+整件作品只有 5 种墨 + 1 个信号色，全部**平涂**，像套色印刷一样一色一版。
 
-**Light makes volume and focus.** Coordinate lit planes, shaded planes, cast shadows, and contact shadows. Broad matte faces, narrow metallic accents, and thin paper edges respond differently. A cool shadow can share the scene's depth while the reading plane remains calm.
+| 角色 | 默认值 | 用途 | 面积 |
+|---|---|---|---|
+| 纸 Paper | `#EFE8DA` | 卡片、标签、浅色底 | 大 |
+| 墨 Ink | `#16161A` | 文字、勾线、选中反白条 | 中 |
+| 深场 Field | `#1E2A5E`（靛蓝） | 深色背景、**所有投影的颜色** | 大 |
+| 主调 Hot | `#C4612F`（锈橙） | 行动块、当前项、标题下划线 | ≤8% |
+| 淡调 Tint | `#E9B8BF`（盐粉） | 远景、次级色块、留白处的呼吸 | 小 |
+| 信号 Signal | `#EFCB45`（黄） | 仅用于数值/货币/警示的小点 | ≤2% |
 
-**Composition carries tension and rest.** Give the subject room to be recognized. Use deliberate scale differences, crops, overlap, asymmetric balance, and contrasting detail densities. Build an intentional focal hierarchy in both light and dark scenes.
+规则：
+- **主调只做两件事**：① 边框签名——标题下的短线和右下的行动块，每屏都在；② 舞台上至多一处“当前项”（正在排的那个字、被强调的那条线）。舞台上出现第二处橙色就删一个；需要第二种强调时用信号色或反白。
+- **阴影是有颜色的形状，不是模糊。** 投影用深场色平涂、硬边、全局同一方向；光也是画出来的形状（地上的一块亮梯形），不是发光和渐变。
+- 深浅两种底可以整页切换（纸底页 / 靛蓝底页 / 近黑底页），用来区分章节或情绪，但墨的种类不变。深色底上画细竖条木板纹，不留一整块死色。
+- 纸片压在纸底上时，纸片用更亮一档的纸色（`#F8F4EA`）并带深场色硬投影。
+- 换母题时可以换色相，但结构不变：一纸、一墨、一深场、一热色、一淡色、一点信号。热色与深场保持冷暖对立。
+- 禁止：渐变填充、玻璃拟态、霓虹发光、紫蓝科技渐变、超过 6 种色。
 
-**Motion follows construction.** A hinge constrains rotation, a sheet bends or feeds, a mark follows its source, and a result appears where the operation acts. Arrange anticipation, action, consequence, and rest according to the user's task. Match the effect's duration to how often it is used.
+## 3. 字体：两种声音 + 一种编号
 
-**Typography belongs to the composition.** Use weight, width, alignment, and spacing to establish voices and relationships. Long reading and accurate data retain a clear plane. Font substitutions and palette values remain adaptable implementation choices.
+- **系统声（黑体，重）**：标题、菜单、按钮、数字。中文用最重的黑体（思源黑体 Heavy / Noto Sans SC 900 / 阿里巴巴普惠体 Heavy），拉丁与数字用**窄体**（Barlow Condensed、Oswald、DIN Condensed、Bahnschrift Condensed）。
+- **叙事声（宋体，疏）**：物品名、章节引语、需要“被读出来”的词。思源宋体 / Noto Serif SC 700+，字距放宽到 0.12–0.2em。全篇少量使用，它出现就代表“这是有名字、有来历的东西”。
+- **编号声**：全大写窄体小字，字距 0.15–0.3em，用作英文副标、编号（`No.04 / 31`）、键位提示、计量单位。中文标题旁配一行这种小字，是整套气质的关键细节。
 
-## Adapt the expression to the medium
+排版规则：
+- **极端的字号跨度**：标题与注释至少差 6 倍。没有“中等大小”的字。
+- 数字巨大而窄，单位极小贴在右下（`2,880 盐晶`）。
+- 标题里可以把半句话反白（纸色块上压墨字），制造一明一暗。
+- 标签/模板字（stencil）只用于编号（储物柜上的 03、04）。
+- 正文永远朴素可读，装饰性只落在标题、编号、物件上。
 
-Read [media-adaptation.md](references/media-adaptation.md) for PPT, web, UI, still images, and video. Quiet, Balanced, and Expressive adjust scenic complexity and temporal emphasis while retaining concept, form, light, and composition.
+## 4. 线条、棱角与圆
 
-Use [composition-components.md](references/composition-components.md) when arranging controls or content. Use [motion.md](references/motion.md) when anything moves, including its source sequences and causal storyboard guidance. Use the production tools appropriate to the requested format. Choose illustration, rendered geometry, vector diagrams, or native layout according to the visual task and needed editability. Elaborate illustration deserves deliberate asset creation and visual refinement.
+**两种线，分工明确：**
+- **机器线**：0.5–1px 的发丝线、虚线（缝线感）、套准十字 `⌖`、刻度、角标。表达精确、被测量过。
+- **手的线**：粗细不匀的勾边、红笔手画圈、手写批注、印章的残缺边。表达有人来过、有人选过。
+一屏里两者都要有，但手的线只出现 1–3 处。
 
-[design-tokens.json](assets/design-tokens.json) and [flipside-tokens.css](assets/flipside-tokens.css) provide optional starting values. Tune them after judging the composition. Keep labels and data editable, real controls accessible, and scientific or documentary images faithful.
+**形状语法：**
+- **方 = 被裁切/印刷的东西**（纸、卡、票、标签）：圆角 0–3px，绝不用 12px 以上的大圆角。纸质物件可以有 −2°～+3° 的随手摆放旋转、撕边、夹子、图钉、打孔。
+- **圆 = 机械/光学/铸造的东西**（镜筒、硬币、刻度盘、声波环、轮盘菜单）：正圆，带同心结构。
+- **切角 = 系统提示**：键位提示用细线框小方块（`[ENTER]` `[ESC]`）。
+- **虚线框 = 还没发生/已经空了**：等待中的格子、被取代的旧方法。
+- 世界里的物体带统一粗细的墨色描边；UI 层的纸片不描边，靠投影和底色分离。
 
-## Inspect the result, then refine the weakest relationship
+## 5. 布局：固定边框 + 自由舞台
 
-Use [evaluation.md](references/evaluation.md) to inspect the rendered output at its intended size. For a substantial design, inspect at least the defining composition and, when interactive, the characteristic state change. Useful checks include the following.
+所有页面/屏幕共享同一副边框，位置永不移动：
 
-- The operation or argument can be understood from the actual content and visual relationships.
-- The subject has a recognizable silhouette and a clear hierarchy at thumbnail size.
-- Shape transitions, line weights, light, and material agree on the same structure.
-- The design retains intentional form and composition when hue and texture are temporarily suppressed during inspection.
-- An interaction changes the intended object and leaves a readable result. Reduced-motion and static versions preserve that information.
-- A different subject would lead to a different central composition or mechanism.
+- **左上**：签名符号 + 标签页一排（两端用 `[Q]` `[E]` 式的括号小框收口），其下是标题（重黑体）+ 主调下划线 + 英文副标。
+- **右上**：全局状态/资源/页码，窄体大数字。
+- **左下**：操作图例/来源/脚注，一排细线小框 + 小字。
+- **右下**：**唯一的行动块**——一整块主调色的实心板，重黑体动词或结论，右侧嵌一个细线键位框。
+- **中央**：舞台。一页一个场景、一个主物件，其余信息以纸片/标签的形式“放”在场景上，用细引线或小三角指向所属物件。
 
-If the result is mostly colored panels, revisit the concept and the principal content's form. If the mechanism is clear but the image is crude, improve proportions, silhouettes, light, and asset quality. If spectacle overwhelms information, adjust density, framing, and timing while preserving the designed relationship. Quality of execution matters as much as choosing a promising idea.
+其他规则：
+- 背景永不空白，但纹理是**画出来的低对比图案**：竖向木板条、龟裂纹、网点、细格、布纹缝线。
+- 列表选中态 = 整条反白（墨底纸字）+ 行尾一个小标记，不用描边高亮。
+- 状态用“痕迹”表达：已完成 = 盖一个歪斜的红章；已选 = 红笔圈；锁定 = 斜纹灰片；新 = 角上一个小点。
+- 网格类内容做成“柜子/抽屉/格架”：行标签在左，物件一格一个，格子之间是实体隔板而不是留白。
 
-## Source and factual boundaries
+## 6. 文案是隐喻的一部分
 
-The public reference video is 10:27.53, inspected at 768 × 480 / 30 fps. The source frames and motion sheets support visual observations. The original font files, shader implementation, and authored easing curves remain unavailable. The causal explanations and cross-domain methods in this skill are design interpretations developed from those observations and user feedback. Recommended numerical tokens are adaptation values.
+- **按钮动词跟着物件走**，不用通用的“确定/提交/购买”：打样页是「应用」，暗房是「显影」，铸币台是「铸」，磨刀铺是「开刃」，印花是「印」，考勤钟是「入册」。
+- 一个贯穿全局的**小符号**作为签名（例如半明半暗的圆 ◐、套准十字 ⌖）：它同时是 logo、加载图标、列表项目符号、选中标记。任何项目都要找到自己的这一个符号，并让它和内容有关（讲“对齐”的论文用套准十字）。
+- 给东西起名字、编号、写一行出处，比加装饰有效。
+- 中英双行：中文主名 + 一行全大写小字英文副名。
 
-[evidence.md](references/evidence.md) retains provenance and uncertainties. The press frame shows a coherent mechanism and labeled controls. The inspected clip establishes its construction and presentation, while the exact press-actuation sequence remains unverified. Bundled game images are source references. Create original imagery for new deliverables and preserve the user's scope and publication permissions.
+## 7. 动效：有质量的物体，留下痕迹的反馈
+
+原则：**东西是“被放下、被盖上、被翻过来”的，不是“淡入”的。**
+
+- 进入：落下并轻微回弹、沿轨道滑入、从线上挂下来轻晃、像门板一样横向推开。单独的 opacity 淡入不算入场。
+- 反馈即痕迹：点击 → 盖章（scale 1.5→1，120–160ms，略带旋转，墨色略不匀）；选中 → 手画圈沿路径描出（stroke-dashoffset，200–260ms）；确认 → 打孔/压印的一次下压回弹。
+- 悬停：纸片抬起 2–4px、转 1°，硬投影随之拉长。
+- 数值变化：环的半径、条的长度、堆的高度实体地变，数字跟着跳。
+- 转场：翻面（rotateY）、推拉门、整页硬切换底色。切换底色本身就是章节感。
+- 节奏：短（120–280ms）、干脆、收尾带一点过冲 `cubic-bezier(.2,.9,.25,1.15)`；需要“印刷/定格”感时用 `steps(4–6)`。
+- 先后顺序跟着因果走：纸片先落下，章最后盖。同一时刻只让一件东西动；加载用签名符号的翻转/盈亏，不用转圈菊花。
+- 尊重 `prefers-reduced-motion`：保留痕迹（章、圈）的最终状态，去掉过程。
+
+## 8. 浓度：先定用几成力
+
+| 浓度 | 适用 | 做法 |
+|---|---|---|
+| **一成（克制）** | 用户明确要求克制、正式文档、数据密集页 | 只用：五墨配色、两种声音的字、固定边框、发丝线与套准标记、编号小字、一个签名符号。舞台上是干净的图表与文字，图表本身用平涂+墨线重画。隐喻只出现在封面、章节页、结论页。 |
+| **三成（标准）** | 学术汇报、普通 PPT、产品网页、作品集、常规 UI | 八个签名动作全开；每页一个物件隐喻；纸片与印章状态；物件化的标题与动词；物理感动效。 |
+| **五成（全开）** | 游戏 UI、活动页、展示型动效、海报 | 每一屏是一个完整场景，控件全部物件化，背景有画出来的环境。 |
+
+未指明时一律取**三成**，学术汇报也是。只有用户明说“克制一点 / 正式一点”才降到一成。宁可稍微过头、被要求收一点，也不要交出一份稳妥稿。**可读性永远优先于隐喻**——正文字号、对比度、数据的准确表达不为风格让步；示意图必须写明是示意。
+
+## 9. 各媒介落地要点
+
+**PPT / 幻灯片**
+- 母版即“边框”：左上签名符号 + 章节标签页条，右上页码（`07 / 24` 窄体），左下来源/图例小字，右下行动块装本页结论（一句话）。
+- 封面与章节页用深场色整页 + 一件大物件 + 重黑体标题；内容页用纸色底；最重要的数字页可以换近黑底。
+- 一页一个主角。公式、图、表当作“贴在台面上的纸片”，可有 1–2° 倾斜和硬投影，但正文文本框保持横平竖直。
+- 重点不加粗变色，而是红笔圈、引线批注、盖章。
+- 图表：平涂、墨色 1px 轴线、无网格或极淡网格、数据标签用窄体数字、只有被强调的那一个系列用信号色或主调色；条形图从 0 起、同一刻度。
+- 1920×1080 画布上的字号：封面 190、页标题 84、巨型数字 200 以上、物件名（宋体）42、正文 28–32、编号小字 24（即最小字）。
+- 把论文里的对象做成工作台上的东西：词 = 铅字块，序列 = 排字盘，层 = 一摞版，公式 = 一张配方签，成本 = 一张工时单，局限 = 晾在绳上的便签，被取代的方法 = 清空的排字盘上一笔划掉。
+- 字体回退：思源黑体 Heavy/微软雅黑 Bold；Bahnschrift Condensed/Impact（仅数字）；思源宋体/宋体。
+- 起步样式见 `assets/inkworks.css`，成品参照 `examples/academic-deck/`。
+
+**网页（静态/动态）**
+- 用 CSS 变量落五墨；`box-shadow: 5px 7px 0 var(--field)` 式零模糊投影；`border-radius ≤ 3px`。
+- 首屏是一个舞台场景而不是“大标题+副标题+两个按钮”；导航是一摞标签或一块菜单牌。
+- 纹理用 CSS/SVG 画（repeating-linear-gradient 木板条、radial-gradient 网点、SVG 裂纹与手画圈），不用位图贴图。
+- 滚动 = 沿工作台移动：区块之间用换底色或“推门”切换，不用视差漂浮。
+- 全站只有一个主调色 CTA 常驻右下或区块末尾。
+
+**UI 设计**
+- 先画边框四角，再逐屏设计舞台。设置项优先做成“样本式控件”。
+- 空状态、加载、报错都是物件：空抽屉、翻转的签名符号、退回的单据。
+- 键盘/操作提示常驻左下，是界面的一部分而非帮助文档。
+
+**动效 / 视频**
+- 镜头像俯视或平视一张台面；元素以放置、翻转、盖印的方式出现；用硬切与换底色断句。
+- 色彩与线条规则不变，帧率可刻意降低（12–15fps 的定格感）以贴近印刷物气质。
+
+**海报 / 静态图**
+- 一件主物件 + 巨大重黑体 + 一行编号小字 + 套准标记与色标条作为边角签名。
+
+## 10. 交付前自检
+
+- [ ] 能用一句话说出这件作品的母题世界和签名符号吗？
+- [ ] §1.5 的八个签名动作是否都在？
+- [ ] 颜色数 ≤ 6，且全部平涂？有没有混进渐变、模糊阴影、发光？
+- [ ] 舞台上的主调色是否只有一处？
+- [ ] 四角边框在所有页面位置一致吗？
+- [ ] 最大字与最小字相差 ≥ 6 倍吗？
+- [ ] 圆角是否都 ≤ 3px（正圆物件除外）？
+- [ ] 标题和按钮动词是否来自物件，而不是“概述/确定/提交”？
+- [ ] 动效里有没有纯淡入？反馈有没有留下痕迹？
+- [ ] 把所有隐喻拿掉，信息是否依然清晰可读？（若否，先修信息，再谈风格）
+- [ ] 缩成缩略图看，这一页和别的页长得一样吗？（若一样，舞台没有设计）
+
+## 11. 反面清单（出现即返工）
+
+大圆角卡片堆叠、毛玻璃、紫蓝渐变、柔和大阴影、emoji 当图标、居中的“英雄标题+两按钮”首屏、每个元素都在淡入上浮、真实照片材质贴图、为了有隐喻而牺牲可读性、把印刷坊母题生搬到与内容无关的场合。
+
+最需要警惕的不是上面这些，而是**稳妥**：米色底、中号标题、一个深色方框里放流程图、四角空着、没有一处手的痕迹。这样的页面挑不出错，也没有任何一样这套审美的东西。

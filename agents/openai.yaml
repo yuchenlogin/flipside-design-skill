@@ -1,4 +1,4 @@
 interface:
-  display_name: "翻面 · 印刷工坊美学"
-  short_description: "从功能构思独特概念，以形体、线条、光影、材料和因果动效完成跨媒介设计"
-  default_prompt: "使用 $flipside-design 理解我的主题与功能，发展合适的概念、形体、光线和交互，按所需格式完成设计。"
+  display_name: "墨坊 Inkworks · 审美标准"
+  short_description: "把页面当作工作台上的印刷物与实物来设计：固定边框、自由舞台、平涂五墨、硬投影、红笔圈与印章"
+  default_prompt: "使用 $inkworks-aesthetic 作为审美标准，按我要的格式完成设计。"
