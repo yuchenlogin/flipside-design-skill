@@ -1,0 +1,43 @@
+<section id="results" class="night" data-transition="push">
+<div class="tabs">
+<svg aria-label="套准标记" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="11" fill="none" stroke="#EFE8DA" stroke-width="2.5"/><path d="M20 0V40M0 20H40" stroke="#EFE8DA" stroke-width="2.5" fill="none"/></svg>
+<p class="key">Q</p><p class="tab">问题</p><p class="tab">思路</p><p class="tab">结构</p><p class="tab">代价</p><p class="tab-on">结果</p><p class="tab">讨论</p><p class="key">E</p>
+</div>
+<p class="page">06 / 08</p>
+<h2>结果：翻译得更好，训练得更省</h2>
+<div class="sub"><div class="rule"></div><p class="en">WMT 2014 · NEWSTEST2014 · BIG MODEL</p></div>
+<div class="stage">
+<div class="res">
+<p class="en">EN → DE · 英译德</p>
+<div class="numrow"><p class="huge">28.4</p><p class="unit">BLEU</p></div>
+<div class="bar-us" style="width:341px"></div>
+<p class="micro">本文 28.4</p>
+<div class="bar-prev" style="width:316px"></div>
+<p class="micro">此前最好 26.36（多模型集成）</p>
+</div>
+<div class="res">
+<p class="en">EN → FR · 英译法</p>
+<div class="numrow"><p class="huge">41.8</p><p class="unit">BLEU</p></div>
+<div class="bar-us" style="width:502px"></div>
+<p class="micro">本文 41.8</p>
+<div class="bar-prev" style="width:487px"></div>
+<p class="micro">此前最好单模型 40.56</p>
+</div>
+<div class="slide-in" style="padding-top:24px"><div class="cost">
+<p class="micro">工时单 COST · No.06</p>
+<div class="numrow"><p class="cost-num">3.5</p><p class="unit" style="padding-bottom:18px">天</p></div>
+<p class="body">big 模型，8 块 P100 GPU</p>
+<div class="hair"></div>
+<div class="numrow"><p class="cost-num2">12</p><p class="unit" style="padding-bottom:6px">小时</p></div>
+<p class="body">base 模型，同样 8 块 GPU</p>
+</div></div>
+</div>
+<div class="legend">
+<p class="key">←</p><p class="key">→</p><p class="legend-t">翻页</p>
+<p class="key">SRC</p><p class="legend-t">原论文 表 2 · 两条横条同一刻度，从 0 起</p>
+</div>
+<div class="slab">
+<p class="slab-lab">结果</p><p class="slab-verb">两项都刷新了纪录</p><p class="slab-key">ENTER</p>
+</div>
+<aside>英译德超过此前所有结果（含集成）2 BLEU 以上；英译法是单模型最好成绩。</aside>
+</section>

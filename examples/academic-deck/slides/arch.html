@@ -1,0 +1,55 @@
+<section id="arch" class="field" data-transition="push">
+<div class="tabs">
+<svg aria-label="套准标记" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="11" fill="none" stroke="#EFE8DA" stroke-width="2.5"/><path d="M20 0V40M0 20H40" stroke="#EFE8DA" stroke-width="2.5" fill="none"/></svg>
+<p class="key">Q</p><p class="tab">问题</p><p class="tab">思路</p><p class="tab-on">结构</p><p class="tab">代价</p><p class="tab">结果</p><p class="tab">讨论</p><p class="key">E</p>
+</div>
+<p class="page">04 / 08</p>
+<h2>结构：两摞版，各六层</h2>
+<div class="sub"><div class="rule"></div><p class="en">ENCODER – DECODER · 编码器与解码器</p></div>
+<div class="stage" style="gap:40px">
+<div class="stack drop" style="--i:1;width:440px">
+<p class="micro">左摞 · 读</p>
+<p class="serif">编码器</p>
+<div class="plate" style="margin-top:10px"><p class="pn">06</p><p class="pt">自注意力 ＋ 前馈</p></div>
+<div class="plate"><p class="pn">05</p><p class="pt">自注意力 ＋ 前馈</p></div>
+<div class="plate"><p class="pn">04</p><p class="pt">自注意力 ＋ 前馈</p></div>
+<div class="plate"><p class="pn">03</p><p class="pt">自注意力 ＋ 前馈</p></div>
+<div class="plate"><p class="pn">02</p><p class="pt">自注意力 ＋ 前馈</p></div>
+<div class="plate"><p class="pn">01</p><p class="pt">自注意力 ＋ 前馈</p></div>
+<p class="micro" style="margin-top:14px">▲ 输入：源语言句子 ＋ 位置编码</p>
+</div>
+<div style="width:96px;padding-top:268px">
+<x-shape kind="arrow-right" style="width:96px;height:48px;background:#EFE8DA"></x-shape>
+</div>
+<div class="stack drop" style="--i:3;width:540px">
+<p class="micro">右摞 · 写</p>
+<p class="serif">解码器</p>
+<div class="plate-t" style="margin-top:10px"><p class="pn">06</p><p class="pt">掩码自注意力 ＋ 交叉注意力 ＋ 前馈</p></div>
+<div class="plate-t"><p class="pn">05</p><p class="pt">掩码自注意力 ＋ 交叉注意力 ＋ 前馈</p></div>
+<div class="plate-t"><p class="pn">04</p><p class="pt">掩码自注意力 ＋ 交叉注意力 ＋ 前馈</p></div>
+<div class="plate-t"><p class="pn">03</p><p class="pt">掩码自注意力 ＋ 交叉注意力 ＋ 前馈</p></div>
+<div class="plate-t"><p class="pn">02</p><p class="pt">掩码自注意力 ＋ 交叉注意力 ＋ 前馈</p></div>
+<div class="plate-t"><p class="pn">01</p><p class="pt">掩码自注意力 ＋ 交叉注意力 ＋ 前馈</p></div>
+<p class="micro" style="margin-top:14px">▲ 输入：已写出的译文，一次多写一字</p>
+</div>
+<div class="slide-in" style="padding-top:20px"><div class="spec">
+<p class="micro">规格签 SPEC · BASE MODEL</p>
+<div class="spec-row">
+<div class="spec-cell"><p class="spec-n">512</p><p class="micro">表示维度</p></div>
+<div class="spec-cell"><p class="spec-n">8</p><p class="micro">注意力头</p></div>
+</div>
+<div class="hair"></div>
+<div class="spec-row">
+<div class="spec-cell"><p class="spec-n">6+6</p><p class="micro">层数</p></div>
+<div class="spec-cell"><p class="spec-n">65M</p><p class="micro">参数量</p></div>
+</div>
+</div></div>
+</div>
+<div class="legend">
+<p class="key">←</p><p class="key">→</p><p class="legend-t">翻页</p>
+<p class="key">SRC</p><p class="legend-t">原论文 §3.1 · 表 3</p>
+</div>
+<div class="slab">
+<p class="slab-lab">规格</p><p class="slab-verb">全是注意力，没有循环</p><p class="slab-key">ENTER</p>
+</div>
+</section>
