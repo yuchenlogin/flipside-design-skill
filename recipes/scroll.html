@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>滚动编排 · 墨坊配方</title>
+<style>
+:root { color-scheme: light; font: 100%/1.6 system-ui,sans-serif; color: #202827; background: #f4f1e8; }
+* { box-sizing: border-box; }
+body { margin: auto; max-width: 60rem; padding: clamp(1rem,4vw,3rem); }
+h1 { margin: 0; line-height: 1.15; font-size: clamp(2rem,6vw,4rem); letter-spacing: -.04em; }
+p { max-width: 52ch; }
+.stage { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; min-height: 17rem; background: #e5e3d5; }
+button { font: inherit; color: inherit; background: #fffdf6; padding: .5rem 1rem; border: 2px solid; cursor: pointer; }
+:focus-visible { outline: 3px solid #1259c3; outline-offset: 3px; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 1rem 0; }
+label { cursor: pointer; }
+summary { cursor: pointer; }
+details { border-block-start: 1px solid; padding-block: .75rem; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; }
+dd { margin: 0; }
+.track { height: 185svh; }
+.pin { position: sticky; top: 0; height: 80svh; background: #c7cdb9; color: #192f2a; }
+.trace { width: 85%; height: 1px; background: currentColor; transform: translateX(var(--rear,0)); }
+.marker { position: absolute; width: clamp(3rem,14vw,10rem); aspect-ratio: 1; border-radius: 50%; background: currentColor; transform: translateX(var(--front,-25vw)); }
+.chapter,.end { position: absolute; bottom: 1rem; font-weight: 700; }
+.chapter { left: 1rem; }.end { right: 1rem; }
+.track.late .pin,.still .pin { background: #203d35; color: #f3dbb2; }
+.still .track { height: auto; }.still .pin { position: relative; height: 55svh; }
+.still .marker { transform: translateX(25vw); }.still .trace { transform: none; }
+</style>
+</head>
+<body>
+<h1>滚动编排</h1>
+<p>沿页面向下滚动：画框停驻，标记随阅读进度移动，跨入下一章时整幅底色翻转。</p>
+<section class="track" aria-label="章节过渡"><div class="stage pin"><div class="trace" aria-hidden="true"></div><div class="marker" aria-hidden="true"></div><span class="chapter">起点</span><span class="end">终点</span></div></section>
+<div class="controls"><label><input id="low" type="checkbox"> 低负载模式</label></div>
+<details><summary>调节与移植</summary><dl>
+<dt>参数</dt><dd>把章节高度设为 140–220svh；两层位移取 4–28vw；色彩断句在进度 .55–.85 之间触发。</dd>
+<dt>预算</dt><dd>一个 sticky 场景，每帧至多读取一次布局；色彩只在跨越阈值时切换。</dd>
+<dt>降级</dt><dd>低负载与减弱动态取消吸附和位移，直接显示终章；无脚本时保留两段可读章节内容。</dd>
+</dl></details>
+<script>
+const root = document.documentElement;
+const low = document.querySelector('#low');
+const preference = matchMedia('(prefers-reduced-motion: reduce)');
+function quiet() { return low.checked || preference.matches; }
+function syncMotion() {
+  root.classList.toggle('still', quiet());
+  document.dispatchEvent(new Event('motionmode'));
+}
+low.addEventListener('change', syncMotion);
+preference.addEventListener('change', syncMotion);
+syncMotion();
+const track = document.querySelector('.track');
+let frame = 0;
+function paint() {
+  frame = 0;
+  if (quiet()) return;
+  const rect = track.getBoundingClientRect();
+  const travel = rect.height - track.firstElementChild.offsetHeight;
+  const progress = Math.max(0, Math.min(1, -rect.top / Math.max(1, travel)));
+  track.style.setProperty('--front', (-25+50*progress)+'vw');
+  track.style.setProperty('--rear', (-4*progress)+'vw');
+  track.classList.toggle('late', progress >= .68);
+}
+function queue() { if (!quiet() && !frame) frame = requestAnimationFrame(paint); }
+addEventListener('scroll', queue, {passive:true});
+addEventListener('resize', queue);
+document.addEventListener('motionmode', queue);
+queue();
+</script>
+</body>
+</html>

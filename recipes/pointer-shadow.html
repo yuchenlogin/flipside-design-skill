@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>指针驱动的硬投影 · 墨坊配方</title>
+<style>
+:root { color-scheme: light; font: 100%/1.6 system-ui,sans-serif; color: #202827; background: #f4f1e8; }
+* { box-sizing: border-box; }
+body { margin: auto; max-width: 60rem; padding: clamp(1rem,4vw,3rem); }
+h1 { margin: 0; line-height: 1.15; font-size: clamp(2rem,6vw,4rem); letter-spacing: -.04em; }
+p { max-width: 52ch; }
+.stage { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; min-height: 17rem; background: #e5e3d5; }
+button { font: inherit; color: inherit; background: #fffdf6; padding: .5rem 1rem; border: 2px solid; cursor: pointer; }
+:focus-visible { outline: 3px solid #1259c3; outline-offset: 3px; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 1rem 0; }
+label { cursor: pointer; }
+summary { cursor: pointer; }
+details { border-block-start: 1px solid; padding-block: .75rem; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; }
+dd { margin: 0; }
+.stage { --sx: 8px; --sy: 8px; }
+.disk { position: relative; isolation: isolate; width: 8rem; aspect-ratio: 1; }
+.disk::before,.disk::after { content: ""; position: absolute; inset: 0; border-radius: 50%; }
+.disk::before { background: #202827; transform: translate(var(--sx),var(--sy)); }
+.disk::after { background: #cb6f32; border: 2px solid #202827; }
+</style>
+</head>
+<body>
+<h1>指针驱动的硬投影</h1>
+<p>在样本周围移动指针。光靠近哪一侧，硬投影就向相反一侧偏移。</p>
+<div class="stage"><div class="disk" aria-hidden="true"></div></div>
+<div class="controls"><label><input id="low" type="checkbox"> 低负载模式</label></div>
+<details><summary>调节与移植</summary><dl>
+<dt>参数</dt><dd>maxOffset 取 3–14px；默认静态光来自左上；所有物件共用一组偏移与影色。</dd>
+<dt>预算</dt><dd>只在舞台内监听；每个刷新周期最多提交一组变换。阴影为单独实色层，零模糊。</dd>
+<dt>降级</dt><dd>低负载、触屏与减弱动态使用固定方向；移出或取消指针时恢复初始光位。</dd>
+</dl></details>
+<script>
+const root = document.documentElement;
+const low = document.querySelector('#low');
+const preference = matchMedia('(prefers-reduced-motion: reduce)');
+function quiet() { return low.checked || preference.matches; }
+function syncMotion() {
+  root.classList.toggle('still', quiet());
+  document.dispatchEvent(new Event('motionmode'));
+}
+low.addEventListener('change', syncMotion);
+preference.addEventListener('change', syncMotion);
+syncMotion();
+const stage = document.querySelector('.stage');
+const maxOffset = 12;
+let frame = 0, x, y;
+function reset() {
+  cancelAnimationFrame(frame);
+  frame = 0;
+  stage.style.removeProperty('--sx');
+  stage.style.removeProperty('--sy');
+}
+stage.onpointermove = event => {
+  if (quiet() || event.pointerType === 'touch') return;
+  x = event.clientX;
+  y = event.clientY;
+  if (frame) return;
+  frame = requestAnimationFrame(() => {
+    frame = 0;
+    const box = stage.getBoundingClientRect();
+    stage.style.setProperty('--sx', ((.5 - (x-box.left)/box.width) * 2 * maxOffset).toFixed(1)+'px');
+    stage.style.setProperty('--sy', ((.5 - (y-box.top)/box.height) * 2 * maxOffset).toFixed(1)+'px');
+  });
+};
+stage.onpointerleave = stage.onpointercancel = reset;
+document.addEventListener('motionmode', reset);
+</script>
+</body>
+</html>

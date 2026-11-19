@@ -1,4 +1,4 @@
 interface:
   display_name: "墨坊 Inkworks · 审美标准"
-  short_description: "把页面当作工作台上的印刷物与实物来设计：固定边框、自由舞台、平涂五墨、硬投影、红笔圈与印章"
+  short_description: "为内容选择母题、材质与运动，用单一主角和真实可操作的物件组织画面"
   default_prompt: "使用 $inkworks-aesthetic 作为审美标准，按我要的格式完成设计。"

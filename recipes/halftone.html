@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>网点揭示 · 墨坊配方</title>
+<style>
+:root { color-scheme: light; font: 100%/1.6 system-ui,sans-serif; color: #202827; background: #f4f1e8; }
+* { box-sizing: border-box; }
+body { margin: auto; max-width: 60rem; padding: clamp(1rem,4vw,3rem); }
+h1 { margin: 0; line-height: 1.15; font-size: clamp(2rem,6vw,4rem); letter-spacing: -.04em; }
+p { max-width: 52ch; }
+.stage { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; min-height: 17rem; background: #e5e3d5; }
+button { font: inherit; color: inherit; background: #fffdf6; padding: .5rem 1rem; border: 2px solid; cursor: pointer; }
+:focus-visible { outline: 3px solid #1259c3; outline-offset: 3px; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 1rem 0; }
+label { cursor: pointer; }
+summary { cursor: pointer; }
+details { border-block-start: 1px solid; padding-block: .75rem; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; }
+dd { margin: 0; }
+@property --dot { syntax: "<length>"; inherits: false; initial-value: 1px; }
+.stage { --pitch: 12px; gap: 1rem; grid-template-columns: auto minmax(0,1fr); padding: 1.5rem; }
+.field { width: min(100%,18rem); aspect-ratio: 1.65; background: #9f3415; border-radius: 65% 4% 65% 4%;
+  mask-image: radial-gradient(circle, black var(--dot), transparent calc(var(--dot) + .5px));
+  mask-size: var(--pitch) var(--pitch); transition: --dot 280ms ease-out; }
+.swatch:is(:hover,:focus-visible,[aria-pressed="true"]) + .field { --dot: calc(var(--pitch) * .75); }
+.still .field { mask: none; transition: none; }
+</style>
+</head>
+<body>
+<h1>网点揭示</h1>
+<p>悬停、聚焦或按下按钮，网点扩张并接成完整的色面。正文和交互标签放在遮罩之外。</p>
+<div class="stage"><button class="swatch" aria-pressed="false">揭示色面</button><div class="field" aria-hidden="true"></div></div>
+<div class="controls"><label><input id="low" type="checkbox"> 低负载模式</label></div>
+<details><summary>调节与移植</summary><dl>
+<dt>参数</dt><dd>--pitch 从 4 到 16px；点半径从单元边长的约 10% 扩到 75%，覆盖方格四角。</dd>
+<dt>预算</dt><dd>仅给一个局部图形加 mask；过渡长度 280ms；大面积遮罩可切到静态。</dd>
+<dt>降级</dt><dd>低负载与减弱动态直接显示完整形体；不支持 mask 的浏览器也能看到完整形体。</dd>
+</dl></details>
+<script>
+const root = document.documentElement;
+const low = document.querySelector('#low');
+const preference = matchMedia('(prefers-reduced-motion: reduce)');
+function quiet() { return low.checked || preference.matches; }
+function syncMotion() {
+  root.classList.toggle('still', quiet());
+  document.dispatchEvent(new Event('motionmode'));
+}
+low.addEventListener('change', syncMotion);
+preference.addEventListener('change', syncMotion);
+syncMotion();
+const button = document.querySelector('.swatch');
+button.onclick = () => button.setAttribute('aria-pressed', String(button.getAttribute('aria-pressed') !== 'true'));
+</script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!doctype html>
+<!-- 只看原则，不要抄结构与坐标。 -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spool · Pocket loop recorder</title>
+    <style>
+      @import url("../../assets/fonts/fonts.css");
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font:
+          100%/1.45 "Noto Sans SC",
+          Arial,
+          sans-serif;
+      }
+      h1,
+      h2,
+      p,
+      figure {
+        margin: 0;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:focus-visible,
+      input:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid currentColor;
+        outline-offset: 5px;
+      }
+      .num {
+        font-family: "Barlow Condensed", "Noto Sans SC", "Arial Narrow", sans-serif;
+        font-variant-numeric: tabular-nums;
+      }
+      .meta {
+        font:
+          700 0.78rem/1.3 "Barlow Condensed",
+          "Noto Sans SC",
+          "Arial Narrow",
+          sans-serif;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .serif {
+        font-family: "Noto Serif SC", Georgia, serif;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      body {
+        background: #f0cc54;
+        color: #231d20;
+      }
+      main {
+        position: relative;
+        overflow: hidden;
+        min-height: 100svh;
+        padding: 6vmin 7vw;
+        display: grid;
+        align-content: space-between;
+        gap: 3vh;
+        background: repeating-linear-gradient(85deg, #482b3c08 0 1px, transparent 1px 7px);
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 2px solid;
+        padding-bottom: 0.8em;
+      }
+      header b {
+        font-size: 1.3rem;
+        letter-spacing: -0.06em;
+      }
+      article {
+        position: relative;
+        z-index: 2;
+        width: 53%;
+        pointer-events: none;
+      }
+      h1 {
+        font-size: clamp(4rem, 13.7vw, 14rem);
+        letter-spacing: -0.085em;
+        line-height: 0.86;
+        margin: 0.13em 0;
+      }
+      article p {
+        max-width: 31ch;
+        font-size: clamp(1rem, 1.5vw, 1.5rem);
+      }
+      button {
+        pointer-events: auto;
+        color: #fff6ca;
+        background: #322b32;
+        border: 0;
+        border-radius: 2em;
+        padding: 0.75em 1.2em;
+        margin-top: 1.2em;
+        font-weight: 700;
+      }
+      .reel {
+        position: absolute;
+        width: 64vw;
+        aspect-ratio: 1;
+        top: 50%;
+        right: -12vw;
+        transform: translateY(-50%);
+        border: 1.6vw solid #382735;
+        border-radius: 50%;
+        background: repeating-radial-gradient(
+          circle,
+          #332332 0 0.35vw,
+          #885647 0.38vw 0.51vw,
+          #432f3b 0.56vw 0.85vw
+        );
+        box-shadow: 0.9vw 1.4vw #b1793c;
+        display: grid;
+        place-items: center;
+        animation: thread 0.58s cubic-bezier(0.24, 0.77, 0.32, 1) both;
+      }
+      .hub {
+        width: 67%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: conic-gradient(
+          from 25deg,
+          #facd60 0 14%,
+          #482a37 14% 33%,
+          #facd60 33% 47%,
+          #482a37 47% 66%,
+          #facd60 66% 80%,
+          #482a37 80%
+        );
+        border: 1.5vw solid #482a37;
+        display: grid;
+        place-items: center;
+      }
+      .hub::after {
+        content: "";
+        width: 27%;
+        aspect-ratio: 1;
+        background: #452937;
+        border: 1vw solid #f1ca58;
+        border-radius: 50%;
+      }
+      .on .hub {
+        animation: wind 6s linear infinite;
+      }
+      footer {
+        font-size: 0.88rem;
+        font-weight: 700;
+        z-index: 2;
+      }
+      .strip {
+        display: inline-block;
+        width: 2.4em;
+        height: 0.6em;
+        border-block: 2px solid;
+        margin-right: 0.6em;
+      }
+      @keyframes wind {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes thread {
+        from {
+          transform: translate(12%, -50%) rotate(8deg);
+        }
+      }
+      @media (max-width: 650px) {
+        main {
+          min-height: 100svh;
+          padding: 1rem 6vw;
+          grid-template-rows: auto 1fr auto;
+        }
+        .reel {
+          width: 80vw;
+          right: -23vw;
+          top: 33%;
+        }
+        article {
+          width: 85%;
+          align-self: end;
+        }
+        h1 {
+          font-size: 22vw;
+        }
+        article p {
+          width: 20ch;
+        }
+        footer {
+          padding: 1rem 0;
+        }
+      }
+      h1 {
+        letter-spacing: -0.035em;
+        line-height: 0.91;
+      }
+      .hub {
+        background:
+          radial-gradient(ellipse at 50% 20%, #4a2d3a 0 10%, #b57e50 10.4% 11.4%, transparent 12%),
+          radial-gradient(ellipse at 80% 50%, #4a2d3a 0 10%, #b57e50 10.4% 11.4%, transparent 12%),
+          radial-gradient(ellipse at 50% 80%, #4a2d3a 0 10%, #b57e50 10.4% 11.4%, transparent 12%),
+          radial-gradient(ellipse at 20% 50%, #4a2d3a 0 10%, #b57e50 10.4% 11.4%, transparent 12%), #e7b250;
+      }
+      .hub::after {
+        border-color: #9c683c;
+        width: 17%;
+      }
+      article .loop-spec { font-weight: 700; margin-block: .85rem 0; }
+      .sequence { display: inline-flex; gap: .3em; }
+      .sequence b { border-bottom: 2px solid; padding: .25em .45em; }
+      .sequence .sounding { background: #38242f; color: #ffe39a; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header><b>◉ Spool</b><span class="meta">Pocket loop recorder</span></header>
+      <div class="reel" data-hero data-shape aria-hidden="true"><div class="hub"></div></div>
+      <article>
+        <h1 data-shape class="num">Pocket<br />loops.</h1>
+        <p>Capture a phrase. Close the loop. A pocket recorder for the moment you want to hear again.</p>
+        <button data-shape id="play" aria-pressed="false">Play demo loop</button>
+        <p class="loop-spec"><strong>96 BPM</strong> &nbsp; · &nbsp; Four notes</p>
+      </article>
+      <footer data-shape><span class="strip"></span><span class="sequence" aria-label="Four notes at 96 beats per minute"><b>A3</b><b>E4</b><b>C4</b><b>G4</b></span></footer>
+    </main>
+    <script>
+      const button = document.querySelector("#play");
+      const notes = Array.from(document.querySelectorAll(".sequence b"));
+      let context,
+        timer,
+        step = 0;
+      function pulse() {
+        const voice = context.createOscillator(),
+          volume = context.createGain();
+        const now = context.currentTime;
+        const current = step++ % 4;
+        voice.frequency.value = [220, 329.63, 261.63, 392][current];
+        notes.forEach((note, index) => note.classList.toggle("sounding", index === current));
+        volume.gain.setValueAtTime(0.1, now);
+        volume.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+        voice.connect(volume).connect(context.destination);
+        voice.start(now);
+        voice.stop(now + 0.2);
+      }
+      function stopLoop() {
+        clearInterval(timer);
+        timer = undefined;
+        step = 0;
+        notes.forEach(note => note.classList.remove("sounding"));
+        document.body.classList.remove("on");
+        button.setAttribute("aria-pressed", "false");
+        button.textContent = "Play demo loop";
+      }
+      button.addEventListener("click", async () => {
+        if (timer) {
+          stopLoop();
+          return;
+        }
+        button.disabled = true;
+        try {
+          context ||= new AudioContext();
+          await context.resume();
+          if (document.hidden) return;
+          pulse();
+          timer = setInterval(pulse, 625);
+          document.body.classList.add("on");
+          button.setAttribute("aria-pressed", "true");
+          button.textContent = "Stop demo loop";
+        } catch {
+          button.textContent = "Audio unavailable";
+        } finally {
+          button.disabled = false;
+        }
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopLoop();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+/* Reconstruct the original deck viewer's canvas around the archived fragments. */
+* { box-sizing: border-box }
+body, p, h1, h2, h3, figure { margin: 0 }
+body { overflow: hidden; font-family: "Noto Sans SC" }
+section { position: relative; width: 100vw; height: 100vh; overflow: hidden }
+section > aside { display: none }

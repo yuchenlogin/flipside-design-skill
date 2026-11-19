@@ -1,0 +1,12 @@
+{
+  "width": 1440, "height": 900,
+  "pages": [
+    {"id":"academic","file":"examples/academic/index.html","brief":"用一页学术汇报解释同一地点正午日照处 42°C、阴影处 31°C 的观测；让差值在读数字之前可见。"},
+    {"id":"landing","file":"examples/landing/index.html","brief":"给 Spool 口袋循环录音机做产品落地页。访客应能试听一段 96 BPM、四音符的循环。"},
+    {"id":"game","file":"examples/game/index.html","brief":"做一屏可玩的 Phase Lock。玩家通过改变相位将信号锁定，界面要直接反映偏差与成功。"},
+    {"id":"poster","file":"examples/poster/index.html","brief":"为 Low Tide 海岸聆听步行做海报。保留活动名称、11 月 28 日 07:40 与 North Jetty 集合点。"},
+    {"id":"dashboard","file":"examples/dashboard/index.html","brief":"让调度员读出水库过去七天的蓄水变化和容量占比；实际数值须可读取。"},
+    {"id":"event","file":"examples/event/index.html","brief":"给 Open Kiln 陶艺工作室的烧制开放日制作小站，允许访客选择场次并查看对应日程。"},
+    {"id":"poster-alternate","file":"examples/poster-alternate/index.html","brief":"复用 Low Tide 的完整海报 brief，另立一个世界；内容不变，改变材质、主角的形体和运动物理。"}
+  ]
+}

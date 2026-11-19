@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>盖章 · 墨坊配方</title>
+<style>
+:root { color-scheme: light; font: 100%/1.6 system-ui,sans-serif; color: #202827; background: #f4f1e8; }
+* { box-sizing: border-box; }
+body { margin: auto; max-width: 60rem; padding: clamp(1rem,4vw,3rem); }
+h1 { margin: 0; line-height: 1.15; font-size: clamp(2rem,6vw,4rem); letter-spacing: -.04em; }
+p { max-width: 52ch; }
+.stage { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; min-height: 17rem; background: #e5e3d5; }
+button { font: inherit; color: inherit; background: #fffdf6; padding: .5rem 1rem; border: 2px solid; cursor: pointer; }
+:focus-visible { outline: 3px solid #1259c3; outline-offset: 3px; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 1rem 0; }
+label { cursor: pointer; }
+summary { cursor: pointer; }
+details { border-block-start: 1px solid; padding-block: .75rem; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; }
+dd { margin: 0; }
+.stage { --press: 300; }
+.seal { width: 8rem; height: 8rem; border: .45rem double; border-radius: 50%; text-align: center; line-height: 7rem; font: bold 6rem/7rem system-ui; color: #963720; transform: rotate(-7deg);
+  mask-image: radial-gradient(ellipse at 25% 40%, transparent 0 1px, black 2px); mask-size: 13px 17px; }
+</style>
+</head>
+<body>
+<h1>盖章</h1>
+<p>按下按钮留下印迹。轮廓先接触纸面，残缺的着墨边缘在动作结束后保留。</p>
+<div class="stage"><div class="seal" hidden aria-hidden="true">✓</div></div>
+<div class="controls"><button id="press">盖印</button><output id="status" aria-live="polite">待盖印</output></div>
+<div class="controls"><label><input id="low" type="checkbox"> 低负载模式</label></div>
+<details><summary>调节与移植</summary><dl>
+<dt>参数</dt><dd>--press 从 180 到 400ms；起始旋转 3–12°；接触后缩到 .90–.98 倍再回到原尺度。</dd>
+<dt>预算</dt><dd>只动一个印迹层的 transform；不复制 DOM，重复触发从当前操作重新盖印。</dd>
+<dt>降级</dt><dd>低负载、减弱动态或没有 Web Animations 时直接保留最终印迹；文字状态独立播报。</dd>
+</dl></details>
+<script>
+const root = document.documentElement;
+const low = document.querySelector('#low');
+const preference = matchMedia('(prefers-reduced-motion: reduce)');
+function quiet() { return low.checked || preference.matches; }
+function syncMotion() {
+  root.classList.toggle('still', quiet());
+  document.dispatchEvent(new Event('motionmode'));
+}
+low.addEventListener('change', syncMotion);
+preference.addEventListener('change', syncMotion);
+syncMotion();
+const seal = document.querySelector('.seal');
+let impression;
+document.querySelector('#press').onclick = () => {
+  impression?.cancel();
+  seal.hidden = false;
+  document.querySelector('#status').value = '已盖印';
+  if (!quiet() && seal.animate) {
+    impression = seal.animate([
+      {transform:'rotate(2deg) scale(1.14)'},
+      {transform:'rotate(-7deg) scale(.93)', offset:.65},
+      {transform:'rotate(-7deg) scale(1)'}
+    ], {duration:Number(getComputedStyle(seal).getPropertyValue('--press')), easing:'ease-out'});
+  }
+};
+document.addEventListener('motionmode', () => impression?.cancel());
+</script>
+</body>
+</html>

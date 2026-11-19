@@ -1,81 +1,14 @@
-/* 墨坊 Inkworks — 起步样式
-   五墨 + 信号色、三种字声、常用物件。数值按 1920×1080 画布给出，网页里按比例缩小。
-   字体：Noto Sans SC (400/500/900)、Noto Serif SC (700/900)、Barlow Condensed (500/700)。 */
-
-:root{
-  --paper:#EFE8DA;      /* 纸：浅色底、卡片 */
-  --paper-hi:#F8F4EA;   /* 压在纸底上的纸片 */
-  --paper-lo:#D9CFBA;   /* 托盘、格架 */
-  --ink:#16161A;        /* 墨：文字、勾线、反白条 */
-  --field:#1E2A5E;      /* 深场：深色底、所有投影 */
-  --field-lo:#18224E;   /* 木板缝 */
-  --hot:#C4612F;        /* 主调：行动块、当前项、标题短线 */
-  --hot-text:#B4531F;   /* 主调用于小字时加深一档 */
-  --tint:#E9B8BF;       /* 淡调 */
-  --signal:#EFCB45;     /* 信号：数值、警示 */
-  --sys:'Noto Sans SC','Source Han Sans SC','Microsoft YaHei',Arial,sans-serif;
-  --tale:'Noto Serif SC','Source Han Serif SC',SimSun,Georgia,serif;
-  --code:'Barlow Condensed','DIN Condensed','Bahnschrift Condensed',Oswald,Arial,sans-serif;
-  --snap:cubic-bezier(.2,.9,.25,1.15);
-}
-
-/* ── 底：纸 / 靛蓝木板 / 近黑木板 ── */
-.paper{background:var(--paper);color:var(--ink)}
-.field{background:repeating-linear-gradient(90deg,#1E2A5E 0px,#1E2A5E 156px,#18224E 156px,#18224E 160px);color:var(--paper)}
-.night{background:repeating-linear-gradient(90deg,#15151B 0px,#15151B 156px,#0E0E13 156px,#0E0E13 160px);color:var(--paper)}
-
-/* ── 三种字声 ── */
-.title{font-family:var(--sys);font-weight:900;font-size:84px;line-height:1.1;letter-spacing:2px}
-.title-xl{font-family:var(--sys);font-weight:900;font-size:190px;line-height:1.1;letter-spacing:4px}
-.title-inv{display:inline-block;background:var(--paper);color:var(--ink);padding:0 28px} /* 半句反白 */
-.tale{font-family:var(--tale);font-weight:900;font-size:42px;letter-spacing:6px;line-height:1.25}
-.code{font-family:var(--code);font-weight:500;font-size:26px;letter-spacing:8px;text-transform:uppercase}
-.micro{font-family:var(--sys);font-weight:500;font-size:24px;letter-spacing:2px}
-.body{font-family:var(--sys);font-weight:400;font-size:28px;line-height:1.6}
-.figure{font-family:var(--code);font-weight:700;font-size:220px;line-height:1;color:var(--signal)}
-.unit{font-family:var(--sys);font-weight:900;font-size:28px;letter-spacing:4px}
-
-/* ── 标题三件套里的短线 ── */
-.rule{width:220px;height:6px;background:var(--hot)}
-
-/* ── 边框四角 ── */
-.key{font-family:var(--code);font-weight:700;font-size:24px;border:2px solid currentColor;padding:0 10px;letter-spacing:2px}
-.tab{font-size:24px;font-weight:500;padding:4px 14px;letter-spacing:3px}
-.tab-on{font-size:24px;font-weight:900;padding:4px 14px;letter-spacing:3px;background:var(--ink);color:var(--paper)}
-.field .tab-on,.night .tab-on{background:var(--paper);color:var(--ink)}
-.page{font-family:var(--code);font-weight:700;font-size:40px;letter-spacing:4px}
-.slab{display:flex;align-items:center;gap:24px;height:92px;padding:0 28px 0 36px;background:var(--hot);color:var(--paper);box-shadow:8px 8px 0 var(--ink)}
-.slab-verb{flex:1;font-family:var(--sys);font-weight:900;font-size:44px;letter-spacing:4px;white-space:nowrap}
-
-/* ── 物件 ── */
-.slip{background:var(--paper-hi);color:var(--ink);padding:32px 36px;box-shadow:8px 10px 0 var(--field)}      /* 纸片 */
-.field .slip{box-shadow:8px 10px 0 #0E1536}
-.night .slip{box-shadow:8px 10px 0 #000004}
-.tilt-l{transform:rotate(-1.5deg)} .tilt-r{transform:rotate(1.5deg)} .tilt-r2{transform:rotate(2.5deg)}
-.sort{height:64px;padding:0 20px;background:var(--ink);color:var(--paper);font-family:var(--code);font-weight:700;font-size:36px;line-height:64px;text-align:center;letter-spacing:2px;box-shadow:4px 5px 0 var(--field)} /* 铅字块 */
-.sort-hot{background:var(--hot);box-shadow:4px 5px 0 var(--ink)}                                   /* 当前项，一屏一处 */
-.sort-wait{background:none;color:currentColor;border:3px dashed currentColor;box-shadow:none;line-height:58px;box-sizing:border-box} /* 还没发生 / 已清空 */
-.tray{background:var(--paper-lo);border:4px solid var(--ink);box-shadow:8px 10px 0 var(--field)}  /* 托盘、排字盘 */
-.plate{display:flex;align-items:center;gap:16px;height:52px;padding:0 18px;background:var(--paper);color:var(--ink);box-shadow:5px 6px 0 #0E1536} /* 一层版 */
-.row{display:flex;align-items:center;height:124px;padding:0 32px;background:var(--paper-hi);box-shadow:6px 8px 0 var(--field)} /* 打样条 */
-.row-on{background:var(--ink);color:var(--paper)}                                                  /* 整条反白 = 选中 */
-.stamp{display:inline-block;border:5px solid var(--hot-text);color:var(--hot-text);font-family:var(--tale);font-weight:900;font-size:34px;padding:4px 16px;letter-spacing:8px;transform:rotate(-7deg)} /* 章 */
-.clip{width:26px;height:76px;box-sizing:border-box;background:var(--signal);border:3px solid var(--ink)} /* 夹子 */
-.hair{height:2px;background:currentColor}                                                           /* 发丝线 */
-.bar{height:12px;background:var(--ink)}                                                             /* 线的长度就是数值 */
-
-/* ── 动：落下、滑入、盖章。纸片先落，章最后盖 ── */
-@keyframes drop{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slide{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
-@keyframes press{from{opacity:0;transform:scale(1.7)}to{opacity:1;transform:scale(1)}}
-.drop{animation:drop .42s cubic-bezier(.2,.9,.25,1) both;animation-delay:calc(var(--i,0) * 120ms)}
-.slide-in{animation:slide .4s cubic-bezier(.2,.9,.25,1) both;animation-delay:.3s}
-.press{animation:press .34s ease-out both;animation-delay:.72s}
-/* 旋转写在内层，动画写在外层包裹上，两者不要放在同一个元素 */
-@media (prefers-reduced-motion:reduce){.drop,.slide-in,.press{animation:none}}
-
-/* ── 手的线：直接用 SVG path，圆头、4px 左右、主调色 ──
-   红笔圈： <path d="M12 58C8 26 44 8 88 10C132 12 162 28 160 56C158 84 124 100 82 98C42 96 14 84 12 60C11 48 18 36 30 28"
-                 fill="none" stroke="#C4612F" stroke-width="4" stroke-linecap="round"/>
-   一笔划掉：<path d="M6 62C120 40 240 58 330 40C420 24 520 44 592 26" fill="none" stroke="#C4612F" stroke-width="7" stroke-linecap="round"/>
-   套准十字：<circle cx="20" cy="20" r="11" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 0V40M0 20H40" stroke="currentColor" stroke-width="2.5"/> */
+/* 在项目的 world.css 中设置六个颜色角色 --paper, --ink, --field, --hot,
+   --tint, --signal，以及字体 --system-face、--story-face、--index-face。
+   类可单独取用；坐标、字号、光源方向由当前世界定义。 */
+.iw-surface { background: var(--paper); color: var(--ink); }
+.iw-stage { position: relative; isolation: isolate; }
+.iw-crop { overflow: clip; }
+.iw-system { font-family: var(--system-face, sans-serif); font-weight: 900; }
+.iw-story { font-family: var(--story-face, serif); letter-spacing: .12em; }
+.iw-index { font-family: var(--index-face, monospace); font-variant-numeric: tabular-nums; }
+.iw-raised { box-shadow: var(--shadow-x, .18em) var(--shadow-y, .24em) 0 var(--field); }
+.iw-tilted { rotate: var(--tilt, -1deg); }
+.iw-invert { color: var(--paper); background-color: var(--ink); }
+.iw-stamp { display: inline-block; border: .08em solid currentColor; padding: .08em .3em; }
+.iw-pending { border: thin dashed currentColor; }

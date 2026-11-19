@@ -1,0 +1,249 @@
+#!/usr/bin/env node
+import { chromium } from 'playwright-core'
+import { createServer } from 'node:http'
+import { mkdir, readFile, realpath, rmdir, writeFile } from 'node:fs/promises'
+import { extname, join, resolve, relative, dirname, isAbsolute } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const repo = fileURLToPath(new URL('../', import.meta.url))
+const manifest = resolve(process.argv[2] || join(repo, 'evals/suite.json'))
+const out = resolve(process.argv[3] || 'inkworks-render')
+const suite = JSON.parse(await readFile(manifest, 'utf8'))
+const root = await realpath(resolve(dirname(manifest), suite.root ?? '..'))
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.woff2': 'font/woff2', '.png': 'image/png', '.jpg': 'image/jpeg' }
+const server = createServer(async (req, res) => {
+  try {
+    const path = await realpath(resolve(root, '.' + decodeURIComponent(new URL(req.url, 'http://localhost').pathname)))
+    const local = relative(root, path)
+    if (local.startsWith('..') || isAbsolute(local)) throw Error('outside root')
+    const data = await readFile(path)
+    res.writeHead(200, { 'Content-Type': types[extname(path)] || 'application/octet-stream' }).end(data)
+  } catch { res.writeHead(404).end() }
+})
+await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
+const origin = 'http://127.0.0.1:' + server.address().port
+const sizes = new Set()
+const times = [0, 150, 300, 600]
+const pages = []
+const validIds = new Set()
+
+// Count overlap of the layout at three different area bands to retain size as well as position.
+function layoutGrid(boxes) {
+  const grid = Array(12 * 8 * 3).fill(0)
+  for (const [x, y, width, height] of boxes) {
+    const band = width * height < 0.04 ? 0 : width * height < 0.18 ? 1 : 2
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 12; c++) {
+      const w = Math.max(0, Math.min(x + width, (c + 1) / 12) - Math.max(x, c / 12))
+      const h = Math.max(0, Math.min(y + height, (r + 1) / 8) - Math.max(y, r / 8))
+      grid[band * 96 + r * 12 + c] += w * h
+    }
+  }
+  return grid
+}
+function similarity(a, b) {
+  let common = 0, total = 0
+  a.forEach((v, i) => { common += Math.min(v, b[i]); total += Math.max(v, b[i]) })
+  return total ? common / total : null
+}
+// Playwright drives JS timers. Freeze Chromium's separate animation clock and
+// register CSS/WAAPI effects when the page creates them, between sampled frames.
+function installTimeline() {
+  const tracked = new WeakMap()
+  function register(animation, now) {
+    if (!tracked.has(animation)) tracked.set(animation, {
+      at: now, position: Number(animation.currentTime ?? 0), rate: animation.playbackRate,
+      paused: animation.playState === 'paused'
+    })
+  }
+  function update() {
+    const now = performance.now()
+    const active = document.getAnimations()
+    for (const animation of active) {
+      register(animation, now)
+      const state = tracked.get(animation)
+      // If the author explicitly sought the effect, respect that local position.
+      const actual = Number(animation.currentTime ?? 0)
+      if (Math.abs(actual - state.position) > 0.1) state.position = actual
+      if (!state.paused && now > state.at) {
+        state.position += (now - state.at) * state.rate
+        animation.currentTime = state.position
+      }
+      state.at = now
+      state.rate = animation.playbackRate
+      state.paused = animation.playState === 'paused'
+    }
+    return active.map(a => a.animationName || a.id || 'WAAPI')
+  }
+  const animate = Element.prototype.animate
+  Element.prototype.animate = function (...args) {
+    const animation = animate.apply(this, args)
+    register(animation, performance.now())
+    return animation
+  }
+  new MutationObserver(update).observe(document, {subtree: true, childList: true, attributes: true})
+  window.__inkworksSample = update
+}
+async function triggerInput(page, trigger) {
+  if (!trigger) return
+  if (typeof trigger.click !== 'string' || Object.keys(trigger).length !== 1)
+    throw Error('trigger must contain one click selector')
+  const target = page.locator(trigger.click)
+  await target.evaluate(el => {
+    el.scrollIntoView({block: 'center', inline: 'center', behavior: 'instant'})
+    const b = el.getBoundingClientRect()
+    if (!el.contains(document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2)))
+      throw Error('click target is hidden or covered')
+  })
+  // Stability checks would await rAF while the JS clock is paused. Dispatch real mouse input.
+  await target.click({force: true})
+}
+
+async function renderPage(browser, config) {
+  const { id, file } = config
+  if (!/^[a-zA-Z0-9_-]+$/.test(id) || validIds.has(id)) throw Error('invalid or duplicate page id: ' + id)
+  validIds.add(id)
+  const viewport = {width: config.width || suite.width, height: config.height || suite.height}
+  sizes.add(viewport.width + '×' + viewport.height)
+  const page = await browser.newPage({viewport, deviceScaleFactor: 1, serviceWorkers: 'block'})
+  const failures = new Set()
+  page.on('pageerror', error => failures.add(error.message))
+  page.on('response', res => { if (res.status() >= 400) failures.add(res.status() + ' ' + res.url()) })
+  await page.route('**/*', async route => {
+    const url = new URL(route.request().url())
+    if (url.origin !== origin && !['data:', 'blob:'].includes(url.protocol)) {
+      failures.add('external resource: ' + url.href)
+      await route.abort()
+    } else await route.continue()
+  })
+  try {
+    await page.clock.install({time: new Date('2024-01-01T00:00:00Z')})
+    await page.clock.pauseAt(new Date('2024-01-01T00:00:01Z'))
+    const devtools = await page.context().newCDPSession(page)
+    await devtools.send('Animation.enable')
+    await devtools.send('Animation.setPlaybackRate', {playbackRate: 0})
+    await page.addInitScript(installTimeline)
+    await page.goto(new URL(file, origin).href, {waitUntil: 'load'})
+    for (const css of suite.stylesheets ?? []) await page.addStyleTag({url: new URL(css, origin).href})
+    await page.evaluate(async () => { await document.fonts.ready })
+    if (failures.size) throw Error([...failures].join('\n'))
+    const names = new Set()
+    await triggerInput(page, config.trigger)
+    async function sample() {
+      const observed = await page.evaluate(() => window.__inkworksSample())
+      observed.forEach(name => names.add(name))
+    }
+    const dir = join(out, id)
+    await mkdir(dir, {recursive: true})
+    let previous = 0
+    const settle = config.settle ?? 1600
+    if (settle <= 600) throw Error('settle must exceed the 600ms sample')
+    const film = process.env.INKWORKS_FILM === '1'
+    const samples = film ? [...new Set([...times, ...Array.from({length: Math.ceil(settle / 50)}, (_,i) => i*50), settle])].sort((a,b)=>a-b) : [...times, settle]
+    if (film) await mkdir(join(dir, 'film'), {recursive: true})
+    for (const t of samples) {
+      if (t < previous) throw Error('settle must be >= 600ms')
+      await page.clock.runFor(t - previous)
+      await sample()
+      if (times.includes(t) || t === settle) {
+        const name = t === settle ? 'final' : 't' + t
+        await page.screenshot({path: join(dir, name + '.jpg'), quality: 88})
+      }
+      if (film && t % 50 === 0) await page.screenshot({path: join(dir, 'film', String(t/50).padStart(4,'0')+'.jpg'), quality:88})
+      previous = t
+    }
+    const geometry = await page.evaluate(() => {
+      const explicit = [...document.querySelectorAll('[data-shape]')]
+      const candidates = explicit.length ? explicit : [...document.querySelectorAll('main > *, section > *, h1, svg, figure')]
+      const norm = el => {
+        const r = el.getBoundingClientRect()
+        return [r.x / innerWidth, r.y / innerHeight, r.width / innerWidth, r.height / innerHeight].map(n => Number(n.toFixed(4)))
+      }
+      return {source: explicit.length ? 'marked' : 'inferred', boxes: candidates.map(norm).filter(r => r[2] > 0 && r[3] > 0),
+        hero: [...document.querySelectorAll('[data-hero]')].map(norm)}
+    })
+    // Chromium reports the actual platform face that painted each text run, including fallbacks.
+    await devtools.send('DOM.enable')
+    await devtools.send('CSS.enable')
+    const {root: dom} = await devtools.send('DOM.getDocument', {depth: -1})
+    const nodes = []
+    function visit(node) {
+      if (node.nodeName === 'STYLE' || node.nodeName === 'SCRIPT' || node.nodeName === 'HEAD') return
+      if (node.children?.some(n => n.nodeType === 3 && n.nodeValue.trim())) nodes.push(node.nodeId)
+      node.children?.forEach(visit)
+    }
+    visit(dom)
+    const fonts = new Map()
+    for (const nodeId of nodes) {
+      const {fonts: used} = await devtools.send('CSS.getPlatformFontsForNode', {nodeId})
+      for (const f of used) if (f.glyphCount) {
+        fonts.set(f.postScriptName, f.isCustomFont)
+        if (!f.isCustomFont) console.error('Fallback:', f.postScriptName, (await devtools.send('DOM.getOuterHTML', {nodeId})).outerHTML.slice(0, 220))
+      }
+    }
+    const fontFailures = [...fonts].filter(([, local]) => !local).map(([name]) => name)
+    if (!fonts.size) fontFailures.push('no painted text with a local font')
+    await page.addStyleTag({content: '* { -webkit-text-fill-color:transparent!important; text-shadow:none!important } svg text{visibility:hidden!important}'})
+    await page.screenshot({path: join(dir, 'without-text.jpg'), quality: 85})
+    await page.emulateMedia({reducedMotion: 'reduce'})
+    await page.reload({waitUntil: 'load'})
+    for (const css of suite.stylesheets ?? []) await page.addStyleTag({url:new URL(css,origin).href})
+    await page.evaluate(async () => { await document.fonts.ready })
+    await triggerInput(page, config.trigger)
+    await page.clock.runFor(settle)
+    await sample()
+    await page.screenshot({path:join(dir,'reduced.jpg'),quality:85})
+    if (failures.size) throw Error([...failures].join('\n'))
+    return {id, viewport, fonts: [...fonts.keys()], fontFailures, animations:[...names], ...geometry}
+  } finally { await page.close() }
+}
+
+async function sheet(browser, columns, records, path) {
+  const page = await browser.newPage({viewport: {width: columns * 320, height: 240}})
+  try {
+    const cells = await Promise.all(records.map(async ([id, name, label]) => {
+      const jpg = await readFile(join(out, id, name + '.jpg'))
+      return '<figure><img src="data:image/jpeg;base64,' + jpg.toString('base64') + '"><figcaption>' + label + '</figcaption></figure>'
+    }))
+    await page.setContent('<body style="margin:0;background:#191919;color:white;font:15px system-ui"><main style="display:grid;grid-template-columns:repeat(' + columns + ',1fr);gap:3px"><style>figure{margin:0;background:#222}img{width:100%;display:block}figcaption{padding:5px 8px}</style>' + cells.join('') + '</main></body>')
+    await page.screenshot({path, fullPage: true, quality: 90})
+  } finally { await page.close() }
+}
+let browser
+const lock = out + '.lock'
+let ownsLock = false
+try {
+  await mkdir(dirname(out), {recursive: true})
+  try {
+    await mkdir(lock)
+    ownsLock = true
+  } catch (error) {
+    if (error.code === 'EEXIST') throw Error('Output is locked by another render: ' + lock)
+    throw error
+  }
+  const channel = process.env.INKWORKS_BROWSER || 'chrome'
+  browser = await chromium.launch(channel === 'bundled' ? {} : {channel})
+  await mkdir(out, {recursive: true})
+  for (const config of suite.pages) {
+    console.log(config.id)
+    pages.push(await renderPage(browser, config))
+  }
+  const pairs = []
+  for (let i = 0; i < pages.length; i++) for (let j = i + 1; j < pages.length; j++) {
+    const score = similarity(layoutGrid(pages[i].boxes), layoutGrid(pages[j].boxes))
+    if (score !== null) pairs.push({a: pages[i].id, b: pages[j].id, score: Number(score.toFixed(3))})
+  }
+  pairs.sort((a,b) => b.score - a.score)
+  const threshold = suite.similarityThreshold ?? 0.72
+  const warnings = pairs.filter(p => p.score >= threshold)
+  await writeFile(join(out, 'metrics.json'), JSON.stringify({browser: browser.version(), pages, threshold, pairs, warnings}, null, 2) + '\n')
+  await sheet(browser, 3, pages.map(p => [p.id, 'final', p.id]), join(out, 'contact-sheet.jpg'))
+  await sheet(browser, 4, pages.flatMap(p => times.map(t => [p.id, 't'+t, p.id + ' · ' + t + ' ms'])), join(out, 'frames.jpg'))
+  await sheet(browser, 3, pages.map(p => [p.id, 'without-text', p.id]), join(out, 'without-text.jpg'))
+  console.log([...sizes].join(', '), 'layout warnings:', JSON.stringify(warnings))
+  const bad = pages.filter(p => p.fontFailures.length)
+  if (bad.length) throw Error('Local font check failed: ' + bad.map(p=>p.id+' ('+p.fontFailures.join(', ')+')').join('; '))
+} finally {
+  await browser?.close()
+  server.close()
+  if (ownsLock) await rmdir(lock)
+}

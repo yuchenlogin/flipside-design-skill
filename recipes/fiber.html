@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>纸纤维 · 墨坊配方</title>
+<style>
+:root { color-scheme: light; font: 100%/1.6 system-ui,sans-serif; color: #202827; background: #f4f1e8; }
+* { box-sizing: border-box; }
+body { margin: auto; max-width: 60rem; padding: clamp(1rem,4vw,3rem); }
+h1 { margin: 0; line-height: 1.15; font-size: clamp(2rem,6vw,4rem); letter-spacing: -.04em; }
+p { max-width: 52ch; }
+.stage { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; min-height: 17rem; background: #e5e3d5; }
+button { font: inherit; color: inherit; background: #fffdf6; padding: .5rem 1rem; border: 2px solid; cursor: pointer; }
+:focus-visible { outline: 3px solid #1259c3; outline-offset: 3px; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 1rem 0; }
+label { cursor: pointer; }
+summary { cursor: pointer; }
+details { border-block-start: 1px solid; padding-block: .75rem; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; }
+dd { margin: 0; }
+.stage { background: #343d39; }
+.paper { --grain: .11; --drift: 16s; position: relative; overflow: hidden; width: min(70%,20rem); height: 10rem; background: #f2e6cc; transform: rotate(-4deg); box-shadow: .45rem .45rem #202827; }
+.paper::before { content: ""; position: absolute; inset: -4px; opacity: var(--grain);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55 .16' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath d='M0 0h96v96H0z' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply; animation: drift var(--drift) ease-in-out infinite alternate; animation-play-state: paused; }
+.running .paper::before { animation-play-state: running; }
+.still .paper::before { animation: none; }
+@keyframes drift { to { transform: translate(3px,-2px); } }
+</style>
+</head>
+<body>
+<h1>纸纤维</h1>
+<p>让低对比颗粒在一小块纸面上缓慢漂移。主信息放在独立的前景层。</p>
+<div class="stage"><div class="paper" aria-label="有纤维的纸样" role="img"></div></div>
+<div class="controls"><label><input id="low" type="checkbox"> 低负载模式</label></div>
+<details><summary>调节与移植</summary><dl>
+<dt>参数</dt><dd>--grain 控制透明度，建议 .03–.12；--drift 从 12 到 30s；位移取 1–4px。</dd>
+<dt>预算</dt><dd>一次栅格化 96 × 96 的平铺纹理，运动仅改 transform；暂停离屏和后台动画。</dd>
+<dt>降级</dt><dd>低负载与减弱动态冻结纹理；SVG 图片不可用时使用底色。</dd>
+</dl></details>
+<script>
+const root = document.documentElement;
+const low = document.querySelector('#low');
+const preference = matchMedia('(prefers-reduced-motion: reduce)');
+function quiet() { return low.checked || preference.matches; }
+function syncMotion() {
+  root.classList.toggle('still', quiet());
+  document.dispatchEvent(new Event('motionmode'));
+}
+low.addEventListener('change', syncMotion);
+preference.addEventListener('change', syncMotion);
+syncMotion();
+let visible = false;
+function update() { root.classList.toggle('running', visible && !document.hidden && !quiet()); }
+new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; update(); }).observe(document.querySelector('.paper'));
+document.addEventListener('visibilitychange', update);
+document.addEventListener('motionmode', update);
+</script>
+</body>
+</html>

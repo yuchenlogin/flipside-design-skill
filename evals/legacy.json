@@ -1,0 +1,42 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "stylesheets": [
+    "evals/legacy.css",
+    "examples/academic-deck/deck.css"
+  ],
+  "pages": [
+    {
+      "id": "cover",
+      "file": "examples/academic-deck/slides/cover.html"
+    },
+    {
+      "id": "problem",
+      "file": "examples/academic-deck/slides/problem.html"
+    },
+    {
+      "id": "idea",
+      "file": "examples/academic-deck/slides/idea.html"
+    },
+    {
+      "id": "arch",
+      "file": "examples/academic-deck/slides/arch.html"
+    },
+    {
+      "id": "cost",
+      "file": "examples/academic-deck/slides/cost.html"
+    },
+    {
+      "id": "results",
+      "file": "examples/academic-deck/slides/results.html"
+    },
+    {
+      "id": "notes",
+      "file": "examples/academic-deck/slides/notes.html"
+    },
+    {
+      "id": "close",
+      "file": "examples/academic-deck/slides/close.html"
+    }
+  ]
+}

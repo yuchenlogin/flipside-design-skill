@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>套色错位 · 墨坊配方</title>
+<style>
+:root { color-scheme: light; font: 100%/1.6 system-ui,sans-serif; color: #202827; background: #f4f1e8; }
+* { box-sizing: border-box; }
+body { margin: auto; max-width: 60rem; padding: clamp(1rem,4vw,3rem); }
+h1 { margin: 0; line-height: 1.15; font-size: clamp(2rem,6vw,4rem); letter-spacing: -.04em; }
+p { max-width: 52ch; }
+.stage { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; min-height: 17rem; background: #e5e3d5; }
+button { font: inherit; color: inherit; background: #fffdf6; padding: .5rem 1rem; border: 2px solid; cursor: pointer; }
+:focus-visible { outline: 3px solid #1259c3; outline-offset: 3px; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 1rem 0; }
+label { cursor: pointer; }
+summary { cursor: pointer; }
+details { border-block-start: 1px solid; padding-block: .75rem; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; }
+dd { margin: 0; }
+:root { --offset: 5px; --register: 200ms; }
+.print { position: relative; width: 10rem; aspect-ratio: 1; }
+.print i { position: absolute; inset: 0; border: 1.85rem solid #19a89c; border-radius: 50%; mix-blend-mode: multiply; transform: translateX(calc(-1 * var(--offset))); transition: transform var(--register) ease-out; }
+.print i + i { border-color: #f46543; transform: translateX(var(--offset)); }
+.still .print i { transition: none; }
+</style>
+</head>
+<body>
+<h1>套色错位</h1>
+<p>移动两层色版，观察交叠处如何印出第三种颜色。适合强调套印边缘和焦点状态。</p>
+<div class="stage" aria-hidden="true"><div class="print"><i></i><i></i></div></div>
+<div class="controls"><label>版间偏移 <input id="offset" type="range" min="0" max="12" value="5"> <output for="offset">5 px</output></label></div>
+<div class="controls"><label><input id="low" type="checkbox"> 低负载模式</label></div>
+<details><summary>调节与移植</summary><dl>
+<dt>参数</dt><dd>--offset 从 0 到 12px；--register 从 100 到 320ms。移植时让两层共用轮廓。</dd>
+<dt>预算</dt><dd>一个隔离的混合组，两层静态轮廓，仅过渡 transform。</dd>
+<dt>降级</dt><dd>勾选低负载或开启系统减弱动态后直接显示最终套合位置；没有混合支持时两色仍可独立辨认。</dd>
+</dl></details>
+<script>
+const root = document.documentElement;
+const low = document.querySelector('#low');
+const preference = matchMedia('(prefers-reduced-motion: reduce)');
+function quiet() { return low.checked || preference.matches; }
+function syncMotion() {
+  root.classList.toggle('still', quiet());
+  document.dispatchEvent(new Event('motionmode'));
+}
+low.addEventListener('change', syncMotion);
+preference.addEventListener('change', syncMotion);
+syncMotion();
+const offset = document.querySelector('#offset');
+offset.addEventListener('input', () => {
+  root.style.setProperty('--offset', offset.value + 'px');
+  document.querySelector('output').value = offset.value + ' px';
+});
+</script>
+</body>
+</html>

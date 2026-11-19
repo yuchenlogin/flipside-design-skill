@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+import {randomInt} from 'node:crypto'
+import {copyFile, mkdir, readFile, writeFile} from 'node:fs/promises'
+import {join, resolve} from 'node:path'
+
+if (process.argv.length !== 5) throw Error('usage: tools/blind run-1 run-2 new-output-directory')
+const [first, second, out] = process.argv.slice(2).map(p => resolve(p))
+const [a,b] = await Promise.all([first,second].map(async dir => JSON.parse(await readFile(join(dir,'metrics.json')))))
+const ids = a.pages.map(p=>p.id)
+if (ids.length !== b.pages.length || ids.some(id=>!b.pages.some(p=>p.id===id))) throw Error('The runs must have the same page IDs.')
+for (const p of a.pages) {
+  const other = b.pages.find(x=>x.id===p.id)
+  if (p.viewport.width !== other.viewport.width || p.viewport.height !== other.viewport.height) throw Error('Canvas size differs: '+p.id)
+}
+await mkdir(out) // Preserve previously distributed ballots.
+const key = {}
+for (const id of ids) {
+  if (!/^[a-zA-Z0-9_-]+$/.test(id)) throw Error('Invalid page ID')
+  const inputs = randomInt(2) ? [first, second] : [second, first]
+  key[id] = {}
+  for (const [i,label] of ['A','B'].entries()) {
+    const target = join(out,'ballot',id,label)
+    await mkdir(target,{recursive:true})
+    for (const shot of ['final','without-text','t0','t150','t300','t600'])
+      await copyFile(join(inputs[i],id,shot+'.jpg'),join(target,shot+'.jpg'))
+    key[id][label]=inputs[i]
+  }
+}
+await writeFile(join(out,'key.json'),JSON.stringify(key,null,2)+'\n')
+await writeFile(join(out,'ballot','scores.csv'),'page,candidate,hero,difference,scale,overlap,material,motion,copies,readability,reason\n'+ids.flatMap(id=>['A','B'].map(choice=>id+','+choice+',,,,,,,,,')).join('\n')+'\n')

@@ -1,0 +1,8 @@
+{
+  "width": 1440, "height": 900,
+  "pages": [
+    {"id":"start","file":"evals/series/start.html"},
+    {"id":"read","file":"evals/series/read.html"},
+    {"id":"close","file":"evals/series/close.html"}
+  ]
+}

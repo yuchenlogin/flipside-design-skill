@@ -1,0 +1,267 @@
+<!doctype html>
+<!-- 只看原则，不要抄结构与坐标。 -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Phase Lock · Signal game</title>
+    <style>
+      @import url("../../assets/fonts/fonts.css");
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font:
+          100%/1.45 "Noto Sans SC",
+          Arial,
+          sans-serif;
+      }
+      h1,
+      h2,
+      p,
+      figure {
+        margin: 0;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:focus-visible,
+      input:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid currentColor;
+        outline-offset: 5px;
+      }
+      .num {
+        font-family: "Barlow Condensed", "Noto Sans SC", "Arial Narrow", sans-serif;
+        font-variant-numeric: tabular-nums;
+      }
+      .meta {
+        font:
+          700 0.78rem/1.3 "Barlow Condensed",
+          "Noto Sans SC",
+          "Arial Narrow",
+          sans-serif;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .serif {
+        font-family: "Noto Serif SC", Georgia, serif;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      body {
+        background: #18202a;
+        color: #e2ead1;
+      }
+      main {
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 2vmin;
+        background-image: radial-gradient(#adc1aa28 1px, transparent 1px);
+        background-size: 16px 16px;
+      }
+      .console {
+        display: grid;
+        justify-items: center;
+        gap: 0.6rem;
+        text-align: center;
+        width: min(94vw, 590px);
+      }
+      h1 {
+        font-size: clamp(2.3rem, 5vw, 5rem);
+        line-height: 1;
+        letter-spacing: 0.035em;
+        text-transform: uppercase;
+      }
+      .dial {
+        width: min(48vh, 58vw);
+        aspect-ratio: 1;
+        position: relative;
+        border: 2px solid #bad5b4;
+        border-radius: 50%;
+        background: repeating-conic-gradient(from -0.5deg, #afc3a2 0 1deg, transparent 1deg 6deg);
+        box-shadow: 0 0.45rem #0e151e;
+        animation: tune 0.45s cubic-bezier(0.16, 0.7, 0.25, 1) both;
+        margin: 0.5em 0;
+      }
+      .dial::before {
+        content: "";
+        position: absolute;
+        inset: 5%;
+        border-radius: 50%;
+        background: repeating-radial-gradient(circle, #28343b 0 13%, #475957 13% 13.7%);
+        border: 2px solid #83968a;
+      }
+      .mark,
+      .needle {
+        position: absolute;
+        inset: 4%;
+        transform: rotate(var(--angle));
+        pointer-events: none;
+      }
+      .mark::after,
+      .needle::after {
+        content: "";
+        display: block;
+        margin: auto;
+        background: #f1b587;
+        width: 7%;
+        height: 15%;
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+      }
+      .needle::after {
+        background: #d2ed85;
+        width: 3%;
+        height: 52%;
+        clip-path: polygon(50% 1%, 100% 95%, 50% 100%, 0 95%);
+      }
+      .dial::after {
+        content: "";
+        position: absolute;
+        inset: 45%;
+        border: 2px solid #c9dd8e;
+        background: #25333b;
+        border-radius: 50%;
+      }
+      .output {
+        font-size: 1rem;
+        color: #e7efd9;
+        min-height: 1.5em;
+      }
+      fieldset {
+        border: 0;
+        padding: 0;
+        display: flex;
+        gap: 0.5rem;
+      }
+      button {
+        color: #e2ead1;
+        background: #263540;
+        border: 1px solid #a4b2ab;
+        padding: 0.55rem 0.9rem;
+      }
+      button.check {
+        background: #d4eaa0;
+        color: #1e292a;
+        font-weight: 700;
+      }
+      button:active {
+        transform: translateY(2px);
+      }
+      .success {
+        animation: click-in 0.3s ease-out;
+      }
+      @keyframes tune {
+        from {
+          transform: rotate(-8deg) scale(0.94);
+        }
+      }
+      @keyframes click-in {
+        from {
+          transform: scale(0.94);
+        }
+      }
+      @media (max-height: 620px) {
+        .dial {
+          width: min(37vh, 55vw);
+        }
+        main {
+          padding: 1em;
+        }
+      }
+      button:disabled {
+        opacity: 0.55;
+        cursor: default;
+      }
+      .gap-ring { position:absolute; inset: 9%; border-radius:50%;
+        background: conic-gradient(from var(--start, 0deg), #eca769 0 var(--gap, 60deg), transparent var(--gap, 60deg));
+        mask: radial-gradient(closest-side, transparent 88%, black 89%); }
+      .dial.acquired .gap-ring { background: #e0eea5; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="console">
+        <p class="meta">Signal acquisition &nbsp; / &nbsp; <span id="round">Stage 01 / 04</span></p>
+        <h1 data-shape class="num">Phase Lock</h1>
+        <div class="dial" data-hero data-shape role="img" aria-label="Phase dial">
+          <span class="gap-ring" aria-hidden="true"></span><i class="mark" style="--angle: 60deg"></i><i class="needle" style="--angle: 0deg"></i>
+        </div>
+        <p id="reading" class="num">Gap +60° &nbsp; / &nbsp; Target 60°</p>
+        <p data-shape id="status" class="output" role="status">Rotate the needle to the amber marker.</p>
+        <fieldset data-shape aria-label="Phase controls">
+          <button id="left" aria-label="Rotate left 15 degrees">← 15°</button
+          ><button id="check" class="check">Lock signal</button
+          ><button id="right" aria-label="Rotate right 15 degrees">15° →</button>
+        </fieldset>
+      </section>
+    </main>
+    <script>
+      let angle = 0,
+        round = 0,
+        locked = false;
+      const targets = [60, 285, 120, 225];
+      const el = (id) => document.getElementById(id);
+      function draw() {
+        document.querySelector(".needle").style.setProperty("--angle", angle + "deg");
+        document.querySelector(".mark").style.setProperty("--angle", targets[round] + "deg");
+        const gap = ((targets[round] - angle + 540) % 360) - 180;
+        const arc = document.querySelector(".gap-ring");
+        arc.style.setProperty("--gap", Math.abs(gap) + "deg");
+        arc.style.setProperty("--start", (gap < 0 ? targets[round] : angle) + "deg");
+        el("reading").textContent = "Gap " + (gap > 0 ? "+" : "") + gap + "°  /  Target " + targets[round] + "°";
+        el("round").textContent = "Stage 0" + (round + 1) + " / 04";
+      }
+      function turn(by) {
+        if (!locked) {
+          angle = (angle + by + 360) % 360;
+          draw();
+        }
+      }
+      el("left").onclick = () => turn(-15);
+      el("right").onclick = () => turn(15);
+      el("check").onclick = () => {
+        if (locked) {
+          round = (round + 1) % targets.length;
+          locked = false;
+          document.querySelector(".dial").classList.remove("acquired");
+          angle = 0;
+          el("check").textContent = "Lock signal";
+          el("status").textContent = "Rotate the needle to the amber marker.";
+          draw();
+        } else if (angle === targets[round]) {
+          locked = true;
+          document.querySelector(".dial").classList.add("acquired");
+          el("status").textContent = "Signal acquired.";
+          el("status").classList.remove("success");
+          void el("status").offsetWidth;
+          el("status").classList.add("success");
+          el("check").textContent = round === targets.length - 1 ? "Play again" : "Next signal";
+        } else {
+          el("status").textContent = "Signal open. Adjust the needle and retry.";
+        }
+        el("left").disabled = el("right").disabled = locked;
+      };
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          event.preventDefault();
+          turn(event.key === "ArrowLeft" ? -15 : 15);
+        }
+      });
+    </script>
+  </body>
+</html>

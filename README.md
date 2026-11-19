@@ -1,62 +1,29 @@
-# 墨坊 Inkworks · 审美 skill
+# 墨坊 Inkworks
 
-把界面和页面当作工作台上的印刷物与实物来设计。一份 `SKILL.md`，用于 PPT、网页、UI、动效、海报。
+给网页、幻灯片、UI、动效和海报用的审美 skill。仓库名为 `inkworks-design-skill`，调用名为 `$inkworks-aesthetic`。
 
-> 使用 inkworks-aesthetic 作为审美标准，帮我做一份学术论文汇报 PPT。
+> 使用 $inkworks-aesthetic 做一页学术汇报。让观众先看到日照和阴影的温差，再能核对两处温度。
 
-审美来源于 [《耗时四天，我用 opus5.5 做了一款射击游戏并上架了》](https://www.bilibili.com/video/BV13MxT63EqD/) 里那款游戏的 UI。这里不复刻它的画面，只取它的做法。
+![六类作品与同题海报变体的渲染联系表](previews/contact-sheet.jpg)
 
-## 样张
+## 如何使用
 
-用这份 skill 做的一套 8 页学术汇报（内容取自 *Attention Is All You Need*）：
+把整个仓库安装到可发现的 skill 目录。以 Codex 为例，首次安装运行：
 
-| | |
-|---|---|
-| ![封面](examples/academic-deck/slide-01.jpg) | ![问题](examples/academic-deck/slide-02.jpg) |
-| ![思路](examples/academic-deck/slide-03.jpg) | ![结构](examples/academic-deck/slide-04.jpg) |
-| ![代价](examples/academic-deck/slide-05.jpg) | ![结果](examples/academic-deck/slide-06.jpg) |
-| ![讨论](examples/academic-deck/slide-07.jpg) | ![结尾](examples/academic-deck/slide-08.jpg) |
-
-截图在没有网络字体的环境里渲染，拉丁字母用的是回退字体；正式字体是 Noto Sans SC 900、Noto Serif SC、Barlow Condensed。源文件在 [`examples/academic-deck/`](examples/academic-deck/)。
-
-## 它讲什么
-
-1. **功能即物件**：每个功能先问它在实体世界里是哪件东西、靠哪个动作完成。
-2. **控件即样本**：让量自己说话，线的粗细就是权重，线的长度就是路径长度。
-3. **边框守规矩，舞台才能放肆**：四角信息位永远不动，中间每页都可以是不同的场景。
-
-落到手上是[八个签名动作](SKILL.md#15-八个签名动作任何浓度任何媒介都要全部出现)：四角边框、标题三件套、行动块、硬投影与微倾斜、一处手的线、一枚章、双语编号小字、一个样本式表达。
-
-## 和旧版的区别
-
-旧版（v1、v2，仓库历史里还在）有 8 份参考文档和 40 多张原视频截图，讲的是形体、光线、构图的一般原理。原理没有错，但做出来的东西是“米色底、中号标题、一个深色框”，认不出是这套审美。
-
-这一版反过来：
-
-- 只留一份 `SKILL.md`，写的是做法和数值，不是原理。
-- 八个签名动作必须全部出现，少一样就会滑回稳妥稿。
-- 默认浓度从“克制”改成“标准”，学术汇报也一样。
-- 母题从内容里找（语言模型用排字房，通信用报务台），印刷坊只是回落。
-- 删掉了原视频截图。那些画面属于原作者，skill 也不需要靠它们工作。
-
-## 安装
-
-**Claude**：把 `SKILL.md` 的内容保存为名为 `inkworks-aesthetic` 的 skill。
-
-**Codex**：
-
-```text
-~/.codex/skills/inkworks-aesthetic/SKILL.md
+```sh
+git clone https://github.com/yuchenlogin/inkworks-design-skill.git ~/.codex/skills/inkworks-aesthetic
 ```
 
-把整个仓库放进这个目录即可。旧的 `$flipside-design` 调用名不再使用。
+从 [SKILL.md](SKILL.md) 开始。先为项目写一页 [world.md](reference/world.md)，定下内容为何需要这种材料、主角做什么动作、最后留下什么信息。实现时按需取[中性 CSS](assets/inkworks.css) 和[八个可离线打开的动效配方](recipes/README.md)。取舍有冲突时回到[作者的两次选择](taste/principles.md)。
 
-## 文件
+## 看同一内容怎样产生两个世界
 
-- [`SKILL.md`](SKILL.md)：全部规则。
-- [`assets/inkworks.css`](assets/inkworks.css)：五墨变量和常用物件（纸片、铅字块、章、行动块、边框）的起步样式。
-- [`examples/academic-deck/`](examples/academic-deck/)：样张的截图、样式和每页源文件。
+同一场 Low Tide 海岸聆听步行，两张海报保留活动名、时间和集合点。打开[第一张海报](examples/poster/index.html)和[另一种世界设定](examples/poster-alternate/index.html)，比较轮廓、材质和入场运动。下载后直接用浏览器打开 HTML 即可体验。
 
-## 来源
+![浏览器实录的动效预览](previews/motion.gif)
 
-视觉规则是对公开视频画面的归纳与再设计；色值、字号、时长是本仓库自己定的。原视频、游戏及其素材的权利归原作者。
+其余小样分别是[温差学术汇报](examples/academic/index.html)、[可试听的循环录音机](examples/landing/index.html)、[相位锁定游戏](examples/game/index.html)、[水库看板](examples/dashboard/index.html)和[可切换场次的开放日](examples/event/index.html)。旧版 Transformer 幻灯片的[四处设计判断](reference/instances.md)保留作对照。
+
+## 如何知道一次修改是否有效
+
+用[六条固定题目](evals/suite.json)出稿，用[渲染工具](tools/render)生成目标尺寸截图、联系表和帧序列。把相邻页缩小、遮字，检查主角和结构；再对照[评分表](reference/scoring.md)逐页修订。查看[本版评测记录](evals/results.md)与[版本变更](CHANGELOG.md)。 三页[车门开闭小样](previews/series.jpg)单独检查同一项目内的构图变化。

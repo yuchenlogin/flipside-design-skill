@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>加载即一幕 · 墨坊配方</title>
+<style>
+:root { color-scheme: light; font: 100%/1.6 system-ui,sans-serif; color: #202827; background: #f4f1e8; }
+* { box-sizing: border-box; }
+body { margin: auto; max-width: 60rem; padding: clamp(1rem,4vw,3rem); }
+h1 { margin: 0; line-height: 1.15; font-size: clamp(2rem,6vw,4rem); letter-spacing: -.04em; }
+p { max-width: 52ch; }
+.stage { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; min-height: 17rem; background: #e5e3d5; }
+button { font: inherit; color: inherit; background: #fffdf6; padding: .5rem 1rem; border: 2px solid; cursor: pointer; }
+:focus-visible { outline: 3px solid #1259c3; outline-offset: 3px; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 1rem 0; }
+label { cursor: pointer; }
+summary { cursor: pointer; }
+details { border-block-start: 1px solid; padding-block: .75rem; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; }
+dd { margin: 0; }
+canvas { display: block; width: min(100%,30rem); height: auto; }
+progress { accent-color: #285c4d; }
+</style>
+</head>
+<body>
+<h1>加载即一幕</h1>
+<p>每完成一条图形数据，就在结果上留下一道印痕。进度来自已经绘制的行数，载入完成后原位展示成品。</p>
+<div class="stage"><canvas width="480" height="216" role="img" aria-label="由线列印出的波形">波形由间距相等的曲线组成。</canvas></div>
+<div class="controls"><button id="load">重新制版</button><progress aria-label="制版进度" max="36" value="0"></progress><output id="status" aria-live="polite"></output></div>
+<div class="controls"><label><input id="low" type="checkbox"> 低负载模式</label></div>
+<details><summary>调节与移植</summary><dl>
+<dt>参数</dt><dd>rows 取 12–72；batch 取 1–8 行。接入实际任务时，把 done/total 接到任务的完成回调。</dd>
+<dt>预算</dt><dd>一个 480 × 216 的 Canvas；只绘新增行，每个动画帧至多处理一批；没有循环播放。</dd>
+<dt>降级</dt><dd>低负载与减弱动态批量绘完并展示最终产物；进行中切换同样立即完成。没有 Canvas 时提供文字结果。</dd>
+</dl></details>
+<script>
+const root = document.documentElement;
+const low = document.querySelector('#low');
+const preference = matchMedia('(prefers-reduced-motion: reduce)');
+function quiet() { return low.checked || preference.matches; }
+function syncMotion() {
+  root.classList.toggle('still', quiet());
+  document.dispatchEvent(new Event('motionmode'));
+}
+low.addEventListener('change', syncMotion);
+preference.addEventListener('change', syncMotion);
+syncMotion();
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+const progress = document.querySelector('progress');
+const status = document.querySelector('#status');
+const rows = 36, batch = 2;
+let next = 0, frame = 0;
+function drawRow(row) {
+  ctx.beginPath();
+  for (let x = 0; x < canvas.width; x += 2) {
+    const wave = Math.sin(x / 46 + row / 11) * Math.sin(Math.PI*x / canvas.width);
+    const y = 18 + row*(canvas.height-36)/(rows-1) + wave * 14;
+    if (x === 0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+}
+function advance() {
+  frame = 0;
+  const stop = quiet() ? rows : Math.min(rows, next + batch);
+  while (next < stop) drawRow(next++);
+  progress.value = next;
+  if (next < rows) frame = requestAnimationFrame(advance);
+  else status.value = '制版完成';
+}
+function start() {
+  cancelAnimationFrame(frame);
+  if (!ctx) { status.value = '成品为等距曲线组成的波形'; progress.hidden = true; return; }
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle = '#285c4d';
+  ctx.lineWidth = 2;
+  progress.max = rows;
+  next = 0;
+  status.value = '正在制版';
+  advance();
+}
+document.querySelector('#load').onclick = start;
+document.addEventListener('motionmode', () => {
+  if (ctx && quiet() && next < rows) { cancelAnimationFrame(frame); advance(); }
+});
+start();
+</script>
+</body>
+</html>

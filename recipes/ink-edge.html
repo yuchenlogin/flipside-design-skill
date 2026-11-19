@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>墨边抖动 · 墨坊配方</title>
+<style>
+:root { color-scheme: light; font: 100%/1.6 system-ui,sans-serif; color: #202827; background: #f4f1e8; }
+* { box-sizing: border-box; }
+body { margin: auto; max-width: 60rem; padding: clamp(1rem,4vw,3rem); }
+h1 { margin: 0; line-height: 1.15; font-size: clamp(2rem,6vw,4rem); letter-spacing: -.04em; }
+p { max-width: 52ch; }
+.stage { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; min-height: 17rem; background: #e5e3d5; }
+button { font: inherit; color: inherit; background: #fffdf6; padding: .5rem 1rem; border: 2px solid; cursor: pointer; }
+:focus-visible { outline: 3px solid #1259c3; outline-offset: 3px; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 1rem 0; }
+label { cursor: pointer; }
+summary { cursor: pointer; }
+details { border-block-start: 1px solid; padding-block: .75rem; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; }
+dd { margin: 0; }
+#stroke { filter: url(#boil); }
+.still #stroke { filter: none; }
+</style>
+</head>
+<body>
+<h1>墨边抖动</h1>
+<p>让一个局部轮廓在两次印痕之间轻轻变化，保留字面的稳定边界。</p>
+<div class="stage"><svg width="240" height="176" viewBox="0 0 240 176" role="img" aria-label="掠过纸面的深色墨迹">
+<defs><filter id="boil" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence id="noise" type="fractalNoise" baseFrequency=".036" numOctaves="2" seed="1" result="grain"/><feDisplacementMap in="SourceGraphic" in2="grain" scale="4"/></filter></defs>
+<path id="stroke" fill="#26463f" d="M20 129Q66 82 204 30L174 64 220 49Q148 104 34 148L54 125Z"/></svg></div>
+<div class="controls"><label><input id="low" type="checkbox"> 低负载模式</label></div>
+<details><summary>调节与移植</summary><dl>
+<dt>参数</dt><dd>fps 可设 12–15；scale 取 1–4；baseFrequency 建议 .015–.05，最多两层噪声。</dd>
+<dt>预算</dt><dd>仅滤一个 240 × 176 的 SVG，限频更新，离开视口或切后台后停表。</dd>
+<dt>降级</dt><dd>低负载与减弱动态移除滤镜、保留完整剪影；SVG 滤镜不可用时仍有原始路径。</dd>
+</dl></details>
+<script>
+const root = document.documentElement;
+const low = document.querySelector('#low');
+const preference = matchMedia('(prefers-reduced-motion: reduce)');
+function quiet() { return low.checked || preference.matches; }
+function syncMotion() {
+  root.classList.toggle('still', quiet());
+  document.dispatchEvent(new Event('motionmode'));
+}
+low.addEventListener('change', syncMotion);
+preference.addEventListener('change', syncMotion);
+syncMotion();
+const noise = document.querySelector('#noise');
+const fps = 13;
+let visible = false;
+let timer, seed = 1;
+function update() {
+  clearInterval(timer);
+  if (!quiet() && visible && !document.hidden) {
+    timer = setInterval(() => noise.setAttribute('seed', seed = seed % 7 + 1), 1000 / fps);
+  }
+}
+new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; update(); }).observe(noise.ownerSVGElement);
+document.addEventListener('visibilitychange', update);
+document.addEventListener('motionmode', update);
+</script>
+</body>
+</html>
